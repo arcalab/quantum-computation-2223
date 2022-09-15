@@ -1,0 +1,272 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Quantum Computing 2022/23</title>		
+
+	<meta name="description" content="Quantum Computing 22/23">
+	<meta name="keywords" content="Quantum computing">
+	<meta name="author" content="Renato Neves" >
+	
+<!-- 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" /> -->
+  <link href="extra/css/bootstrap-bw.min.css" rel="stylesheet" media="screen">
+  <link href="extra/css/main.css" rel="stylesheet">
+
+  <!-- see more examples in http://bootswatch.com/paper/# -->
+</head>
+
+<body>
+
+
+<div class="navbar navbar-default navbar-fixed-top"> <!-- navbar-fixed-top -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="index.html">
+<!--     AC -->
+    </a>
+  </div>
+  <div class="navbar-collapse collapse navbar-responsive-collapse">
+    <ul class="nav navbar-nav" id="myTab">
+      <li class="active"><a href="#">Home</a></li>
+  		<li><a href="#programa">Syllabus</a></li>
+	  	<li><a href="#material">Summaries</a></li>
+      <li><a href="#biblio">Bibliography</a></li>
+        <li><a href="#funcionamento">Pragmatics</a></li>
+    </ul>
+  </div>
+</div>
+
+
+ 
+<div class="splash">
+	<h2 class="splash-title">Quantum Computing 2022-23</h2>
+	<h4 class="splash-subtitle">MEF - MSc in Physics Engineering </h4>
+  <h4 class="splash-subtitle">Informatics Department, University of Minho</h4>
+  </div>
+
+
+<div id="myTabContent" class="container">
+<div class="bs-component">
+
+<!--~~~~~~~~~~~~~~~~~~~~~~~-->
+<h2>Learning Outcomes</h2>
+
+<p>
+On successful completion  of the course students should be able,
+<p>
+
+<ul>
+        <li> 
+                to understand basic concepts of computability and computational complexity;
+        <li>
+                to understand basic concepts and techniques in quantum algorithmics;
+        <li>
+                to  design and analyse quantum algorithms;
+        <li>
+                to implement and run quantum algorithms in the Qiskit open-source 
+                software development kit.
+</ul>
+</p>
+
+<!--~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<!--~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="programa"></div>
+<h2>Syllabus</h2>
+
+<ul>
+<li> <strong> Computability and  complexity </strong>
+<ul>
+  <li> Mathematical backgound: sets, orders, groups. 
+  <li> Turing machines and computability. 
+  <li> Computational complexity. Algorithms and complexity classes. 
+  <li> Complexity in quantum computation.
+</ul> 
+<li> <strong> Quantum computation and algorithms</strong>
+<ul>
+  <li> The quantum computational model (gates, measurements, and circuits).
+  <li> Introduction to quantum algorithms.
+  <li> Algorithms based on phase amplification.
+  <li> Algorithms based on the quantum Fourier transform.
+  <li> Case studies in quantum algorithmics.
+</ul> 
+<li>
+    <strong> Quantum  programming</strong>
+    <ul>
+        <li> Quantum programming in Qiskit and other tools.
+    </ul>
+</ul>
+
+
+
+<!--~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="material"></div>
+<h2>Summaries (2022-23)</h2>
+
+<h5> T Lectures</h5>
+
+<table style="width:100%;">
+<tr>
+        <td><strong>Sep 19 (09:00 - 11:00)</strong></td>
+        <td>Introduction to Quantum Computing and the course dynamics</td>
+</tr>
+</table>
+
+    <h5> TP Lectures </h5>
+    <!--~~~~~~~~~~~~~~~~~~~~~~~-->
+    <div id="biblio"></div>
+    <h2>Bibliography</h2>
+
+
+    <h5> Computability and Computational Complexity </h5>
+    <ul>
+
+        <li>
+            H. R. Lewis and C. H. Papadimitriou. <strong> Elements of the Theory of Computation</strong>. Prentice
+            Hall (2nd Ed), 1997.
+        <li>
+            S. Arora and B. Barak. <strong>Computational Complexity: A Modern Approach</strong>. Cambridge
+            University Press, 2009.
+        </li>
+        <li>
+            C. Moore and S. Mertens<strong> The nature of computation</strong>. Oxford
+            University Press, 2011.
+        </li>
+    </ul>
+
+
+
+    <h5> Quantum Computing and Algorithms </h5>
+    <ul>
+
+        <li>
+            M. A. Nielsen and I. L. Chuang. <strong>Quantum Computation and Quantum Information</strong> (10th
+            Anniversary Edition). Cambridge University Press, 2010
+        <li>
+            E. Rieffel and W. Polak. <strong>Quantum Computing: A Gentle Introduction</strong>. MIT Press, 2011.
+        <li>
+            F. Kaye, R. Laflamme and M. Mosca. <strong>An Introduction to Quantum Computing</strong>. Oxford University Press, 2007.
+        <li>
+            N. S. Yanofsky and M. A. Mannucci. <strong>Quantum Computing for Computer Scientists</strong>. Cambridge
+            University Press, 2008.
+        <li>
+            W. Scherer. <strong>Mathematics of Quantum Computing</strong>. Springer, 2019.
+    </ul>
+<!--
+<h5> Some extra references on quantum algorithms
+  </font><font color="red">    <strong>NEW</strong></font></h5>
+
+<ul>
+
+
+<li> <font color="red">Algorithms:</font> <a href="https://arxiv.org/abs/1804.03719">Quantum algorithms implementations for beginners</a> a recent, systematic survey paper, a bit terse, but with implementation schemes in <a href="https://qiskit.org/">Qiskit</a>. Peter Shor <a href="https://cs.brynmawr.edu/Courses/cs380/fall2012/Shor2003.pdf">paper</a> on the scarcity of quantum algorithms.
+
+ <li> <font color="red">Search:</font> An interesting review on <a href="https://arxiv.org/abs/1602.02730">quantum search</a> algorithms. 
+
+  <li> <font color="red">NISQ and Variational Methods:</font><a href="https://arxiv.org/abs/1801.00862">John Preskill 2017</a> paper on current NISQ technology --- very important reading to complement the stuff covered in the lectures. On variational methods read <a href="https://arxiv.org/abs/2012.09265">this</a> and <a href="https://arxiv.org/abs/1509.04279">that</a>.
+
+<li> <font color="red">Recent papers on specific algorithms:</font>  <a href="https://epubs.siam.org/doi/pdf/10.1137/050643684?casa_token=5EeEItTlxRwAAAAA:3ovDyb85Aus3CWbPSv88aei-llagQt24awjSA2KNeGnkC5lSjOlYM4-HwpxnT3HbxIz5iZKqNg">the triangle problems</a>; <a href="https://arxiv.org/abs/1704.06774">tree size estimation</a>; 
+  <a href="https://arxiv.org/abs/1806.06893">risk analysis</a>;
+  <a href="https://arxiv.org/abs/1201.4780">quantum walks</a> and their 
+  <a href="https://arxiv.org/abs/0706.0304">implementation</a>.
+
+<li> <font color="red">Quantum programming languages:</font> <a href="https://www.mathstat.dal.ca/~selinger/papers/papers/qpl.pdf">here</a>; <a href="http://www.cs.nott.ac.uk/~psztxa/publ/qml.pdf">there</a>, and <a href="https://www.iitis.pl/~miszczak/files/papers/miszczak11models.pdf">there</a>.
+</ul>
+-->
+
+
+
+
+    <h5> Bedtime readings </h5>
+    <ul>
+
+        <li>
+            N. S. Yanofsky. <strong>The Outer Limits of Reason</strong>. MIT Press, 2013.
+        <li>
+            S. Aaronson. <strong>Quantum Computing since Democritus</strong>. Cambridge
+            University Press, 2013.
+        </li>
+	<li>
+	    J. Preskill <strong>Quantum Computing in the NISQ era and beyond</strong>. Quantum 2, 79, 2018.
+	</li>  
+    </ul>
+
+
+    <h5> Links </h5>
+    <ul>
+        <li><a href="https://complexityzoo.net/Complexity_Zoo">The complexity zoo</a></li>
+        <li><a href="http://quantumalgorithmzoo.org/">Quantum Algorithms zoo</a></li>
+        <li><a href="https://quantum-computing.ibm.com/composer">IBM Quantum Experience</a></li>
+        <li><a href="http://lmf.di.uminho.pt">Our research's group website</a></li>
+    </ul>
+   <div id="funcionamento"></div>
+    <h2>Pragmatics</h2>
+
+
+<h5><a name="Docentes"></a> Lecturers </h5>
+<ul>
+        <li>
+                <a href="https://alfa.di.uminho.pt/~nevrenato/">Renato Neves</a>
+        </li>
+        <li>
+                <a href="https://anac.nery.name/">Ana Neri</a>
+        </li>
+</ul>
+
+    <h5><a name="Avaliação"></a> Assessment </h5>
+        TBD
+    <h5><a name="Contact"></a> Contact </h5>
+
+    <ul>
+        <li> 
+                Appointments - Renato: Thu, 14:00-18:00 (please send an email the day before).
+        </li>
+        <li>
+                Appointments - Ana: TBD
+        </li>
+        <li> Emails: nevrenato at gmail dot com (Renato) and ... 
+    </ul>
+
+    <!--~~~~~~~~~~~~~~~~~~~~~~~-->
+</div> <!-- bs-component -->
+</div> <!-- container -->
+
+<!-- FOOTERS -->
+
+<div class="panel-footer" id="wrapper-footer">
+<div id="footer">
+</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="extra/js/bootstrap.min.js"></script>
+<!-- <script src="../assets/js/bootswatch.js"></script> -->
+
+<script>
+
+  $(document).on('click','.navbar-collapse.in',function(e) {
+    if( $(e.target).is('a') && $(e.target).attr('class') != 'dropdown-toggle' ) {
+        $(this).collapse('hide');
+    }
+  });
+  
+  // post-process the tweeter feed.
+  (function ($) {
+    window.setTimeout(function(){
+      $(".twitter-timeline").contents().find(".e-entry-title").attr("style", "color: #666666; font-family: 'Roboto','Helvetica Neue',Helvetica,Arial,sans-serif;");
+    }, 1000);
+
+  })(jQuery);
+
+</script>
+
+</body>
+</html>
+

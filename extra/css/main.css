@@ -1,0 +1,261 @@
+.splash {
+  position: relative;
+  background: url(../../extra/img/bg-shapes.jpg) no-repeat center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  width: 100%;
+  height: 120px;
+  top:30px;
+
+  text-align: center;
+}
+
+.intro-title {
+  text-align: center;
+}
+
+.fade {
+  display: none;
+}
+
+.faded {
+  color: #c6c6c6;
+}
+
+div.pdf {
+  display:inline-block;
+  background:url(../../extra/img/pdf.png) no-repeat center 0;
+  text-align:center;
+}
+a.pdf {
+    display:inline-block;
+    width:16px;
+    height:16px;
+    margin:0 auto;
+}
+
+a {
+  color: #3194eb;
+}
+
+.active{
+  display: block;
+}
+
+.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.well {
+  border-radius: 15px;
+}
+.well>ul {
+  margin-bottom: 0px;
+}
+
+/* Twitter tweaks */
+.twitter-timeline {
+  font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+/*   margin-top: 15px; */
+}
+h4.pulldown {
+  padding-top: 20px;
+}
+
+
+.bioPhoto { 
+  float: right; 
+  width: 17%;
+  min-width: 100px;
+  padding: 10px;
+}
+
+/** TABLES **/
+table {
+/*     width:100%; */
+}
+.mytable {
+    position: relative;
+    left: auto;
+}
+#sumarios {
+  width:100%;
+}
+/* 
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+ */
+th, td {
+    padding: 5px;
+    text-align: left;
+    max-width: 400px;
+}
+table tr:nth-child(even) {
+    background-color: #eee;
+}
+table tr:nth-child(odd) {
+   background-color:#fff;
+}
+.grade, .group {
+  max-width: 100px;
+  text-align: center;
+}
+.finalgrade {
+  max-width: 100px;
+  text-align: center;
+  font-weight:bold;
+  color:#3399f3; 
+}
+/* 
+table th	{
+    background-color: black;
+    color: white;
+}
+ */
+
+/*.col-lg-4, .col-sm-8 {
+  max-width: 647px;
+}
+.col-sm-4{
+  max-width: 323px;
+}*/
+
+/*.row {
+  max-width: 647px;
+}*/
+
+/* fitting the main text properly */
+.row {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.body {
+  color: #5c5c5c;
+  font-size: 14px;
+}
+
+#myTabContent {
+  position:relative;
+  top:40px;
+/*   max-width:750px; */
+}
+
+.tab-pane {
+  margin-right: auto;
+  margin-left: auto;
+  
+  max-width:750px;
+}
+#home {
+  max-width:950px;
+}
+
+.bs-component {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 750px;
+}
+
+.panel-footer {
+  margin-top: 45px;
+  text-align: center;
+}
+
+/* fixing program looks */
+.panel-heading>.container-fluid {
+  padding-left: 0px;
+}
+
+.panel-default>.panel-heading {
+  color: #666666;
+  background-color: #f9f9f9;
+  padding: 5px 5px;
+  border-radius: 5px;
+}
+.panel-body {
+  padding: 10px 5px;
+}
+.panel-group .panel+.panel {
+  margin-top: 10px;
+}
+.panel-group .panel {
+  border: 1px solid transparent;
+  border-radius: 5px;
+  border-color:#dddddd;
+}
+.panel {
+  -webkit-box-shadow: 0 0px 0px rgba(0,0,0,0);
+  box-shadow: 0 0px 0px rgba(0,0,0,0);
+}
+h5 {
+  font-size: 18px;
+}
+
+/* Graying down the part of the program outside FOCLASA */
+.wsfm {
+  color: rgba(0, 0, 0, 0.37);
+}
+.wsfm>a {
+  color: rgba(33, 150, 243, 0.63);
+}
+
+/* Getting the title image right */
+.blue-rect {
+  background-color: rgba(19, 63,75, 0.4);
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+.splash-title {
+  font-weight: bold;
+  text-align: right;
+  color: white;
+  margin-right: 25px;
+  padding-top: 10px;
+}
+
+.splash-subtitle {
+  font-weight: bold;
+  text-align: left;
+  color: rgb(169, 176, 188);
+  margin-left: 25px;
+  font-size:10px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+
+@media (min-width: 350px) {
+  .splash-title {
+    margin-right: 25px;
+  }
+  .splash-subtitle {
+    margin-left: 25px;
+    font-size:12px;
+  }
+}
+
+@media (min-width: 580px) {
+  .splash-title {
+    margin-right: 40px;
+  }
+  .splash-subtitle {
+    margin-left: 40px;
+    font-size:16px;
+  }
+}
+
+@media (min-width: 768px) {
+  .splash-title {
+    margin-right: 50px;
+  }
+  .splash-subtitle {
+    margin-left: 50px;
+    font-size:20px;
+  }
+}
