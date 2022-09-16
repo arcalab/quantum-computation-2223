@@ -1,0 +1,152 @@
+%%%%%%%%%%%%% Macros
+%%%% Categories
+\newcommand{\catfont}[1]{\mathsf{#1}}
+\newcommand{\cop}{\catfont{op}}
+\newcommand{\Law}{\catfont{Law}}
+\newcommand{\catV}{\catfont{V}}
+\newcommand{\catX}{\catfont{X}}
+\newcommand{\catC}{\catfont{C}}
+\newcommand{\catD}{\catfont{D}}
+\newcommand{\catA}{\catfont{A}}
+\newcommand{\catB}{\catfont{B}}
+\newcommand{\catI}{\catfont{I}}
+\newcommand{\Set}{\catfont{Set}}
+\newcommand{\Top}{\catfont{Top}}
+\newcommand{\Pos}{\catfont{Pos}}
+\newcommand{\Inj}{\catfont{Inj}}
+\newcommand{\Det}{\catfont{RMhat}}
+\newcommand{\CoAlg}[1]{\catfont{CoAlg}\left (#1 \right )}
+\newcommand{\Mon}{\catfont{Mon}}
+\newcommand{\Mnd}{\catfont{Mnd}(\catC)}
+\newcommand{\SMnd}{\catfont{Mnd}(\Set)}
+\newcommand{\CLat}{\catfont{CLat}}
+\newcommand{\Stone}{\catfont{Stone}}
+\newcommand{\Spectral}{\catfont{Spectral}}
+\newcommand{\CompHaus}{\catfont{CompHaus}}
+\newcommand{\Subs}[2]{\catfont{Sub}_{}}
+\newcommand{\Cone}{\catfont{Cone}}
+\newcommand{\StComp}{\catfont{StablyComp}}
+\newcommand{\PosC}{\catfont{PosComp}}
+\newcommand{\Haus}{\catfont{Haus}}
+\newcommand{\Meas}{\catfont{Meas}}
+\newcommand{\Ord}{\catfont{Ord}}
+\newcommand{\EndoC}{[\catC,\catC]}
+%% General functors
+\newcommand{\funfont}[1]{#1}
+\newcommand{\funF}{\funfont{F}}
+\newcommand{\funU}{\funfont{U}}
+\newcommand{\funG}{\funfont{G}}
+\newcommand{\funT}{\funfont{T}}
+\newcommand{\funI}{\funfont{I}}
+%% Particular kinds of functors
+\newcommand{\sfunfont}[1]{\mathrm{#1}}
+\newcommand{\Pow}{\sfunfont{P}}
+\newcommand{\Dist}{\sfunfont{D}}
+\newcommand{\Maybe}{\sfunfont{M}}
+\newcommand{\List}{\sfunfont{L}}
+\newcommand{\UForg}{\sfunfont{U}}
+\newcommand{\Forg}[1]{\sfunfont{U}_{#1}}
+\newcommand{\Id}{\sfunfont{Id}}
+\newcommand{\Vie}{\sfunfont{V}}
+\newcommand{\Disc}{\funfont{D}}
+\newcommand{\Weight}{\sfunfont{W}}
+\newcommand{\homf}{\sfunfont{hom}}
+\newcommand{\Yoneda}{\sfunfont{Y}}
+%% Diagram functors
+\newcommand{\Diag}{\mathscr{D}}
+\newcommand{\KDiag}{\mathscr{K}}
+\newcommand{\LDiag}{\mathscr{L}}
+%% Monads
+\newcommand{\monadfont}[1]{\mathbb{#1}}
+\newcommand{\monadT}{\monadfont{T}}
+\newcommand{\monadS}{\monadfont{S}}
+\newcommand{\monadU}{\monadfont{U}}
+\newcommand{\monadH}{\monadfont{H}}
+\newcommand{\str}{\mathrm{str}}
+%% Adjunctions
+\newcommand\adjunct[2]{\xymatrix@=8ex{\ar@{}[r]|{\top}\ar@<1mm>@/^2mm/[r]^{{#2}}
+& \ar@<1mm>@/^2mm/[l]^{{#1}}}}
+\newcommand\adjunctop[2]{\xymatrix@=8ex{\ar@{}[r]|{\bot}\ar@<1mm>@/^2mm/[r]^{{#2}}
+& \ar@<1mm>@/^2mm/[l]^{{#1}}}}
+%% Retractions
+\newcommand\retract[2]{\xymatrix@=8ex{\ar@{}[r]|{}\ar@<1mm>@/^2mm/@{^{(}->}[r]^{{#2}}
+& \ar@<1mm>@/^2mm/@{->>}[l]^{{#1}}}}
+%% Limits
+\newcommand{\pv}[2]{\langle #1, #2 \rangle}
+\newcommand{\limt}{\mathrm{lim}}
+\newcommand{\pullbackcorner}[1][dr]{\save*!/#1+1.2pc/#1:(1,-1)@^{|-}\restore}
+\newcommand{\pushoutcorner}[1][dr]{\save*!/#1-1.2pc/#1:(-1,1)@^{|-}\restore}
+%% Colimits
+\newcommand{\colim}{\mathrm{colim}}
+\newcommand{\inl}{\mathrm{inl}}
+\newcommand{\inr}{\mathrm{inr}}
+%% Distributive categories
+\newcommand{\distr}{\mathrm{dist}}
+\newcommand{\undistr}{\mathrm{undist}}
+%% Closedness
+\newcommand{\curry}[1]{\mathrm{curry}{#1}}
+\newcommand{\app}{\mathrm{app}}
+%% Misc. operations
+\newcommand{\const}[1]{\underline{#1}}
+\newcommand{\comp}{\cdot}
+\newcommand{\id}{\mathrm{id}}
+%% Factorisations
+\newcommand{\EClass}{E}
+\newcommand{\MClass}{M}
+\newcommand{\MConeClass}{\mathcal{M}}
+%%%%%%%%%%%%%%%% End of Categorical Stuff
+
+%%%% Misc
+%% Operations
+\newcommand{\blank}{\, - \,}
+\newcommand{\sem}[1]{\llbracket #1 \rrbracket}
+\newcommand{\closure}[1]{\overline{#1}}
+\DeclareMathOperator{\img}{\mathrm{im}}
+\DeclareMathOperator{\dom}{\mathrm{dom}}
+\DeclareMathOperator{\codom}{\mathrm{codom}}
+%% Sets of numbers
+\newcommand{\Nats}{\mathbb{N}}
+\newcommand{\Reals}{\mathbb{R}}
+\newcommand{\Rz}{\Reals_{\geq 0}}
+%% Writing
+\newcommand{\cf}{\emph{cf.}}
+\newcommand{\ie}{\emph{i.e.}}
+\newcommand{\eg}{\emph{e.g.}}
+\newcommand{\df}[1]{\emph{\textbf{#1}}}
+%%%%%%%%%%%%%%%% End of Misc
+
+%%%% Programming Stuff
+%% Types
+\newcommand{\typefont}[1]{\mathbb{#1}}
+\newcommand{\typeOne}{1}
+\newcommand{\typeTwo}{2}
+\newcommand{\typeA}{\typefont{A}}
+\newcommand{\typeB}{\typefont{B}}
+\newcommand{\typeC}{\typefont{C}}
+\newcommand{\typeV}{\typefont{V}}
+\newcommand{\typeD}{\typefont{D}}
+%% RuleName
+\newcommand{\rulename}[1]{(\mathrm{#1})}
+%% Sequents
+\newcommand{\jud}{\vdash}
+\newcommand{\vljud}{\vdash}
+\newcommand{\cojud}{\vdash_{\co}}
+\newcommand{\vl}{\mathtt{v}}
+\newcommand{\co}{\mathtt{c}}
+% Program font
+\newcommand{\prog}[1]{\mathtt{#1}}
+\newcommand{\pseq}[3]{#1 \leftarrow #2; #3}
+\newcommand{\ppm}[4]{(#1,#2) \leftarrow #3; #4}
+\newcommand{\pinl}[1]{\prog{inl}(#1)}
+\newcommand{\pinr}[1]{\prog{inr}(#1)}
+\newcommand{\pcase}[4]{\prog{ case } #1 \prog{ of } \pinl{#2} \Rightarrow #3 ; \pinr{#2} \Rightarrow #4}
+%% Sets of terms
+\newcommand{\ValuesBP}[2]{\mathsf{Values}(#1, #2)}
+\newcommand{\TermsBP}[2]{\mathsf{Terms}(#1, #2)}
+\newcommand{\closValP}[1]{\ValuesBP{\emptyset}{#1}}
+\newcommand{\closTermP}[1]{\TermsBP{\emptyset}{#1}}
+\newcommand{\closVal}{\closValP{\typeA}}
+\newcommand{\closTerm}{\closTermP{\typeA}}
+%% Contextual equivalence
+\newcommand{\ctxeq}{\equiv_{\prog{ctx}}}
+%%%% End of Programming Stuff

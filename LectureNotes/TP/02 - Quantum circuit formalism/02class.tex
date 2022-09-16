@@ -1,0 +1,194 @@
+\documentclass[a4paper, 11pt]{article}
+
+%% packages
+\usepackage{fullpage} % changes the margin
+\usepackage{hyperref} % Links
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{braket}
+%%
+
+%% macros
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\vecs}{\mathcal{V}}
+\newcommand{\id}{\mathrm{id}}
+%% environments
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{examples}{Example}
+\newtheorem{exercises}{Exercises}
+\newtheorem{exercise}{Exercise}
+\newtheorem{postulate}{Postulate}
+%% config
+\date{}
+\linespread{1.15}
+%%
+
+\begin{document}
+
+\title{Quantum Computing @ MEF \\ \large Background}
+\author{Ana Neri \\ \scriptsize
+\href{mailto:ana.i.neri@inesctec.pt}{ana.i.neri@inesctec.pt}}
+\maketitle
+
+\section{Quantum Measurement}
+
+In order to render notation more convenient, we will often omit the
+parentheses in function application and start to denote linear maps by
+capital letters. Also, we will now use $\ket{0}$ and $\ket{1}$ to
+denote the elements $(1,0)$ and $(0,1)$ in $\complex^2$,
+respectively. We extend this notation to any space $\complex^{2^n}$ by
+observing that,
+\begin{align*}
+  \complex^{2^n} \simeq\ \underbrace{\complex^2 \otimes \dots \otimes \complex^2}_
+  {n \text{ times} }
+\end{align*}
+and representing
+$\ket{b_1} \otimes \dots \otimes \ket{b_n} \in \complex^{2^n}$ simply
+as $\ket{b_1, \dots, b_n}$. Thus, a vector $v \in \complex^2$ is a
+linear combination $\alpha \ket{0} + \beta \ket{1}$ and $\| v \| = 1$
+entails that the equation $| \alpha |^2 + | \beta |^2 = 1$
+holds. Later on we will see that $| \alpha |^2$ is the probability of
+observing $\ket{0}$ when measuring a qubit in state $v$ and
+analogously for $| \beta |^2$. Similarly, a vector $v \in \complex^4$
+is a linear combination
+$\alpha \ket{00} + \beta \ket{01} + \gamma \ket{10} + \delta \ket{11}$
+and $\| v \| = 1$ entails that the equation
+$| \alpha |^2 + | \beta |^2 + | \gamma |^2 + | \delta |^2 = 1$ holds. The
+component $| \alpha |^2$ is the probability of observing $\ket{00}$
+when measuring two qubits at state $v$, and analogously for the three
+other components.
+
+In this course, we will heavily use two maps $M_0$ and $M_1$ of type
+$\complex^2 \to \complex^2$ for measuring qubits. The map $M_0$ is
+defined by the equations,
+\begin{align*}
+  M_0 \ket{0} = \ket{0} \hspace{2cm} M_0 \ket{1} = 0
+\end{align*}
+and represents the outcome of the qubit measured being at state
+$\ket{0}$; the map $M_1$ arises from an analogous reasoning. For the
+space $\complex^{2^n}$ we represent the outcome of the $i$-th
+qubit being at state $\ket{k}$ by the map,
+\begin{align*}
+  \underbrace{\id \otimes \dots \otimes \id}_{i-1 \text{ times}} \otimes\ M_k \otimes
+  \underbrace{\id \otimes \dots \otimes \id}_{n - i  \text{ times}}
+  : \complex^{2^n} \to \complex^{2^n}
+\end{align*}
+We call `measurement maps' those maps that are built in this way and
+that arise by composing measurement maps with one another.
+
+\begin{postulate}[Quantum measurement]
+  Let $v \in \complex^{2^n}$ be a quantum state of $n$ qubits and let
+  us consider a measurement map
+  $M : \complex^{2^n} \to \complex^{2^n}$. Then the probability of the
+  outcome represented by $M$ is $\langle M \, v, M \, v \rangle$ and the
+  quantum state of the $n$ qubits after the observed outcome is
+  defined by,
+  \begin{align*}
+    \frac{M \, v}{\| M \, v \|}
+  \end{align*}
+  (note that we perform a normalisation, which is necessary because
+  measurement maps are not unitary).
+\end{postulate}
+
+\begin{exercise}
+  Let $H : \complex^2 \to \complex^2$ be the unitary map defined by
+  the matrix,
+  \begin{align*} \frac{1}{\sqrt{2}} \cdot
+     \begin{bmatrix}
+       1 & 1 \\
+       1 & -1
+  \end{bmatrix}
+  \end{align*}
+  What is the probability of the outcome $\ket{0}$ when measuring
+  $H \ket{0}$?
+\end{exercise}
+
+\begin{exercise}
+  Consider the quantum state,
+  \begin{align*}
+    \frac{1}{2} \ket{00} + \frac{1}{2} \ket{01} + \frac{1}{2} \ket{10} +
+    \frac{1}{2} \ket{11}
+  \end{align*}
+  What is the probability of the outcome $\ket{0}$ when measuring the
+  leftmost qubit? Let us assume that we indeed observed that the
+  leftmost qubit is at state $\ket{0}$. What is the probability of
+  the outcome $\ket{1}$ when measuring the rightmost qubit?
+\end{exercise}
+
+\begin{exercise}
+  Consider the quantum state,
+  \begin{align*}
+    \frac{1}{\sqrt{2}} \ket{00} + \frac{1}{\sqrt{2}} \ket{11}
+  \end{align*}
+  What is the probability of the outcome $\ket{0}$ when measuring the
+  leftmost qubit? What is the probability of the outcome $\ket{1}$
+  when measuring the rightmost qubit? Assume that we indeed observed
+  that the leftmost qubit is at state $\ket{0}$. Then what is the
+  probability of the outcome $\ket{1}$ when measuring the rightmost
+  qubit?~\footnote{The quantum state briefly studied in this exercise
+    is one of those that gave rise to the famous phrase 
+    `spooky action at a distance' by A. Einstein.}
+\end{exercise}
+
+\section{Entanglement}
+
+Consider two vector spaces $V$ and $W$. We say that a vector
+$u \in V \otimes W$ is entangled if it cannot be written as
+$v \otimes w$ for some $v \in V$ and $w \in W$. In words, the state
+$u$ (of a composite system) is entangled if it cannot be seen as a
+mere aggregation $v, w$ of states (of the constituent systems). If the
+state $u$ is not entangled then we say that is separable.
+
+\begin{exercise}
+  Show that the quantum state,
+  \begin{align*}
+    \frac{1}{\sqrt{2}} \ket{00} + \frac{1}{\sqrt{2}} \ket{11}
+  \end{align*}
+  is entangled.
+\end{exercise}
+
+
+The quantum state
+$\frac{1}{\sqrt{2}} \ket{00} + \frac{1}{\sqrt{2}} \ket{11}$ (mentioned
+in the previous exercise) can be obtained from the unitary map
+$CX \cdot (H \otimes \id)$ and the initial state
+$\ket{0} \otimes \ket{0}$, where
+$CX : \complex^2 \otimes \complex^2 \to \complex^2 \otimes \complex^2$
+reads as ``controlled not'' and is defined as,
+\begin{align*}
+  CX \ket{00} = \ket{00},
+  \hspace{0.7cm}
+  CX \ket{01} = \ket{01},
+  \hspace{0.7cm}
+  CX \ket{10} = \ket{11},
+  \hspace{0.7cm}
+  CX \ket{11} = \ket{10}.
+\end{align*}
+In a nutshell $CX$ flips the state of the second qubit depending on
+the state of the first qubit being $\ket{0}$ or $\ket{1}$ -- such a
+behaviour extends to all elements of $\complex^2 \otimes \complex^2$
+by linearity. Actually, any initial state $\ket{i} \otimes \ket{j}$ in
+the usual basis of $\complex^2 \otimes \complex^2$ and the operator
+$CX \cdot (H \otimes \id)$ yield an entangled quantum state. The four
+states obtained in this way are usually called Bell states, and are
+defined as follows:
+\begin{align*}
+  \frac{1}{\sqrt{2}} \ket{00} + \frac{1}{\sqrt{2}} \ket{11}
+  \hspace{0.6cm}
+  \frac{1}{\sqrt{2}} \ket{00} - \frac{1}{\sqrt{2}} \ket{11}
+  \hspace{0.6cm}
+  \frac{1}{\sqrt{2}} \ket{01} + \frac{1}{\sqrt{2}} \ket{10}
+  \hspace{0.6cm}
+  \frac{1}{\sqrt{2}} \ket{01} - \frac{1}{\sqrt{2}} \ket{10}
+\end{align*}
+
+
+%% Bibliography
+\bibliographystyle{alpha}
+\bibliography{biblioTeaching}
+
+\end{document}
