@@ -1,0 +1,12 @@
+\begin{thebibliography}{BM17}
+
+\bibitem[BM17]{bruni17}
+Roberto Bruni and Ugo Montanari.
+\newblock {\em Models of computation}.
+\newblock Springer, 2017.
+
+\bibitem[NC02]{nielsen02}
+Michael~A Nielsen and Isaac Chuang.
+\newblock Quantum computation and quantum information, 2002.
+
+\end{thebibliography}
