@@ -1,0 +1,523 @@
+\documentclass{beamer}
+\usepackage{etex} % fixes new-dimension error
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{mathtools}
+\input{macros}
+%-------------- template --------------------------------------------------
+\usetheme{metropolis}
+\metroset{block=fill}
+%\usetheme{Boadilla}
+% Configuring the foot line
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.4\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertshortauthor
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertsection
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.1\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+% No configuration symbols
+\setbeamertemplate{navigation symbols}{}
+%--------------- packages -------------------------------------------------
+\usepackage{graphicx,amsmath}
+\usepackage{stmaryrd} % cf. interleave
+\usepackage{booktabs}
+\usepackage{amscd}
+\usepackage{multicol}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{alltt}
+\usepackage{proof}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{quantikz}
+\usepackage[new]{old-arrows}
+\usepackage[all]{xy}
+\usepackage{pgfplots}
+\usepackage{textcomp}
+\usetikzlibrary{arrows.meta, calc, fit, tikzmark}
+\usepackage{pstricks,pst-node,pst-text,pst-3d}
+% context
+\AtBeginSection[]
+{
+    \begin{frame}
+        \frametitle{Table of Contents}
+        \tableofcontents[currentsection]
+    \end{frame}
+}
+
+\author[Renato Neves]{Renato Neves}
+
+% logos of institutions
+\titlegraphic{
+  \begin{textblock*}{5cm}(6.7cm,7.45cm)
+     \includegraphics[scale=0.06]{logos/uminho.png}\hspace*{.85cm}~%
+  \end{textblock*}
+  \begin{textblock*}{5cm}(9.4cm,7.42cm)
+    \includegraphics[scale=0.50]{logos/haslab.pdf}
+  \end{textblock*}
+}
+
+% No date
+\date{}
+
+\begin{document}
+
+\title{Basics of Quantum Algorithmics}
+
+\frame[plain]{\titlepage}
+
+\section{The Problem}
+
+\begin{frame}{Our first encounter with `Quantum Advantage'} 
+
+        \begin{block}{The Problem}
+        Receive a `single-bit' function $f : \{0,1\} \to \{0,1\}$
+
+        Either $f(0) = f(1)$ or $f(0) \not = f(1)$
+
+        Tell us whether the first or second case hold
+        \end{block}
+
+        \vfill
+        \pause
+        Classically, to determine which case holds requires two evaluations
+
+        \pause
+        Quantumly, only one evaluation is needed 
+
+        \pause
+        Due to two quantum effects:
+        \alert{\underline{superposition}} and 
+        \alert{\underline{interference}}
+\end{frame}
+
+\begin{frame}{The need for a Quantum Computational Language}
+
+        Quantum solution to the previous problem given as
+        an \alert{algorithm}
+        
+        In order to describe it, it is convenient to use a
+        computational language \dots
+        
+        \dots\ just like we do in the classical case
+\end{frame}
+
+\section{Recap}
+
+\begin{frame}{Postulates of Pure Quantum Systems}
+
+        \begin{block}{States}
+                State of $n$-qubits encoded as a \alert{unit} vector
+                \[
+                        v \in \underbrace{\Complex^2 \otimes \dots \otimes
+                        \Complex^2}_{\text{$n$ times}} \cong \Complex^{2^n}
+                \]
+        \end{block}
+
+        \vfill
+        \begin{block}{State operations}
+                $n$-qubit operation encoded as an \alert{isometry}
+                \[
+                        \Complex^{2^n} \longrightarrow \Complex^{2^n}
+                \]
+                \ie\ a linear map that preserves norms
+        \end{block}
+
+        \scriptsize{Recall: we can sequentially compose and tensor
+        isometries}
+
+\end{frame}
+
+\section{The Quantum Circuit formalism}
+
+\begin{frame}{Genesis}
+ We start with a set of \alert{quantum operations}
+
+ \begin{center}
+        $\left \{ \begin{quantikz}
+               &[4mm] \gate{U_1} \qwbundle{n_1} &[3mm] \qw \qwbundle{n_1}
+        \end{quantikz}
+        , \quad \dots \quad  , 
+        \begin{quantikz}
+               &[4mm] \gate{U_k} \qwbundle{n_k} &[3mm] \qw \qwbundle{n_k}
+        \end{quantikz}
+        \right \}$
+ \end{center}
+
+ \vfill
+ Each operation $U_i$ \alert{manipulates the state} of $n_i$-qubits received
+ from its left-hand side \dots
+
+ \dots\  and returns the result to its right-hand side
+
+\end{frame}
+
+\begin{frame}{Examples of Quantum Operations}
+        \hspace{0.5cm}
+        $\left \sem{ 
+                \tikzmark{x1}
+                \begin{quantikz}
+                &\gate{X} &\qw    
+                \end{quantikz}
+                \tikzmark{x2} 
+        \right } = X : \Complex^2 \to \Complex^2$ (\textbf{not} operation)
+
+
+        \vspace{2cm}  
+        \hspace{0.5cm}
+        $\left \sem{ 
+                \begin{quantikz}
+                &\gate{H} &\qw    
+                \end{quantikz}
+        \right } 
+        = H : \Complex^2 \to \Complex^2$ (\textbf{Hadamard} operation)
+
+        \begin{tikzpicture}[overlay,remember picture,
+        box/.style = {rounded corners},
+        pin edge={-Stealth,thick, red}]
+        \coordinate (x1) at ($({pic cs:x1})+(+0.5ex, 1.5ex)$);
+        \coordinate (x2) at ($({pic cs:x2})+(-0.5ex,-2.8ex)$);
+        \node[semitransparent, 
+             fit=(x1) (x2),
+             pin=below:\tiny{$\sem{x}$ reads as "the mathematical meaning of $x$"}]  {};
+        \end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}{New Operations from Old Ones}
+
+        \begin{block}{Sequential Composition}
+                      \[
+                              \small{
+                                \begin{quantikz}[transparent]
+                                        &[4mm] \gate{U_1} \qwbundle{n} &[3mm] \qw \qwbundle{n}
+                                \end{quantikz} 
+                                \begin{quantikz}[transparent]
+                                        &[4mm] \gate{U_2} \qwbundle{n} &[3mm] \qw \qwbundle{n}
+                                \end{quantikz} 
+                                \Longrightarrow
+                                \begin{quantikz}[transparent]
+                                        &[7mm]  
+                                        \gate{U_1} \qwbundle{n}
+                                        \gategroup[wires=1,steps=2,style={dashed,
+                                        rounded corners,fill=blue!20},background]{}
+                                        & \gate{U_2} 
+                                        & [7mm] \qw \qwbundle{n}
+                                \end{quantikz} 
+                        }
+                      \]
+        \end{block}
+        \begin{block}{Parallel Composition}
+                      \[
+                              \small{
+                                \begin{quantikz}[transparent]
+                                        &[4mm] \gate{U_1} \qwbundle{n_1} &[3mm] \qw \qwbundle{n_1}
+                                \end{quantikz} 
+                                \begin{quantikz}[transparent]
+                                        &[4mm] \gate{U_2} \qwbundle{n_2} &[3mm] \qw \qwbundle{n_2}
+                                \end{quantikz} 
+                                \Longrightarrow
+                                \begin{quantikz}[transparent]
+                                        &[10mm]  
+                                        \gate{U_1} \qwbundle{n_1}
+                                        \gategroup[wires=2,steps=1,style={dashed,
+                                        rounded corners,fill=blue!20},background]{}
+                                        & [8mm] \qw \qwbundle{n_1} \\
+                                        &[10mm]  
+                                        \gate{U_1} \qwbundle{n_2}
+                                        & [8mm] \qw \qwbundle{n_2} 
+                                \end{quantikz} 
+                        }
+                      \]
+        \end{block}
+\end{frame}
+
+\begin{frame}{Mathematical Meaning of Sequential Composition}
+        $\left \sem{\begin{quantikz}[transparent]
+                &[4mm] \gate{U_1} \qwbundle{n} &[3mm] \qw \qwbundle{n}
+        \end{quantikz} \right } 
+        = f : \Complex^{2^n} \to \Complex^{2^n}$ and
+
+        $\left \sem{
+        \begin{quantikz}[transparent]
+                &[4mm] \gate{U_2} \qwbundle{n} &[3mm] \qw \qwbundle{n}
+        \end{quantikz} \right }
+        = g : \Complex^{2^n} \to \Complex^{2^n}$ entails  \dots
+
+        $\left \sem{
+        \begin{quantikz}[transparent]
+                &[7mm]  
+                \gate{U_1} \qwbundle{n}
+                \gategroup[wires=1,steps=2,style={dashed,
+                rounded corners,fill=blue!20},background]{}
+                & \gate{U_2} 
+                & [7mm] \qw \qwbundle{n}
+        \end{quantikz}  \right }
+        = g \comp f : \Complex^{2^n} \to \Complex^{2^n}$
+\end{frame}
+\begin{frame}{Mathematical Meaning of Parallel Composition}
+        $\left \sem{\begin{quantikz}[transparent]
+                &[4mm] \gate{U_1} \qwbundle{n_1} &[3mm] \qw \qwbundle{n_1}
+        \end{quantikz} \right } 
+        = f : \Complex^{2^{n_1}} \to \Complex^{2^{n_1}}$ and
+
+        $\left \sem{
+        \begin{quantikz}[transparent]
+                &[4mm] \gate{U_2} \qwbundle{n_2} &[3mm] \qw \qwbundle{n_2}
+        \end{quantikz} \right }
+        = g : \Complex^{2^{n_2}} \to \Complex^{2^{n_2}}$ entails  \dots
+
+        $\left \sem{
+        \begin{quantikz}[transparent]
+                                &[10mm]  
+                                \gate{U_1} \qwbundle{n_1}
+                                \gategroup[wires=2,steps=1,style={dashed,
+                                rounded corners,fill=blue!20},background]{}
+                                & [8mm] \qw \qwbundle{n_1} \\
+                                &[10mm]  
+                                \gate{U_1} \qwbundle{n_2}
+                                & [8mm] \qw \qwbundle{n_2} 
+        \end{quantikz} 
+        \right }
+        = f \otimes g : \underbrace{\Complex^{2^{n_1}} \otimes  \Complex^{2^{n_2}}}_{\cong\
+                \Complex^{2^{n_1 + n_2}}} \to 
+                \underbrace{\Complex^{2^{n_1}} \otimes  \Complex^{2^{n_2}}}_{\cong\
+                \Complex^{2^{n_1 + n_2}}}$ 
+\end{frame}
+
+\begin{frame}{Two warm-up exercises}
+        \begin{enumerate}
+                \item Show that
+                        \[
+                        \begin{quantikz}
+                                & \qw & \qw 
+                        \end{quantikz}\
+                        \tikzmark{y1} = \tikzmark{y2}
+                        \begin{quantikz}
+                                & \gate{H} & \gate{H} & \qw 
+                        \end{quantikz}
+                        \]
+
+                        \vspace{1.2cm}
+                \item Prove that the circuit
+                        \[
+                        \begin{quantikz}
+                                & \gate{X} & \gate{H} & \qw \\
+                                & \gate{X} & \gate{H} & \qw
+                        \end{quantikz}
+                        \]
+                       can be built in two different ways and that despite that
+                       its mathematical meaning is unambiguous
+       \end{enumerate}
+
+        \begin{tikzpicture}[overlay,remember picture,
+        box/.style = {rounded corners},
+        pin edge={-Stealth,thick, red}]
+        \coordinate (y1) at ($({pic cs:y1})+(+0.5ex, 1.5ex)$);
+        \coordinate (y2) at ($({pic cs:y2})+(-0.5ex,-1.5ex)$);
+        \node[semitransparent, 
+             fit=(y1) (y2),
+             pin=below:\tiny{Our first case of quantum interference}]  {};
+        \end{tikzpicture}
+
+\end{frame}
+
+\section{Back to the problem}
+
+\begin{frame}{Turning $f$ into a Quantum Operation pt. I}
+        $f : \{0,1\} \to \{0,1\}$ extends to a map $\Complex^2 \to
+        \Complex^2$
+
+        \dots\ but not necessarily to an isometry
+
+        \vfill
+        \begin{example}
+                When $f$ is constant on $0$ we obtain $f \ket{0} = \ket{0}$ and
+                $f \ket{1} = \ket{0}$. Then we know that
+                $\norm{ \frac{1}{\sqrt{2}} (\ket{0} + \ket{1}) } = 1$ and calculate,
+                \[
+                        \textstyle{ \norm{f \left 
+                        ( \frac{1}{\sqrt{2}} (\ket{0} + \ket{1})\right ) } }
+                        = \textstyle{ \norm{ 
+                        \frac{1}{\sqrt{2}} (\ket{0} + \ket{0}) } }
+                        = \textstyle{ \norm{ 
+                        \frac{2}{\sqrt{2}} \ket{0} } } =
+                        \textstyle{\frac{2}{\sqrt{2}}} 
+                \]
+        \end{example}
+\end{frame}
+
+\begin{frame}{Turning $f$ into a Quantum Operation pt. II}
+
+        What is the problem intuitively?
+        \pause
+
+        $f$ potentially \alert{\underline{loses information}} and it is general
+        consensus that pure quantum operations are \tikzmark{z1}reversible
+        \tikzmark{z2}
+
+        \begin{tikzpicture}[overlay,remember picture,
+        box/.style = {rounded corners},
+        pin edge={-Stealth,thick, red}]
+        \coordinate (z1) at ($({pic cs:z1})+(+0.5ex, 1.5ex)$);
+        \coordinate (z2) at ($({pic cs:z2})+(-0.5ex,-1.5ex)$);
+        \node[semitransparent, 
+             fit=(z1) (z2),
+             pin=below:\tiny{Charles Bennett, 1973}]  {};
+        \end{tikzpicture}
+
+        \vspace{0.8cm}
+        Mathematically: isometricity implies injectivity so if a map loses
+        information it cannot be isometric
+\end{frame}
+
+\begin{frame}{Turning $f$ into a Quantum Operation pt. III}
+ 
+        \begin{block}{Proposed Solution}
+                \begin{center}
+                $\left \sem{
+                \begin{quantikz}[transparent]
+                &[4mm] \gate{U_f} \qwbundle{2} &[3mm] \qw \qwbundle{2}
+                \end{quantikz} \right }
+                =  
+                \ket{x}\otimes \ket{y} \mapsto \ket{x} \otimes 
+                \ket{y \tikzmark{a1}\oplus\tikzmark{a2} f(x)}$
+                \end{center}
+        \end{block}
+
+        \begin{tikzpicture}[overlay,remember picture,
+        box/.style = {rounded corners},
+        pin edge={-Stealth,thick, red}]
+        \coordinate (a1) at ($({pic cs:a1})+(+0.5ex, 1.5ex)$);
+        \coordinate (a2) at ($({pic cs:a2})+(-0.5ex,-1.5ex)$);
+        \node[semitransparent, 
+             fit=(a1) (a2),
+             pin=below:\tiny{Addition modulo 2}]  {};
+        \end{tikzpicture}
+
+        $U_f$ encodes $f$: $U_f(\ket{x} \otimes \ket{0}) = \ket{x} \otimes
+        \ket{0 \oplus f(x)} = \ket{x} \otimes \ket{f(x)}$
+
+        $U_f$ is reversible, in particular
+        \[
+                \begin{quantikz}[transparent]
+                        &[4mm] \gate{U_f} \qwbundle{2} &[3mm]  \gate{U_f} &[4mm] \qw \qwbundle{2}
+                \end{quantikz}
+                = 
+                \begin{quantikz}
+                                & \qw & \qw 
+                \end{quantikz}\
+        \]
+\end{frame}
+
+\begin{frame}{Tackling the Problem via Quantum Parallelism pt. I}
+
+        Need to somehow evaluate $f$ with $\ket{0}$ and $\ket{1}$
+        in one step
+        
+        So take the circuit
+        \begin{center} 
+                $\left \sem{ 
+                        \begin{quantikz}[transparent]
+                        &\gate{H} & \gate[wires=2]{U_f} & \qw \\
+                        & \qw & & \qw 
+                        \end{quantikz}
+                \right } = U_f (H \otimes I)$
+        \end{center} 
+        and calculate \dots
+        \end{frame}
+
+\begin{frame}{Tackling the Problem via Quantum Parallelism pt. II}
+        \vspace{-1cm}
+        \begin{flalign*}
+             & \, U_f (H \otimes I) \ket{0} \otimes \ket{0} & \\
+             & =  U_f \left ( \textstyle{\frac{1}{\sqrt{2}}(\ket{0} + \ket{1})}
+               \otimes \ket{0}  \right ) & \text{\{Defn. of $H$ and $I$\}}  \\
+             & =  U_f \left ( \textstyle{ \frac{1}{\sqrt{2}}(\ket{00} + \ket{10})}
+                 \right ) & \text{\{Defn. of $\otimes$\}} \\
+             & = \textstyle{\frac{1}{\sqrt{2}}(\ket{0} \otimes \ket{0 \oplus \alert{f(0)}} 
+               + \ket{1} \otimes \ket{0 \oplus \alert{f(1)}})} & \text{\{Defn. of $U_f$\}} \\
+             & = \underbrace{\textstyle{\frac{1}{\sqrt{2}}\ket{0} \otimes \ket{\alert{f(0)}} 
+               + \frac{1}{\sqrt{2}}\ket{1} \otimes \ket{\alert{f(1)}}}}_{\text{Info.
+               of $f(0)$ and $f(1)$ in a single run of $U_f$!}} & \{0 \oplus x = x\}
+        \end{flalign*}
+
+        \vfill
+        Cannot extract this information from the resultant state
+
+        But no need to know the values of $f(0)$ and $f(1)$: 
+        only whether they are (un)equal (\ie\ a \alert{global}
+        property of $f$ rather than local)
+\end{frame}
+
+\begin{frame}{Tackling the Problem via Parallelism and Interference pt. I}
+
+        We create an \alert{\underline{interference pattern}} dependent on this property
+        \begin{center}
+                        \begin{quantikz}[transparent]
+                                \lstick{\ket{0}} &\gate{H} 
+                                \gategroup[wires=1,steps=1,style={dashed,
+                                rounded corners,fill=blue!10},background]{\tiny{parallelism}}
+                                & \gate[wires=2]{U_f} \gategroup[wires=2,steps=1,style={dashed,
+                                rounded corners,fill=blue!10}, label style={label position = 
+                                below, yshift=-0.4cm},background]
+                                {\tiny{interference pattern}}
+                                & \gate{H} 
+                                \gategroup[wires=1,steps=1,style={dashed,
+                                rounded corners,fill=blue!10},background]{
+                                \tiny{wave collapse}}
+                                & \qw \\
+                                \lstick{$\frac{1}{\sqrt{2}} (\ket{0} - \ket{1})$}
+                                                 & \qw & & \qw & \qw 
+                        \end{quantikz}
+        \end{center} 
+        The wave collapse informs us of the global property
+\end{frame}
+
+\begin{frame}{Preliminary Calculation}
+        \small{
+        \begin{flalign*}
+                & \, U_f \left (\ket{x} \otimes 
+                (\ket{0} - \ket{1}) \right ) &  \\
+                & =  
+                U_f \left (\ket{x}\ket{0} - \ket{x}\ket{1} \right ) & \{\text{Distributivity
+                of $\otimes$ over $+$ }\} \\
+                & =  
+                \ket{x}\ket{0 \oplus f(x)} - \ket{x}\ket{1 \oplus f(x)} &
+                \{\text{Defn. of $f$}\} \\
+                & =   
+                \ket{x}\alert{\ket{f(x)}} - 
+                \ket{x}\alert{\ket{\neg f(x)}}  &  
+                \{0 \oplus x = x \text{ and } 1 \oplus x = \neg x \} \\
+                & =  
+                \ket{x} \otimes (\alert{\ket{f(x)}} - 
+                \alert{\ket{\neg f(x)}}) &
+                \{ \text{Distributivity of $\otimes$ over $+$} \}
+        \end{flalign*}
+        
+        We then proceed by case distinction,
+        \[
+        \ket{x} \otimes (\ket{f(x)} - 
+                \ket{\neg f(x)}) = 
+                \begin{cases}
+                        \ket{x} \otimes (\ket{0} - \ket{1}) & \text{ if } f (x) = 0 \\
+                        \ket{x} \otimes (\ket{1} - \ket{0}) & \text{ if } f (x) = 1
+                \end{cases}
+        \]
+        and conclude,
+        \[
+           \ket{x} \otimes (\ket{f(x)} -  \ket{\neg f(x)}) =      
+           (-1)^{f(x)} \ket{x} \otimes (\ket{0} - \ket{1})
+        \]
+        }
+\end{frame}
+\end{document}
