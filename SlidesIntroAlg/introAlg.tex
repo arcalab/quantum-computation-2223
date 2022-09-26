@@ -520,4 +520,52 @@
         \]
         }
 \end{frame}
+
+\begin{frame}{Tackling the Problem via Parallelism and Interference pt. II}
+        \small{
+        \begin{flalign*}
+              & \,  (H \otimes I) \comp U_f \comp (H \otimes I)
+              \left ( \ket{0} \otimes \ket{-} 
+              \right ) & \\
+              & = (H \otimes I) \comp U_f
+              \left ( \ket{+} \otimes \ket{-} 
+              \right ) & \text{\{Defn. of $H \otimes I$\}} \\
+              & = \textstyle{\frac{1}{\sqrt{2}}} (H \otimes I) \comp U_f
+              \left ( (\ket{0} + \ket{1})
+                      \otimes \ket{-} 
+              \right ) & \text{\{\ \dots\}} \\
+              & = \textstyle{\frac{1}{\sqrt{2}}} (H \otimes I) 
+              \left ( U_f \ket{0} \otimes \ket{-} 
+                      + 
+                      U_f \ket{1} \otimes \ket{-} 
+              \right ) & \text{\{\ \dots\}} \\
+              & = \textstyle{\frac{1}{\sqrt{2}}} (H \otimes I) 
+              \left ( (-1)^{f(0)} \ket{0} \otimes \ket{-} 
+                      + 
+                      (-1)^{f(1)} \ket{1} \otimes \ket{-} 
+              \right ) & \text{\{Previous slide\}}\\
+              & = \begin{cases}
+                      (H \otimes I) (\pm 1) \alert{\ket{+}} 
+                        \otimes \ket{-} & \text{if } f(0) = f(1) \\
+                        (H \otimes I) (\pm 1) \alert{\ket{-}} \otimes \ket{-} 
+                                        & \text{if } f(0) \not = f(1)
+                  \end{cases} & \text{\{Case distinction\}} \\
+              & = \begin{cases}
+                      (\pm 1) \alert{\ket{0}} \otimes \ket{-} & \text{if } f(0) = f(1) \\
+                      (\pm 1) \alert{\ket{1}} \otimes \ket{-} & \text{if } f(0) \not = f(1)
+              \end{cases}& \text{\{Defn. of $H \otimes I$\}} 
+      \end{flalign*}
+      }
+\end{frame}
+
+\begin{frame}{What's Next?}
+
+        Essentially the first algorithm with `quantum
+        advantage' presented in literature [Deutsch, 1985]
+
+        All other quantum algorithms crucially rely on similar ideas
+        of quantum interference 
+
+        We will study them in the following lectures
+\end{frame}
 \end{document}
