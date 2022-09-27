@@ -70,7 +70,7 @@
 
 \begin{document}
 
-\title{Quantum Computation}
+\title{Quantum Computation 2022/23}
 
 \frame[plain]{\titlepage}
 
@@ -91,63 +91,50 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Why the big interest?}
+\begin{frame}{Why the Big Interest?}
         
-  A strategic use of quantum mechanics potentially provides remarkable speedups
-  to hard \alert{computational} problems
+  A strategic use of quantum effects potentially provides remarkable speedups
+  to certain kinds of \alert{computational tasks} 
 
   \begin{itemize}
-  \item Cryptographic mechanisms
-  \item Molecule simulation and weather prediction
+  \item Cryptography
+  \item Molecular simulation and weather prediction
   \item Processing of large data
   \end{itemize}
 
-  \dots\ and also more secure \alert{communication protocols}
 \end{frame}
 
-\begin{frame}{Why the big interest? (A concrete example)}
+\begin{frame}{A Concrete Example}
 
   Cryptographic schemes often assume that factoring large integers is
   computationally intractable
   
   In 1994 Peter Shor presented a quantum \alert{algorithm} for factoring
-  integers that runs in \dots\ \alert{polynomial time} 
+  integers that runs in \alert{polynomial time} 
 
-  \vfill
+  \vspace{2.5cm}
 
-  \begin{textblock*}{4cm}(8cm,5.35cm)
+  \begin{textblock*}{4cm}(8.1cm,5.25cm)
     \includegraphics[scale=0.2]{images/size.jpg}
     \tiny{smbc-comics}
   \end{textblock*}
 
 \end{frame}
 
-\begin{frame}{Why the big interest? (Concrete example II)}
 
-  Transmission of information via \alert{\underline{superposition}} and
-  \alert{\underline{entanglement}}
+\section{A Brief History of Quantum Computation}
 
-
-  Eavesdropping becomes detectable 
-  \vfill
-  \begin{textblock*}{3.5cm}(8.7cm,5.5cm)
-    \includegraphics[scale=0.20]{images/einstein.jpg}
-  \end{textblock*}
-
-\end{frame}
-
-\section{A brief history of Quantum Computation}
-
-\begin{frame}{The Modern Reincarnation of Computing Science}
+\begin{frame}{Modern Reincarnation of Computing Science}
 
   \begin{minipage}[0.3\textheight]{\textwidth}
   \begin{columns}[c]
   \begin{column}{0.7\textwidth}
           On Computable Numbers, with an Application to the 
-          \tikzmark{z1}\emph{Entscheidungsproblem}\tikzmark{z2}, 1936
+          \tikzmark{z1}\emph{Entscheidungsproblem}\tikzmark{z2}, \textbf{1936}
   \end{column}
   \begin{column}{0.3\textwidth}
     \includegraphics[scale=2]{images/turing.jpg}
+    \tiny{Alan Turing}
   \end{column}
   \end{columns}
   \end{minipage}
@@ -163,51 +150,61 @@
              \emph{The Hitchhiker's Guide to the Galaxy}}]  {};
    \end{tikzpicture}
 
+  \vfill
+  \begin{center}
+  \scriptsize{
+        A computational model and  computability
+  }
+  \end{center}
 \end{frame}
 
 \begin{frame}{A Case for Quantum Computing}
 
   \begin{minipage}[0.3\textheight]{\textwidth}
   \begin{columns}[c]
-  \begin{column}{0.6\textwidth}
-          Simulating Physics with Computers, 1982
+  \begin{column}{0.62\textwidth}
+          Simulating Physics with Computers, \textbf{1982}
   \end{column}
-  \begin{column}{0.4\textwidth}
+  \begin{column}{0.39\textwidth}
     \includegraphics[scale=1]{images/feynman.jpg}
+    \tiny{Richard Feynman}
   \end{column}
   \end{columns}
   \end{minipage}
 
   \vfill
+  \begin{center}
   \scriptsize{
           "\dots \emph{because nature isn't
                   classical, dammit, and if you want to make a simulation of nature, you'd
                   better make it quantum mechanical, and by golly it's a wonderful problem,
                   because it doesn't look so easy.}"
   }
-
+  \end{center}
 \end{frame}
 
-\begin{frame}{Quantum Computational Model}
+\begin{frame}{Mathematical Demonstration of `Quantum Advantage'}
 
   \begin{minipage}[0.3\textheight]{\textwidth}
   \begin{columns}[c]
   \begin{column}{0.6\textwidth}
         Quantum theory, the Church-Turing principle and the universal quantum computer,
-        1985
+        \textbf{1985}
   \end{column}
-  \begin{column}{0.4\textwidth}
+  \begin{column}{0.44\textwidth}
     \includegraphics[scale=0.2]{images/deutsch.jpg}
+    \tiny{David Deutsch}
   \end{column}
   \end{columns}
   \end{minipage}
 
   \vfill
+  \begin{center}
   \scriptsize{
-        Quantum computability and computational model: first example of a quantum
-        algorithm that is remarkably faster than any possible classical one
+        A quantum computational model and quantum computability: first example of a quantum
+        algorithm that is remarkably faster than any known classical counterpart
   }
-
+  \end{center}
 \end{frame}
 
 \begin{frame}{The Field of Quantum Computation}
@@ -224,25 +221,28 @@
   \end{column}
   \begin{column}{0.4\textwidth}
           \centering
-          \small{Quantum Computability} \\
+          \small{Quantum `Advantage'} \\
           \includegraphics[height=2.4cm]{images/deutsch.jpg}
   \end{column}
   \end{columns}
 
-  \vfill
-  \dots and of course many others 
+  \vspace{1cm}
+  \dots\ and of course many other pioneers
 \end{frame}
 
-\section{Currently \dots}
+\section{Currently\dots}
 
-\begin{frame}{The Second Quantum Revolution}
+\begin{frame}{At Present \dots}
 
-        Viability of quantum computing demonstrated in problems difficult to
+        Prototype quantum computers are already available 
+
+        Their viability demonstrated in problems that are difficult to
         handle classically 
 
         \begin{itemize}
-        \item Google's Sycamore, 2019
-        \item Zuchongzhi, 2021
+                \item Sycamore, \textbf{2019}
+                \item Zuchongzhi, \textbf{2021}
+                \item \dots
         \end{itemize}
 
 \end{frame}
@@ -252,9 +252,9 @@
         The quantum race has just started
         
         \begin{itemize}
-                \item current quantum computers are \alert{unreliable}
-                        for performing actually useful computational
-                        tasks
+                \item quantum computers currently \alert{unreliable} for
+                        performing useful computational tasks
+
                 \item difficult to anticipate 
                         their  evolution and future applications
                 \item commercial/military potential in the short term (5 to 10 yrs) 
@@ -262,54 +262,38 @@
         \end{itemize}
 \end{frame}
 
-\begin{frame}{In the Short Term}
-  \begin{minipage}[0.3\textheight]{\textwidth}
-  \begin{columns}[c]
-  \begin{column}{0.7\textwidth}
-        Quantum advantage with the \alert{Noisy Intermediate-Scale Quantum}
-        (NISQ) computational model 
-        \begin{itemize}
-                \item the quantum device as a coprocessor
-                \item typically accessed as a service over the cloud 
-        \end{itemize}
-  \end{column}
-  \begin{column}{0.3\textwidth}
-        \includegraphics[height=3.5cm]{./images/qc.jpg} 
-  \end{column}
-  \end{columns}
-  \end{minipage}
-\end{frame}
-
 \section{Course's Structure and Pragmatics}
 
 \begin{frame}{Learning Outcomes}
 
-On successful completion of the course students should be able to,
+On successful completion of the course students will be able 
 
 \begin{itemize}
-\item understand basic concepts of computability and computational complexity;
-\item understand basic concepts and techniques in quantum algorithmics;
-\item design and analyse quantum algorithms;
-\item implement and run quantum algorithms in the \alert{\textsc{Qiskit}} 
-        open-source software development kit.
+\item to understand basic concepts of computability and computational complexity
+\item to understand basic concepts and techniques in quantum algorithmics
+\item to design and analyse quantum algorithms
+\item to implement and run quantum algorithms in the Qiskit 
+        open-source software development kit
 \end{itemize}
 
 \end{frame}
 
+
 \begin{frame}{Course Information and Pragmatics}
 
-\begin{block}{Refer to the course's website at}
+Refer to the course's website at:
 \begin{center}
         \url{lmf.di.uminho.pt/quantum-computation-2223/}
 \end{center}
-\end{block}
 
 \end{frame}
 
 \begin{frame}[plain]
-        \centering
-        \includegraphics[scale=0.5]{images/mot.jpg} \\
-        \tiny{PhD Comics}
+  \begin{textblock*}{4cm}(2cm,2.25cm)
+          \includegraphics[scale=0.5]{images/mot.jpg} 
+          \tiny{PhD Comics}
+  \end{textblock*}
+
 \end{frame}
 
 \end{document}
