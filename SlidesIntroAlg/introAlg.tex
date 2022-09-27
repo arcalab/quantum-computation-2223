@@ -71,13 +71,13 @@
 
 \begin{document}
 
-\title{Basics of Quantum Algorithmics}
+\title{A First View of Quantum Algorithmics}
 
 \frame[plain]{\titlepage}
 
 \section{The Problem}
 
-\begin{frame}{Our first encounter with `Quantum Advantage'} 
+\begin{frame}{Our First Encounter with `Quantum Advantage'} 
 
         \begin{block}{The Problem}
         Receive a `single-bit' function $f : \{0,1\} \to \{0,1\}$
@@ -87,20 +87,20 @@
         Tell us whether the first or second case hold
         \end{block}
 
-        \vfill
         \pause
-        Classically, to determine which case holds requires two evaluations
+        Classically, to determine which case holds requires 
+        running $f$ twice 
 
         \pause
-        Quantumly, only one evaluation is needed 
+        Quantumly, it suffices to run $f$ once \dots
 
         \pause
-        Due to two quantum effects:
-        \alert{\underline{superposition}} and 
-        \alert{\underline{interference}}
+        due to two quantum effects
+        \alert{superposition} and 
+        \alert{interference}
 \end{frame}
 
-\begin{frame}{The need for a Quantum Computational Language}
+\begin{frame}{The Need for a Quantum Computational Language}
 
         Quantum solution to the previous problem given as
         an \alert{algorithm}
@@ -108,7 +108,7 @@
         In order to describe it, it is convenient to use a
         computational language \dots
         
-        \dots\ just like we do in the classical case
+        \dots\ just like in the classical case
 \end{frame}
 
 \section{Recap}
@@ -123,7 +123,6 @@
                 \]
         \end{block}
 
-        \vfill
         \begin{block}{State operations}
                 $n$-qubit operation encoded as an \alert{isometry}
                 \[
@@ -137,7 +136,7 @@
 
 \end{frame}
 
-\section{The Quantum Circuit formalism}
+\section{The Quantum Circuit Formalism}
 
 \begin{frame}{Genesis}
  We start with a set of \alert{quantum operations}
@@ -153,11 +152,10 @@
         \right \}$
  \end{center}
 
- \vfill
  Each operation $U_i$ \alert{manipulates the state} of $n_i$-qubits received
  from its left-hand side \dots
 
- \dots\  and returns the result to its right-hand side
+ \dots\  and returns the result on its right-hand side
 
 \end{frame}
 
@@ -169,7 +167,7 @@
                 &\gate{X} &\qw    
                 \end{quantikz}
                 \tikzmark{x2} 
-        \right } = X : \Complex^2 \to \Complex^2$ (\textbf{not} operation)
+        \right } = X : \Complex^2 \to \Complex^2$ (\alert{not} operation)
 
 
         \vspace{2cm}  
@@ -179,7 +177,7 @@
                 &\gate{H} &\qw    
                 \end{quantikz}
         \right } 
-        = H : \Complex^2 \to \Complex^2$ (\textbf{Hadamard} operation)
+        = H : \Complex^2 \to \Complex^2$ (\alert{Hadamard} operation)
 
         \begin{tikzpicture}[overlay,remember picture,
         box/.style = {rounded corners},
@@ -233,7 +231,7 @@
                                         rounded corners,fill=blue!20},background]{}
                                         & [8mm] \qw \qwbundle{n_1} \\
                                         &[10mm]  
-                                        \gate{U_1} \qwbundle{n_2}
+                                        \gate{U_2} \qwbundle{n_2}
                                         & [8mm] \qw \qwbundle{n_2} 
                                 \end{quantikz} 
                         }
@@ -242,6 +240,7 @@
 \end{frame}
 
 \begin{frame}{Mathematical Meaning of Sequential Composition}
+
         $\left \sem{\begin{quantikz}[transparent]
                 &[4mm] \gate{U_1} \qwbundle{n} &[3mm] \qw \qwbundle{n}
         \end{quantikz} \right } 
@@ -294,7 +293,7 @@
                 \Complex^{2^{n_1 + n_2}}}$ 
 \end{frame}
 
-\begin{frame}{Two warm-up exercises}
+\begin{frame}{Two Warm-up Exercises}
         \begin{enumerate}
                 \item Show that
                         \[
@@ -331,10 +330,10 @@
 
 \end{frame}
 
-\section{Back to the problem}
+\section{Back to our Problem}
 
 \begin{frame}{Turning $f$ into a Quantum Operation pt. I}
-        $f : \{0,1\} \to \{0,1\}$ extends to a map $\Complex^2 \to
+        $f : \{0,1\} \to \{0,1\}$ extends to a linear map $\Complex^2 \to
         \Complex^2$
 
         \dots\ but not necessarily to an isometry
@@ -376,7 +375,7 @@
         \end{tikzpicture}
 
         \vspace{0.8cm}
-        Mathematically: isometricity implies injectivity so if a map loses
+        \textbf{N.b.}: isometricity implies injectivity so if a map loses
         information it cannot be isometric
 \end{frame}
 
@@ -437,26 +436,23 @@
         \end{frame}
 
 \begin{frame}{Tackling the Problem via Quantum Parallelism pt. II}
-        \vspace{-1cm}
+
         \begin{flalign*}
              & \, U_f (H \otimes I) \ket{0} \otimes \ket{0} & \\
              & =  U_f \left ( \textstyle{\frac{1}{\sqrt{2}}(\ket{0} + \ket{1})}
                \otimes \ket{0}  \right ) & \text{\{Defn. of $H$ and $I$\}}  \\
              & =  U_f \left ( \textstyle{ \frac{1}{\sqrt{2}}(\ket{00} + \ket{10})}
-                 \right ) & \text{\{Defn. of $\otimes$\}} \\
-             & = \textstyle{\frac{1}{\sqrt{2}}(\ket{0} \otimes \ket{0 \oplus \alert{f(0)}} 
-               + \ket{1} \otimes \ket{0 \oplus \alert{f(1)}})} & \text{\{Defn. of $U_f$\}} \\
-             & = \underbrace{\textstyle{\frac{1}{\sqrt{2}}\ket{0} \otimes \ket{\alert{f(0)}} 
-               + \frac{1}{\sqrt{2}}\ket{1} \otimes \ket{\alert{f(1)}}}}_{\text{Info.
-               of $f(0)$ and $f(1)$ in a single run of $U_f$!}} & \{0 \oplus x = x\}
+                 \right ) & \text{\{$\otimes$ distributes over $+$\}} \\
+             & = \textstyle{\frac{1}{\sqrt{2}}(\ket{0} \ket{0 \oplus \alert{f(0)}} 
+               + \ket{1} \ket{0 \oplus \alert{f(1)}})} & \text{\{Defn. of $U_f$\}} \\
+             & = \underbrace{\textstyle{\frac{1}{\sqrt{2}}(\ket{0} \ket{\alert{f(0)}} 
+               + \ket{1} \ket{\alert{f(1)}})}}_{\text{$f(0)$ and $f(1)$ in a single run}} & \{0 \oplus x = x\}
         \end{flalign*}
 
-        \vfill
-        Cannot extract this information from the resultant state
+        \dots\ cannot extract this information from the resultant state :(
 
-        But no need to know the values of $f(0)$ and $f(1)$: 
-        only whether they are (un)equal (\ie\ a \alert{global}
-        property of $f$ rather than local)
+        but fortunately no need to know the values of $f(0)$ and $f(1)$ -- only
+        whether they are equal or not
 \end{frame}
 
 \begin{frame}{Tackling the Problem via Parallelism and Interference pt. I}
@@ -466,45 +462,47 @@
                         \begin{quantikz}[transparent]
                                 \lstick{\ket{0}} &\gate{H} 
                                 \gategroup[wires=1,steps=1,style={dashed,
-                                rounded corners,fill=blue!10},background]{\tiny{parallelism}}
+                                rounded corners,fill=blue!10, inner xsep=0.2pt},background]
+                                {\tiny{parallelism}}
                                 & \gate[wires=2]{U_f} \gategroup[wires=2,steps=1,style={dashed,
-                                rounded corners,fill=blue!10}, label style={label position = 
+                                rounded corners,fill=blue!10, inner xsep=0.2pt}, 
+                                label style={label position = 
                                 below, yshift=-0.4cm},background]
                                 {\tiny{interference pattern}}
                                 & \gate{H} 
                                 \gategroup[wires=1,steps=1,style={dashed,
-                                rounded corners,fill=blue!10},background]{
+                                rounded corners,fill=blue!10, inner xsep=0.2pt},background]{
                                 \tiny{wave collapse}}
                                 & \qw \\
                                 \lstick{$\frac{1}{\sqrt{2}} (\ket{0} - \ket{1})$}
                                                  & \qw & & \qw & \qw 
                         \end{quantikz}
         \end{center} 
-        The wave collapse informs us of the global property
+        \dots\ and the wave collapse informs us 
 \end{frame}
 
-\begin{frame}{Preliminary Calculation}
+\begin{frame}{An Auxiliary Computation}
         \small{
         \begin{flalign*}
                 & \, U_f \left (\ket{x} \otimes 
                 (\ket{0} - \ket{1}) \right ) &  \\
                 & =  
-                U_f \left (\ket{x}\ket{0} - \ket{x}\ket{1} \right ) & \{\text{Distributivity
-                of $\otimes$ over $+$ }\} \\
+                U_f \left (\ket{x}\ket{0} - \ket{x}\ket{1} \right ) &
+                \{\text{$\otimes$ distributes over $+$ }\} \\
                 & =  
                 \ket{x}\ket{0 \oplus f(x)} - \ket{x}\ket{1 \oplus f(x)} &
                 \{\text{Defn. of $f$}\} \\
                 & =   
-                \ket{x}\alert{\ket{f(x)}} - 
-                \ket{x}\alert{\ket{\neg f(x)}}  &  
-                \{0 \oplus x = x \text{ and } 1 \oplus x = \neg x \} \\
+                \ket{x}\ket{\alert{f(x)}} - 
+                \ket{x}\ket{\alert{\neg f(x)}}  &  
+                \{0 \oplus x = x, 1 \oplus x = \neg x \} \\
                 & =  
-                \ket{x} \otimes (\alert{\ket{f(x)}} - 
-                \alert{\ket{\neg f(x)}}) &
-                \{ \text{Distributivity of $\otimes$ over $+$} \}
+                \ket{x} \otimes (\ket{\alert{f(x)}} - 
+                \ket{\alert{\neg f(x)}}) &
+                \{ \text{$\otimes$ distributes over $+$} \}
         \end{flalign*}
         
-        We then proceed by case distinction,
+        We then proceed by case distinction
         \[
         \ket{x} \otimes (\ket{f(x)} - 
                 \ket{\neg f(x)}) = 
@@ -513,7 +511,7 @@
                         \ket{x} \otimes (\ket{1} - \ket{0}) & \text{ if } f (x) = 1
                 \end{cases}
         \]
-        and conclude,
+        and conclude
         \[
            \ket{x} \otimes (\ket{f(x)} -  \ket{\neg f(x)}) =      
            (-1)^{f(x)} \ket{x} \otimes (\ket{0} - \ket{1})
@@ -524,44 +522,44 @@
 \begin{frame}{Tackling the Problem via Parallelism and Interference pt. II}
         \small{
         \begin{flalign*}
-              & \,  (H \otimes I) \comp U_f \comp (H \otimes I)
+              & \,  (H \otimes I)  U_f (H \otimes I)
               \left ( \ket{0} \otimes \ket{-} 
-              \right ) & \\
-              & = (H \otimes I) \comp U_f
+              \right ) & \\[1mm]
+              & = (H \otimes I)  U_f
               \left ( \ket{+} \otimes \ket{-} 
-              \right ) & \text{\{Defn. of $H \otimes I$\}} \\
-              & = \textstyle{\frac{1}{\sqrt{2}}} (H \otimes I) \comp U_f
+      \right ) & \text{\{\dots\}} \\[1mm]
+              & = \textstyle{\frac{1}{\sqrt{2}}} (H \otimes I)  U_f
               \left ( (\ket{0} + \ket{1})
                       \otimes \ket{-} 
-              \right ) & \text{\{\ \dots\}} \\
+\right ) & \text{\{\dots\}} \\[1mm]
               & = \textstyle{\frac{1}{\sqrt{2}}} (H \otimes I) 
               \left ( U_f \ket{0} \otimes \ket{-} 
                       + 
                       U_f \ket{1} \otimes \ket{-} 
-              \right ) & \text{\{\ \dots\}} \\
+\right ) & \text{\{\dots\}} \\[1mm]
               & = \textstyle{\frac{1}{\sqrt{2}}} (H \otimes I) 
               \left ( (-1)^{f(0)} \ket{0} \otimes \ket{-} 
                       + 
                       (-1)^{f(1)} \ket{1} \otimes \ket{-} 
-              \right ) & \text{\{Previous slide\}}\\
+\right ) & \text{\{Previous slide\}}\\[1mm]
               & = \begin{cases}
                       (H \otimes I) (\pm 1) \alert{\ket{+}} 
                         \otimes \ket{-} & \text{if } f(0) = f(1) \\
                         (H \otimes I) (\pm 1) \alert{\ket{-}} \otimes \ket{-} 
                                         & \text{if } f(0) \not = f(1)
-                  \end{cases} & \text{\{Case distinction\}} \\
+                \end{cases} & \text{\{Case distinction\}} \\[1mm]
               & = \begin{cases}
                       (\pm 1) \alert{\ket{0}} \otimes \ket{-} & \text{if } f(0) = f(1) \\
                       (\pm 1) \alert{\ket{1}} \otimes \ket{-} & \text{if } f(0) \not = f(1)
-              \end{cases}& \text{\{Defn. of $H \otimes I$\}} 
+              \end{cases}& \text{\{\dots\}} 
       \end{flalign*}
       }
 \end{frame}
 
 \begin{frame}{What's Next?}
 
-        Essentially the first algorithm with `quantum
-        advantage' presented in literature [Deutsch, 1985]
+        A simplification of the first algorithm with `quantum advantage'
+        presented in literature [Deutsch, 1985]
 
         All other quantum algorithms crucially rely on similar ideas
         of quantum interference 
