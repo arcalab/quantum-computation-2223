@@ -77,7 +77,7 @@
 
 \section{The Problem}
 
-\begin{frame}{Mission (apparently) Impossible}
+\begin{frame}{Entanglement Enters the Stage}
 
         \begin{block}{The Problem}
                 Two secure labs and in one of these a qubit 
@@ -85,25 +85,25 @@
                 Terrain between the two labs full of entities
                 that wish to access the qubit's state
 
-                How to transfer the quantum state from one lab to the other?
+                How to transfer this quantum state from one lab to the other?
         \end{block}
 
         \pause
         Classically, the complete data would need to be \alert{\underline{moved}}
-        from point A to point B
+        from one point to the other 
 
         \pause
-        Quantumly, we can do better via entanglement
+        Quantumly, we can do better thanks to entanglement
 \end{frame}
 
 \section{Recap}
 
-\begin{frame}{Entanglement}
+\begin{frame}{Mathematical Notion of Entanglement}
 
         \begin{definition}
-                A vector $u \in V \otimes W$ is \alert{entangled} if it cannot
-                be written as a tensor $v \otimes w$ with $v \in V$ and $w \in
-                W$
+                A vector $u \in V \otimes W$ is \alert{\underline{entangled}}
+                if it cannot be written as a tensor $v \otimes w$ such that $v \in
+                V$ and $w \in W$
         \end{definition}
 
         \pause
@@ -123,7 +123,7 @@
         \end{example}
 \end{frame}
 
-\begin{frame}{Building Bell States -- an important ingredient}
+\begin{frame}{An Important Ingredient for Building Bell States and Beyond}
 
         Every quantum operation
         \begin{quantikz}
@@ -137,31 +137,32 @@
                 &[4mm] \ctrl{1} &[4mm] \qw  \\
                 &[4mm] \gate{U} \qwbundle{n} &[4mm] \qw \qwbundle{n}
                 \end{quantikz}
-        \right } = cU : \Complex^2 \otimes \Complex^{2^n} 
-        \to \Complex^2 \otimes \Complex^{2^n}
+        \right } =  
+        \begin{cases}
+        cU \ket{0} \ket{b} = \ket{0}  \ket{b} \\
+        cU \ket{1}  \ket{b} = \ket{1} U\ket{b}
+        \end{cases}
         \]
 
-        defined as $cU(\ket{0} \ket{b}) = \ket{0}  \ket{b}$, 
-        $cU(\ket{1}  \ket{b}) = \ket{1} U\ket{b}$ 
 
         \pause
         \vfill
-        \small{
-        \textbf{N.B.} 
-        The circuit
+       
+        \scalebox{0.7}{
+        \textbf{N.B.} The circuit 
         \begin{quantikz}
                 &\ctrl{1} & \qw  \\
                 &\gate{X} & \qw 
         \end{quantikz}\
-        is also denoted as
+        is often denoted as
         \begin{quantikz}\
                 & \ctrl{1} & \qw  \\
                 & \targ{} & \qw 
         \end{quantikz}\
-        }
+        } 
 \end{frame}
 
-\begin{frame}{Building Bell States -- the circuit }
+\begin{frame}{Building Bell States}
 
         \[
                 \begin{quantikz}
@@ -175,9 +176,9 @@
 
 \end{frame}
 
-\begin{frame}{Measurement}
+\begin{frame}{Postulates of Measurement}
 
-        Two maps $M_0$ and $M_1$ of type $\Complex^2 \to \Complex^2$ for
+        Maps $M_0$ and $M_1$ of type $\Complex^2 \to \Complex^2$ for
         measuring a qubit
         \[
                 M_0 = \begin{pmatrix}
@@ -191,21 +192,18 @@
                 \end{pmatrix}
         \]
 
-        A map $M_k : \Complex^{2} \to \Complex^{2}$, $k \in \{0,1\}$ possibly
-        tensored with identities $\id : \Complex^2 \to \Complex^2$ is called a
-        \alert{measurement}
-
+        A map $M_k$, $k \in \{0,1\}$ possibly tensored with identities $\id :
+        \Complex^2 \to \Complex^2$ called a \alert{measurement}
 
         \vfill
-        \begin{block}{Postulate}
-           Take a state $v \in \Complex^{2^n}$ and measurement $M :
+        \begin{block}{Postulates}
+           For a state $v \in \Complex^{2^n}$ and measurement $M :
            \Complex^{2^n} \to \Complex^{2^n}$
            \begin{itemize}
-                \item Probability of the outcome represented by $M$ is $\langle
+                \item probability of outcome represented by $M$ is $\langle
                         M v, M v \rangle$
-                \item State after the observed outcome is $\frac{1}{\norm{M
-                        v}}M v$
-
+                \item state after the observed outcome is
+                        $\textstyle{\frac{1}{\norm{M v}}}M v$
            \end{itemize}         
         \end{block}
 \end{frame}
@@ -217,20 +215,20 @@
         \[
                 \begin{quantikz}
                 \ket{\psi} & \ctrl{1} & \gate{H} & \qw  \\
-                \ket{0} & \targ{} & \qw & \qw 
+                \alert{\ket{0}} & \targ{} & \qw & \qw 
                 \end{quantikz}
         \]
         \begin{flalign*}
               & \, (H \otimes I) cX (\alpha \ket{0} + \beta \ket{1}) \ket{0} & \\
-              & = (H \otimes I) cX (\alpha \ket{00} + \beta \ket{11}) & \\
-              & = H \otimes I (\alpha\ket{00} + \ket{11}) & \\
+              & = (H \otimes I) cX (\alpha \ket{00} + \beta \ket{10}) & \\
+              & = (H \otimes I) (\alpha\ket{00} + \beta \ket{11}) & \\
               & = \ket{+}\alpha \ket{0} + \ket{-} \beta \ket{1} \\
               & = \textstyle{\frac{1}{\sqrt{2}}} (
               \ket{0} \alpha \ket{0} + \ket{1} \alpha \ket{0} +
               \ket{0} \beta \ket{1} - \ket{1} \beta \ket{1}) \\
-              & = \textstyle{\frac{1}{\sqrt{2}}} \left (
+              & = \textstyle{\frac{1}{\sqrt{2}}} \Big (
               \ket{0} \alert{(\alpha \ket{0} + \beta \ket{1})} + 
-              \ket{1} \alert{(\alpha \ket{0} - \beta \ket{1})}  \right )
+              \ket{1} \alert{(\alpha \ket{0} - \beta \ket{1})}  \Big )
         \end{flalign*}
 \end{frame}
 
@@ -239,37 +237,36 @@
         \[
                 \begin{quantikz}
                 \ket{\psi} & \ctrl{1} & \gate{H} & \qw  \\
-                \ket{1} & \targ{} & \qw & \qw 
+                \alert{\ket{1}} & \targ{} & \qw & \qw 
                 \end{quantikz}
         \]
 
         \begin{flalign*}
               & \, (H \otimes I) cX (\alpha \ket{0} + \beta \ket{1}) \ket{1} & \\
               & = \dots & \\
-              & = \textstyle{\frac{1}{\sqrt{2}}} \left (
+              & = \textstyle{\frac{1}{\sqrt{2}}} \Big (
               \ket{0} \alert{(\alpha \ket{1} + \beta \ket{0})} + 
-              \ket{1} \alert{(\alpha \ket{1} - \beta \ket{0})}  \right )
+              \ket{1} \alert{(\alpha \ket{1} - \beta \ket{0})}  \Big )
         \end{flalign*}
 \end{frame}
 
 \begin{frame}{Quantum Teleportation Intra-Gate pt. III}
-     Problem?
+     Are we done?
      \pause
 
-     We can indeed transfer a qubit's state, but both qubits
-     need to be connected by a logical gate
+     We can transfer a qubit's state, but both qubits
+     need to be connected by a gate
 
      \pause
-     Fortunately we can do better \dots
-
-     \pause
-     \dots\ we will use \alert{entanglement} to connect the 
-     two qubits (this presents no distance limitations)
+     Fortunately we can do better. 
+     \pause 
+     We use entanglement to establish a secure 
+     \alert{`communication channel'} and proceed in the following manner \dots
 \end{frame}
 
 \section{Quantum Teleportation}
 
-\begin{frame}{Quantum Teleportation -- the circuit}
+\begin{frame}{Quantum Teleportation pt. I}
 
         \begin{center}
                 \begin{quantikz}[transparent]
@@ -288,11 +285,13 @@
                 \end{quantikz}
         \end{center} 
 
-        Bottom qubits become entangled and thus connected, even if far away
-        from each other later on 
+        \small{
+        Bottom qubits become entangled and thus connected, even if they are far
+        away from each other later on 
+        }
 \end{frame}
 
-\begin{frame}{Quantum Teleportation -- the computation}
+\begin{frame}{Quantum Teleportation pt. II}
 
         \begin{flalign*}
            & \, ((H \otimes I) \otimes I) (cX \otimes I)  \left (
@@ -332,7 +331,7 @@
         \end{flalign*}
 \end{frame}
 
-\begin{frame}{Quantum Teleportation -- full circuit}
+\begin{frame}{Quantum Teleportation pt. III}
 
         \begin{center}
                 \begin{quantikz}[transparent]
@@ -359,8 +358,12 @@
 
 \section{Afterthoughts}
 
-\begin{frame}{Did we just break physics?}
+\begin{frame}{Did We Just Break Physics?}
 
+        No.
+       
+        \vfill
+        \pause
         \begin{block}{No-cloning}
                 Did not end up with two copies of $\ket{\psi}$, because
                 the state of the top qubit was destroyed by the measurement
@@ -368,21 +371,21 @@
 
         \pause
         \begin{block}{FTL communication}
-                Did not communicate faster than light, because the communication
-                required sending two classical bits
+                Did not communicate faster than light, because teleportation 
+                required us to send two classical bits
         \end{block}
 \end{frame}
 
 \begin{frame}{What's Next?}
 
         First glimpse of applications of quantum phenomena to algorithmics
-        and communication
+        and communication. Namely
         \begin{itemize}
                 \item superposition \& interference
                 \item entanglement
         \end{itemize}
 
-        We will next overview more sophisticated applications of these
+        Next we will overview more sophisticated applications of these
         phenomena
 \end{frame}
 \end{document}
