@@ -266,10 +266,123 @@
      \dots\ we will use \alert{entanglement} to connect the 
      two qubits (this presents no distance limitations)
 \end{frame}
+
 \section{Quantum Teleportation}
+
+\begin{frame}{Quantum Teleportation -- the circuit}
+
+        \begin{center}
+                \begin{quantikz}[transparent]
+                        \lstick{\ket{\psi}} & \qw & \qw & \ctrl{1} 
+                        \gategroup[wires=2,steps=2,style={dashed,
+                        rounded corners,fill=blue!10, inner xsep=0.2pt},background]
+                        {\tiny{Teleportation intra-gate}}
+                        & \gate{H} & \qw \\
+                        \lstick{\ket{0}} & \gate{H}
+                        \gategroup[wires=2,steps=2,style={dashed,
+                        rounded corners,fill=blue!10, inner xsep=0.2pt},
+                        label style={label position = below, yshift=-0.4cm}, background]
+                        {\tiny{Creation of Bell state}}
+                        & \ctrl{1} & \targ{} & \qw & \qw \\
+                        \lstick{\ket{0}} & \qw & \targ{} & \qw & \qw & \qw
+                \end{quantikz}
+        \end{center} 
+
+        Bottom qubits become entangled and thus connected, even if far away
+        from each other later on 
+\end{frame}
+
+\begin{frame}{Quantum Teleportation -- the computation}
+
+        \begin{flalign*}
+           & \, ((H \otimes I) \otimes I) (cX \otimes I)  \left (
+           (\alpha \ket{0} + \beta \ket{1}) \otimes \textstyle{\frac{1}{\sqrt{2}}}
+           (\ket{00} + \ket{11}) \right ) 
+           &  \\
+           & = \textstyle{\frac{1}{\sqrt{2}}}
+           ((H \otimes I) \otimes I) (cX \otimes I)  \Big (
+           \alpha \ket{000} + \alpha \ket{011} + \beta \ket{100} + \beta \ket{111}
+           \Big ) 
+           & \\
+           & = \textstyle{\frac{1}{\sqrt{2}}}
+           ((H \otimes I) \otimes I)  \Big (
+                   \alpha \ket{000} + \alpha \ket{011} + 
+                   \beta \ket{110} + \beta \ket{101}
+           \Big ) 
+           & \\
+           & = \textstyle{\frac{1}{\sqrt{2}}}
+           ((H \otimes I) \otimes I)  \Big (
+           \ket{0} (\alpha \ket{00} + \alpha \ket{11}) + 
+           \ket{1} (\beta \ket{10} + \beta \ket{01})
+           \Big ) 
+           &  \\
+           & = \textstyle{\frac{1}{2}}
+           \Big (
+           (\ket{0} + \ket{1}) (\alpha \ket{00} + \alpha \ket{11}) + 
+           (\ket{0} - \ket{1}) (\beta \ket{10} + \beta \ket{01})
+           \Big ) 
+           & \\
+           & = \Big  (
+                   \ket{00}  \alert{(\alpha \ket{0} + \beta \ket{1})} +
+                   \ket{01}  \alert{(\alpha \ket{1} + \beta \ket{0})} +
+                   \ket{10}  \alert{(\alpha \ket{0} - \beta \ket{1})}\ \dots  
+           & 
+           \\
+           & \dots +  \ket{11}  \alert{(\alpha \ket{1} - \beta \ket{0})} \Big ) &
+        \end{flalign*}
+\end{frame}
+
+\begin{frame}{Quantum Teleportation -- full circuit}
+
+        \begin{center}
+                \begin{quantikz}[transparent]
+                        \lstick{\ket{\psi}} & \qw & \qw & \ctrl{1} 
+                        \gategroup[wires=2,steps=2,style={dashed,
+                        rounded corners,fill=blue!10, inner xsep=0.2pt},background]
+                        {\tiny{Teleportation intra-gate}}
+                        & \gate{H} & \meter{} & \ctrl{2} 
+                        \gategroup[wires=3,steps=2,style={dashed,
+                        rounded corners,fill=blue!10, inner xsep=0.2pt},background]
+                        {\tiny{Correction}}
+                        & \qw & \qw \\
+                        \lstick{\ket{0}} & \gate{H}
+                        \gategroup[wires=2,steps=2,style={dashed,
+                        rounded corners,fill=blue!10, inner xsep=0.2pt},
+                        label style={label position = below, yshift=-0.4cm}, background]
+                        {\tiny{Creation of Bell state}}
+                        & \ctrl{1} & \targ{} & \qw & \meter{} & \qw & \ctrl{1} & \qw \\
+                        \lstick{\ket{0}} & \qw & \targ{} & \qw & \qw & \qw & \gate{Z}
+                                         & \gate{X} & \qw
+                \end{quantikz}
+        \end{center} 
+\end{frame}
 
 \section{Afterthoughts}
 
+\begin{frame}{Did we just break physics?}
+
+        \begin{block}{No-cloning}
+                Did not end up with two copies of $\ket{\psi}$, because
+                the state of the top qubit was destroyed by the measurement
+        \end{block}
+
+        \pause
+        \begin{block}{FTL communication}
+                Did not communicate faster than light, because the communication
+                required sending two classical bits
+        \end{block}
+\end{frame}
+
 \begin{frame}{What's Next?}
+
+        First glimpse of applications of quantum phenomena to algorithmics
+        and communication
+        \begin{itemize}
+                \item superposition \& interference
+                \item entanglement
+        \end{itemize}
+
+        We will next overview more sophisticated applications of these
+        phenomena
 \end{frame}
 \end{document}
