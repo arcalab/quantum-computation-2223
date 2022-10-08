@@ -1,0 +1,391 @@
+\documentclass{beamer}
+\usepackage{etex} % fixes new-dimension error
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{mathtools}
+\input{macros}
+%-------------- template --------------------------------------------------
+\usetheme{metropolis}
+\metroset{block=fill}
+%\usetheme{Boadilla}
+% Configuring the foot line
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.4\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertshortauthor
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertsection
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.1\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+% No configuration symbols
+\setbeamertemplate{navigation symbols}{}
+%--------------- packages -------------------------------------------------
+\usepackage{graphicx,amsmath}
+\usepackage{stmaryrd} % cf. interleave
+\usepackage{booktabs}
+\usepackage{amscd}
+\usepackage{multicol}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{alltt}
+\usepackage{proof}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{quantikz}
+\usepackage[new]{old-arrows}
+\usepackage[all]{xy}
+\usepackage{pgfplots}
+\usepackage{textcomp}
+\usetikzlibrary{arrows.meta, calc, fit, tikzmark}
+\usepackage{pstricks,pst-node,pst-text,pst-3d}
+% context
+\AtBeginSection[]
+{
+    \begin{frame}
+        \frametitle{Table of Contents}
+        \tableofcontents[currentsection]
+    \end{frame}
+}
+
+\author[Renato Neves]{Renato Neves}
+
+% logos of institutions
+\titlegraphic{
+  \begin{textblock*}{5cm}(6.7cm,7.45cm)
+     \includegraphics[scale=0.06]{logos/uminho.png}\hspace*{.85cm}~%
+  \end{textblock*}
+  \begin{textblock*}{5cm}(9.4cm,7.42cm)
+    \includegraphics[scale=0.50]{logos/haslab.pdf}
+  \end{textblock*}
+}
+
+% No date
+\date{}
+
+\begin{document}
+
+\title{Entanglement and Teleportation}
+
+\frame[plain]{\titlepage}
+
+\section{The Problem}
+
+\begin{frame}{Entanglement Enters the Stage}
+
+        \begin{block}{The Problem}
+                Two secure labs and in one of these a qubit 
+
+                Terrain between the two labs full of entities
+                that wish to access the qubit's state
+
+                How to transfer this quantum state from one lab to the other?
+        \end{block}
+
+        \pause
+        Classically, the complete data would need to be \alert{\underline{moved}}
+        from one point to the other 
+
+        \pause
+        Quantumly, we can do better thanks to entanglement
+\end{frame}
+
+\section{Recap}
+
+\begin{frame}{Mathematical Notion of Entanglement}
+
+        \begin{definition}
+                A vector $u \in V \otimes W$ is \alert{\underline{entangled}}
+                if it cannot be written as a tensor $v \otimes w$ such that $v \in
+                V$ and $w \in W$
+        \end{definition}
+
+        \pause
+        \begin{example}
+                All four states below are entangled
+                \begin{align*}
+                        \textstyle{\frac{1}{\sqrt{2}}}(\ket{00} + \ket{11})
+                        \qquad \qquad &
+                        \textstyle{\frac{1}{\sqrt{2}}}(\ket{00} - \ket{11})
+                        \\
+                        \textstyle{\frac{1}{\sqrt{2}}}(\ket{01} + \ket{10})
+                        \qquad \qquad &
+                        \textstyle{\frac{1}{\sqrt{2}}}(\ket{01} - \ket{10})
+                \end{align*}
+                They form a basis of $\Complex^4$,
+                which is often called the \alert{Bell basis}
+        \end{example}
+\end{frame}
+
+\begin{frame}{An Important Ingredient for Building Bell States and Beyond}
+
+        Every quantum operation
+        \begin{quantikz}
+               &[4mm] \gate{U} \qwbundle{n} &[4mm] \qw \qwbundle{n}
+        \end{quantikz}$\,$
+        gives rise to a \alert{`controlled'} quantum operation
+
+        \[ 
+        \left \sem{ 
+                \begin{quantikz}
+                &[4mm] \ctrl{1} &[4mm] \qw  \\
+                &[4mm] \gate{U} \qwbundle{n} &[4mm] \qw \qwbundle{n}
+                \end{quantikz}
+        \right } =  
+        \begin{cases}
+        cU \ket{0} \ket{b} = \ket{0}  \ket{b} \\
+        cU \ket{1}  \ket{b} = \ket{1} U\ket{b}
+        \end{cases}
+        \]
+
+
+        \pause
+        \vfill
+       
+        \scalebox{0.7}{
+        \textbf{N.B.} The circuit 
+        \begin{quantikz}
+                &\ctrl{1} & \qw  \\
+                &\gate{X} & \qw 
+        \end{quantikz}\
+        is often denoted as
+        \begin{quantikz}\
+                & \ctrl{1} & \qw  \\
+                & \targ{} & \qw 
+        \end{quantikz}\
+        } 
+\end{frame}
+
+\begin{frame}{Building Bell States}
+
+        \[
+                \begin{quantikz}
+                & \gate{H}  & \ctrl{1} & \qw  \\
+                & \qw       & \targ{} & \qw 
+                \end{quantikz}
+        \]
+
+        Every vector in the computational basis of $\Complex^4$ when fed to the
+        circuit above yields a Bell state
+
+\end{frame}
+
+\begin{frame}{Postulates of Measurement}
+
+        Maps $M_0$ and $M_1$ of type $\Complex^2 \to \Complex^2$ for
+        measuring a qubit
+        \[
+                M_0 = \begin{pmatrix}
+                        1 & 0 \\
+                        0 & 0 
+                \end{pmatrix}
+                \qquad
+                M_1 = \begin{pmatrix}
+                        0 & 0 \\
+                        0 & 1
+                \end{pmatrix}
+        \]
+
+        A map $M_k$, $k \in \{0,1\}$ possibly tensored with identities $\id :
+        \Complex^2 \to \Complex^2$ called a \alert{measurement}
+
+        \vfill
+        \begin{block}{Postulates}
+           For a state $v \in \Complex^{2^n}$ and measurement $M :
+           \Complex^{2^n} \to \Complex^{2^n}$
+           \begin{itemize}
+                \item probability of outcome represented by $M$ is $\langle
+                        M v, M v \rangle$
+                \item state after the observed outcome is
+                        $\textstyle{\frac{1}{\norm{M v}}}M v$
+           \end{itemize}         
+        \end{block}
+\end{frame}
+
+\section{A First Approach to Quantum Teleportation}
+
+\begin{frame}{Quantum Teleportation Intra-Gate pt. I}
+        We transfer the top wire qubit's state to the bottom wire
+        \[
+                \begin{quantikz}
+                \ket{\psi} & \ctrl{1} & \gate{H} & \qw  \\
+                \alert{\ket{0}} & \targ{} & \qw & \qw 
+                \end{quantikz}
+        \]
+        \begin{flalign*}
+              & \, (H \otimes I) cX (\alpha \ket{0} + \beta \ket{1}) \ket{0} & \\
+              & = (H \otimes I) cX (\alpha \ket{00} + \beta \ket{10}) & \\
+              & = (H \otimes I) (\alpha\ket{00} + \beta \ket{11}) & \\
+              & = \ket{+}\alpha \ket{0} + \ket{-} \beta \ket{1} \\
+              & = \textstyle{\frac{1}{\sqrt{2}}} (
+              \ket{0} \alpha \ket{0} + \ket{1} \alpha \ket{0} +
+              \ket{0} \beta \ket{1} - \ket{1} \beta \ket{1}) \\
+              & = \textstyle{\frac{1}{\sqrt{2}}} \Big (
+              \ket{0} \alert{(\alpha \ket{0} + \beta \ket{1})} + 
+              \ket{1} \alert{(\alpha \ket{0} - \beta \ket{1})}  \Big )
+        \end{flalign*}
+\end{frame}
+
+\begin{frame}{Quantum Teleportation Intra-Gate pt. II}
+        We transfer the top wire qubit's state to the bottom wire
+        \[
+                \begin{quantikz}
+                \ket{\psi} & \ctrl{1} & \gate{H} & \qw  \\
+                \alert{\ket{1}} & \targ{} & \qw & \qw 
+                \end{quantikz}
+        \]
+
+        \begin{flalign*}
+              & \, (H \otimes I) cX (\alpha \ket{0} + \beta \ket{1}) \ket{1} & \\
+              & = \dots & \\
+              & = \textstyle{\frac{1}{\sqrt{2}}} \Big (
+              \ket{0} \alert{(\alpha \ket{1} + \beta \ket{0})} + 
+              \ket{1} \alert{(\alpha \ket{1} - \beta \ket{0})}  \Big )
+        \end{flalign*}
+\end{frame}
+
+\begin{frame}{Quantum Teleportation Intra-Gate pt. III}
+     Are we done?
+     \pause
+
+     We can transfer a qubit's state, but both qubits
+     need to be connected by a gate
+
+     \pause
+     Fortunately we can do better. 
+     \pause 
+     We use entanglement to establish a secure 
+     \alert{`communication channel'} and proceed in the following manner \dots
+\end{frame}
+
+\section{Quantum Teleportation}
+
+\begin{frame}{Quantum Teleportation pt. I}
+
+        \begin{center}
+                \begin{quantikz}[transparent]
+                        \lstick{\ket{\psi}} & \qw & \qw & \ctrl{1} 
+                        \gategroup[wires=2,steps=2,style={dashed,
+                        rounded corners,fill=blue!10, inner xsep=0.2pt},background]
+                        {\tiny{Teleportation intra-gate}}
+                        & \gate{H} & \qw \\
+                        \lstick{\ket{0}} & \gate{H}
+                        \gategroup[wires=2,steps=2,style={dashed,
+                        rounded corners,fill=blue!10, inner xsep=0.2pt},
+                        label style={label position = below, yshift=-0.4cm}, background]
+                        {\tiny{Creation of Bell state}}
+                        & \ctrl{1} & \targ{} & \qw & \qw \\
+                        \lstick{\ket{0}} & \qw & \targ{} & \qw & \qw & \qw
+                \end{quantikz}
+        \end{center} 
+
+        \small{
+        Bottom qubits become entangled and thus connected, even if they are far
+        away from each other later on 
+        }
+\end{frame}
+
+\begin{frame}{Quantum Teleportation pt. II}
+
+        \begin{flalign*}
+           & \, ((H \otimes I) \otimes I) (cX \otimes I)  \left (
+           (\alpha \ket{0} + \beta \ket{1}) \otimes \textstyle{\frac{1}{\sqrt{2}}}
+           (\ket{00} + \ket{11}) \right ) 
+           &  \\
+           & = \textstyle{\frac{1}{\sqrt{2}}}
+           ((H \otimes I) \otimes I) (cX \otimes I)  \Big (
+           \alpha \ket{000} + \alpha \ket{011} + \beta \ket{100} + \beta \ket{111}
+           \Big ) 
+           & \\
+           & = \textstyle{\frac{1}{\sqrt{2}}}
+           ((H \otimes I) \otimes I)  \Big (
+                   \alpha \ket{000} + \alpha \ket{011} + 
+                   \beta \ket{110} + \beta \ket{101}
+           \Big ) 
+           & \\
+           & = \textstyle{\frac{1}{\sqrt{2}}}
+           ((H \otimes I) \otimes I)  \Big (
+           \ket{0} (\alpha \ket{00} + \alpha \ket{11}) + 
+           \ket{1} (\beta \ket{10} + \beta \ket{01})
+           \Big ) 
+           &  \\
+           & = \textstyle{\frac{1}{2}}
+           \Big (
+           (\ket{0} + \ket{1}) (\alpha \ket{00} + \alpha \ket{11}) + 
+           (\ket{0} - \ket{1}) (\beta \ket{10} + \beta \ket{01})
+           \Big ) 
+           & \\
+           & = \Big  (
+                   \ket{00}  \alert{(\alpha \ket{0} + \beta \ket{1})} +
+                   \ket{01}  \alert{(\alpha \ket{1} + \beta \ket{0})} +
+                   \ket{10}  \alert{(\alpha \ket{0} - \beta \ket{1})}\ \dots  
+           & 
+           \\
+           & \dots +  \ket{11}  \alert{(\alpha \ket{1} - \beta \ket{0})} \Big ) &
+        \end{flalign*}
+\end{frame}
+
+\begin{frame}{Quantum Teleportation pt. III}
+
+        \begin{center}
+                \begin{quantikz}[transparent]
+                        \lstick{\ket{\psi}} & \qw & \qw & \ctrl{1} 
+                        \gategroup[wires=2,steps=2,style={dashed,
+                        rounded corners,fill=blue!10, inner xsep=0.2pt},background]
+                        {\tiny{Teleportation intra-gate}}
+                        & \gate{H} & \meter{} & \ctrl{2} 
+                        \gategroup[wires=3,steps=2,style={dashed,
+                        rounded corners,fill=blue!10, inner xsep=0.2pt},background]
+                        {\tiny{Correction}}
+                        & \qw & \qw \\
+                        \lstick{\ket{0}} & \gate{H}
+                        \gategroup[wires=2,steps=2,style={dashed,
+                        rounded corners,fill=blue!10, inner xsep=0.2pt},
+                        label style={label position = below, yshift=-0.4cm}, background]
+                        {\tiny{Creation of Bell state}}
+                        & \ctrl{1} & \targ{} & \qw & \meter{} & \qw & \ctrl{1} & \qw \\
+                        \lstick{\ket{0}} & \qw & \targ{} & \qw & \qw & \qw & \gate{Z}
+                                         & \gate{X} & \qw
+                \end{quantikz}
+        \end{center} 
+\end{frame}
+
+\section{Afterthoughts}
+
+\begin{frame}{Did We Just Break Physics?}
+
+        No.
+       
+        \vfill
+        \pause
+        \begin{block}{No-cloning}
+                Did not end up with two copies of $\ket{\psi}$, because
+                the state of the top qubit was destroyed by the measurement
+        \end{block}
+
+        \pause
+        \begin{block}{FTL communication}
+                Did not communicate faster than light, because teleportation 
+                required us to send two classical bits
+        \end{block}
+\end{frame}
+
+\begin{frame}{What's Next?}
+
+        First glimpse of applications of quantum phenomena to algorithmics
+        and communication. Namely
+        \begin{itemize}
+                \item superposition \& interference
+                \item entanglement
+        \end{itemize}
+
+        Next we will overview more sophisticated applications of these
+        phenomena
+\end{frame}
+\end{document}
