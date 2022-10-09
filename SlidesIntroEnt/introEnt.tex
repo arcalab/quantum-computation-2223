@@ -321,7 +321,7 @@
            (\ket{0} - \ket{1}) (\beta \ket{10} + \beta \ket{01})
            \Big ) 
            & \\
-           & = \Big  (
+           & = \textstyle{\frac{1}{2}}\Big  (
                    \ket{00}  \alert{(\alpha \ket{0} + \beta \ket{1})} +
                    \ket{01}  \alert{(\alpha \ket{1} + \beta \ket{0})} +
                    \ket{10}  \alert{(\alpha \ket{0} - \beta \ket{1})}\ \dots  
@@ -339,19 +339,20 @@
                         \gategroup[wires=2,steps=2,style={dashed,
                         rounded corners,fill=blue!10, inner xsep=0.2pt},background]
                         {\tiny{Teleportation intra-gate}}
-                        & \gate{H} & \meter{} & \ctrl{2} 
+                        & \gate{H} & \meter{} & \qw 
                         \gategroup[wires=3,steps=2,style={dashed,
                         rounded corners,fill=blue!10, inner xsep=0.2pt},background]
                         {\tiny{Correction}}
-                        & \qw & \qw \\
+                        & \ctrl{2} & \qw \\
                         \lstick{\ket{0}} & \gate{H}
                         \gategroup[wires=2,steps=2,style={dashed,
                         rounded corners,fill=blue!10, inner xsep=0.2pt},
                         label style={label position = below, yshift=-0.4cm}, background]
                         {\tiny{Creation of Bell state}}
-                        & \ctrl{1} & \targ{} & \qw & \meter{} & \qw & \ctrl{1} & \qw \\
-                        \lstick{\ket{0}} & \qw & \targ{} & \qw & \qw & \qw & \gate{Z}
-                                         & \gate{X} & \qw
+                                         & \ctrl{1} & \targ{} & \qw & \meter{} & \ctrl{1} 
+                                         & \qw & \qw \\
+                        \lstick{\ket{0}} & \qw & \targ{} & \qw & \qw & \qw & \gate{X}
+                                         & \gate{Z} & \qw
                 \end{quantikz}
         \end{center} 
 \end{frame}
