@@ -1,0 +1,463 @@
+\documentclass{beamer}
+\usepackage{etex} % fixes new-dimension error
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{mathtools}
+\input{macros}
+%-------------- template --------------------------------------------------
+\usetheme{metropolis}
+\metroset{block=fill}
+%\usetheme{Boadilla}
+% Configuring the foot line
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.4\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertshortauthor
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertsection
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.1\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+% No configuration symbols
+\setbeamertemplate{navigation symbols}{}
+%--------------- packages -------------------------------------------------
+\usepackage{graphicx,amsmath}
+\usepackage{stmaryrd} % cf. interleave
+\usepackage{booktabs}
+\usepackage{amscd}
+\usepackage{multicol}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{alltt}
+\usepackage{proof}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{quantikz}
+\usepackage[new]{old-arrows}
+\usepackage[all]{xy}
+\usepackage{pgfplots}
+\usepackage{textcomp}
+\usetikzlibrary{arrows.meta, calc, fit, tikzmark}
+\usepackage{pstricks,pst-node,pst-text,pst-3d}
+% context
+\AtBeginSection[]
+{
+    \begin{frame}
+        \frametitle{Table of Contents}
+        \tableofcontents[currentsection]
+    \end{frame}
+}
+
+\author[Renato Neves]{Renato Neves}
+
+% logos of institutions
+\titlegraphic{
+  \begin{textblock*}{5cm}(6.7cm,7.45cm)
+     \includegraphics[scale=0.06]{logos/uminho.png}\hspace*{.85cm}~%
+  \end{textblock*}
+  \begin{textblock*}{5cm}(9.4cm,7.42cm)
+    \includegraphics[scale=0.50]{logos/haslab.pdf}
+  \end{textblock*}
+}
+
+% No date
+\date{}
+
+\begin{document}
+
+\title{Exponential Separation between Quantum and Classical Computation}
+
+\frame[plain]{\titlepage}
+
+\section{Overview}
+
+\begin{frame}{Previously\dots}
+
+        \begin{block}{The Problem}
+        Take a function $f : \{0,1\} \to \{0,1\}$
+
+        Either $f(0) = f(1)$ or $f(0) \not = f(1)$
+
+        Tell us whether the first or second case hold
+        \end{block}
+
+        Classically, need to run $f$ \alert{twice}.  Quantumly, it suffices to
+        run \alert{once}
+
+        \pause
+        Can we have a more impressive difference in complexities?
+
+\end{frame}
+
+\section{Global and local phases}
+
+\begin{frame}{Global Phase Factor}
+
+        We say that vector $e^{i\theta}v$ is equal to $v$
+        up to \alert{global phase factor} $e^{i \theta}$
+
+        \vfill
+        \begin{theorem}
+         $e^{i\theta}v$ and $v$ are indistinguishable
+         in the world of quantum mechanics
+        \end{theorem}
+
+        \begin{block}{Proof sketch}
+                Show that equality up to global phase is preserved by operators
+                and normalisation + show that probability outcomes associated
+                with $v$ and $e^{i\theta}v$ are the same
+        \end{block}
+\end{frame}
+
+\begin{frame}{Relative Phase Factor}
+        
+        We say that vectors $\sum_{x \in 2^n} \alpha_x \ket{x}$ and $\sum_{x
+        \in 2^n} \beta_x \ket{x}$ differ by a \alert{relative phase factor} if
+        for all $x \in 2^n$
+        \[
+                \alpha_x = e^{i \theta_x} \beta_x
+                \qquad \text{(for some angle $\theta_x$)}
+        \]
+
+        \begin{example}
+                Vectors $\ket{0} + \ket{1}$ and $\ket{0} - \ket{1}$
+                differ by a relative phase factor
+        \end{example}
+
+        \pause
+        \vfill
+        Vectors that differ by a relative phase factor are distinguishable
+\end{frame}
+
+\section{Phase Kickback}
+
+\begin{frame}{The Phase Kickback Effect pt. I}
+        Recall that every quantum operation
+        \begin{quantikz}
+               &[4mm] \gate{U} \qwbundle{n} &[4mm] \qw \qwbundle{n}
+        \end{quantikz}$\,$
+        gives rise to a `controlled' quantum operation
+        \[ 
+                \begin{quantikz}
+                &[4mm] \ctrl{1} &[4mm] \qw  \\
+                &[4mm] \gate{U} \qwbundle{n} &[4mm] \qw \qwbundle{n}
+                \end{quantikz}
+        \]
+
+        Then let $v$ be an \alert{eigenvector} of $U$, \ie\ $U v = e^{i \theta} v$,
+        and calculate
+        \begin{flalign*}
+              &  \, \, cU ( (\alpha \ket{0} + \beta \ket{1}) \otimes v) & \\
+              & = cU (\alpha \ket{0} \otimes v + \beta \ket{1} \otimes v) & \\
+              & = \alpha \ket{0} \otimes v + \beta \ket{1} \otimes e^{i\theta} v & \\
+              & = (\alpha \ket{0} + \alert{e^{i\theta}} \beta \ket{1}) \otimes v 
+        \end{flalign*}
+\end{frame}
+\begin{frame}{The Phase Kickback Effect pt. II}
+        What just happened?
+        \pause
+        \begin{itemize}
+                \item Global phase $e^{i \theta}$ introduced to $v$
+                        was 'kickedback' as a relative phase in the control
+                        qubit
+                        \pause
+                \item Some information of $U$ is now encoded in the control
+                        qubit
+                        \pause
+                \item In general, the introduction of such phases causes
+                        interference patterns that give away information 
+                        about $U$
+        \end{itemize}
+\end{frame}
+
+\begin{frame}{The Phase Kickback Effect pt. III}
+        Consider the circuit:
+
+        \[
+               \begin{quantikz}
+                & \ctrl{1} & \qw  \\
+                & \targ{} & \qw 
+                \end{quantikz}
+        \]
+
+        What is the unit vector $v$ that satisfies
+        the equation below?
+        \[
+                cX \ket{b} v = (-1)^{b} \ket{b} v
+        \]
+\end{frame}
+
+\begin{frame}{Back to Deutsch's Problem}
+
+        \begin{center}
+                \hspace{-1.5cm}
+                        \begin{quantikz}[transparent]
+                                \lstick{\ket{0}} &\gate{H} 
+                                \gategroup[wires=1,steps=1,style={dashed,
+                                rounded corners,fill=blue!10, inner xsep=0.2pt},background]
+                                {\tiny{parallelism}}
+                                & \gate[wires=2]{U_f} \gategroup[wires=2,steps=1,style={dashed,
+                                rounded corners,fill=blue!10, inner xsep=0.2pt}, 
+                                label style={label position = 
+                                below, yshift=-0.4cm},background]
+                                {\tiny{interference pattern}}
+                                & \gate{H} 
+                                \gategroup[wires=1,steps=1,style={dashed,
+                                rounded corners,fill=blue!10, inner xsep=0.2pt},background]{
+                                \tiny{wave collapse}}
+                                & \qw \\
+                                \lstick{$\ket{-}$}
+                                                 & \qw & & \qw & \qw 
+                        \end{quantikz}
+        \end{center} 
+
+        \vfill
+        \pause
+        $U_f$ can be seen as a \alert{generalised} controlled not-operation
+        \[
+                \left \sem{ 
+               \begin{quantikz}
+                & \ctrl{1} & \qw  \\
+                & \gate{f} & \qw 
+                \end{quantikz}
+                \right } = 
+                \ket{x}\ket{y} \mapsto 
+                \begin{cases}
+                        \ket{x} \ket{y} & \text{ if } f(x) = 0\\
+                        \ket{y} \neg \ket{y} & \text{ if } f(x) = 1
+                \end{cases}
+        \]
+
+\end{frame}
+
+\begin{frame}{Back to Deutsch's Problem pt. II}
+
+        $U_f$ can be seen as a \alert{generalised} controlled \alert{not}-operation
+        \[
+                \left \sem{ 
+               \begin{quantikz}
+                & \ctrl{1} & \qw  \\
+                & \gate{f} & \qw 
+                \end{quantikz}
+                \right } = 
+                \ket{x}\ket{y} \mapsto 
+                \begin{cases}
+                        \ket{x} \ket{y} & \text{ if } f(x) = 0\\
+                        \ket{y} \neg \ket{y} & \text{ if } f(x) = 1
+                \end{cases}
+        \]
+
+        $\ket{-}$ is an eigenvector of $X$ with associated eigenstate $-1$
+
+        So analogously to $cX \ket{x} \ket{-} = (-1)^{x} \ket{x} \ket{-}$ we
+        deduce that
+        \[
+                U_f \ket{x} \ket{-} = (-1)^{f(x)} \ket{x} \ket{-}
+        \]
+\end{frame}
+
+\begin{frame}{Back to Deutsch's Problem pt. III}
+
+        \begin{center}
+                \hspace{-1.5cm}
+                        \begin{quantikz}[transparent]
+                                \lstick{\ket{0}} &\gate{H} 
+                                \gategroup[wires=1,steps=1,style={dashed,
+                                rounded corners,fill=blue!10, inner xsep=0.2pt},background]
+                                {\tiny{parallelism}}
+                                & \ctrl{1} \gategroup[wires=2,steps=1,style={dashed,
+                                rounded corners,fill=blue!10, inner xsep=0.2pt}, 
+                                label style={label position = 
+                                below, yshift=-0.4cm},background]
+                                {\tiny{interference pattern (created by phase kickback)}}
+                                & \gate{H} 
+                                \gategroup[wires=1,steps=1,style={dashed,
+                                rounded corners,fill=blue!10, inner xsep=0.2pt},background]{
+                                \tiny{wave collapse}}
+                                & \qw \\
+                                \lstick{$\ket{-}$}
+                                & \qw & \gate{\, f \,} & \qw & \qw 
+                        \end{quantikz}
+        \end{center} 
+
+\end{frame}
+
+\section{Bernstein-Vazirani's problem}
+
+\begin{frame}{Going further beyond\dots}
+
+        Despite looking almost magical how we handled Deutsch's problem\dots
+
+        corresponding complexity differences between quantum and classical
+        cases is \alert{unimpressive}
+        
+        Can we come up with a more impressive separation?
+\end{frame}
+
+\begin{frame}{Setting the Stage}
+        \begin{lemma}
+                For $a,b \in \{0,1\}$ the equation $(-1)^a(-1)^b = (-1)^{a \oplus b}$
+                holds
+        \end{lemma}
+        \begin{block}{Prook sketch}
+                Build a truth table for each case and compare the corresponding
+                contents
+        \end{block}
+
+        \vfill
+        \begin{definition}
+                Given two bit-strings $x,y \in \{0,1\}^n$ we define
+                their product $x \cdot y \in \{0,1\}$ as
+                        $x \cdot y = (x_1 \wedge y_1) \oplus \dots
+                        \oplus (x_n \wedge y_n)$
+        \end{definition}
+\end{frame}
+
+\begin{frame}{Setting the Stage}
+
+        \begin{lemma}
+                For any three binary strings $x,a,b \in \{0,1\}^n$ the equation
+                $(x \cdot a) \oplus (x \cdot b) = x \cdot (a \oplus b)$ holds
+        \end{lemma}
+
+        \begin{block}{Proof sketch} 
+                Follows from the fact that for any three bits $a,b,c \in
+                \{0,1\}$ the equation $(a \wedge b) \oplus (a \wedge c) = a
+                \wedge (b \oplus c)$ holds
+        \end{block}
+\end{frame}
+
+\begin{frame}{Setting the Stage}
+        \begin{lemma}
+                For any element $\ket{b}$ in the computational basis of
+                $\Complex^2$ we have $H \ket{b} =
+                \textstyle{\frac{1}{\sqrt{2}}} \sum_{z \in 2} (-1)^{b \wedge z}
+                \ket{z}$
+        \end{lemma}
+        \begin{block}{Proof sketch}
+                Build a truth table and compare the corresponding contents
+        \end{block}
+        \vfill
+
+        \begin{theorem}
+                For any element $\ket{b}$ in the computational basis
+                of $\Complex^{2^n}$ we have
+                $H^{\otimes n} \ket{b} = 
+                \textstyle{\frac{1}{\sqrt{2^n}}} \sum_{z \in 2^n} (-1)^{b \cdot z}
+                \ket{z}$
+        \end{theorem}
+        \begin{block}{Proof sketch}
+                Follows from induction on the size of $n$
+        \end{block}
+\end{frame}
+
+\begin{frame}{Bernstein-Vazirani}
+
+        \begin{block}{The Problem}
+                Take a function $f : \{0,1\}^{\alert{n}} \to \{0,1\}$
+
+                You are promised that $f(x) = s \cdot x$ for some fixed bit-string $s$
+
+                Find $s$
+        \end{block}
+
+        Classically, we compute
+        \begin{flalign*}
+                f(10 \dots 0) & = (s_1 \wedge 1) \oplus \dots \oplus (s_n \wedge 0) 
+                = \alert{s_1} \\
+                f(01 \dots 0) & = (s_1 \wedge 0) \oplus (s_2 \wedge 1) \oplus \dots \oplus
+                (s_n \wedge 0) = \alert{s_2} \\
+                \dots & \\
+                f(00 \dots 1) & = (s_1 \wedge 0) \oplus \dots \oplus 
+                (s_n \wedge 1) = \alert{s_n}
+        \end{flalign*}
+
+        Quantumly, we can discover $s$ by running $f$ only \alert{once}
+\end{frame}
+
+\begin{frame}{The Circuit}
+        \begin{center}
+                \hspace{-1.5cm}
+                        \begin{quantikz}[transparent]
+                                \lstick{\ket{0}} &[4mm] \gate{H^{\otimes n}} 
+                                \gategroup[wires=1,steps=1,style={dashed,
+                                rounded corners,fill=blue!10, inner xsep=0.2pt},background]
+                                {\tiny{parallelism}} \qwbundle{n}
+                                & \ctrl{1} \gategroup[wires=2,steps=1,style={dashed,
+                                rounded corners,fill=blue!10, inner xsep=0.2pt}, 
+                                label style={label position = 
+                                below, yshift=-0.4cm},background]
+                                {\tiny{interference pattern (created by phase kickback)}}
+                                & \gate{H^{\otimes n}} 
+                                \gategroup[wires=1,steps=1,style={dashed,
+                                rounded corners,fill=blue!10, inner xsep=0.2pt},background]{
+                                \tiny{wave collapse}} 
+                                &[4mm] \qw \qwbundle{n} \\
+                                \lstick{$\ket{-}$}
+                                & \qw & \gate{\, f \,} & \qw & \qw 
+                        \end{quantikz}
+        \end{center} 
+\end{frame}
+
+\begin{frame}{The Computation}
+       In order to make computations simpler we will omit $\ket{-}$ 
+       \begin{flalign*}
+       & \, H^{\otimes n} \ket{0} & \\
+       & = \textstyle{\frac{1}{\sqrt{2^n}}} \sum_{z \in 2^n}  \ket{z} & 
+       \text{\{Theorem slide 18\}} \\
+       & \stackrel{U_f}{\mapsto} \textstyle{\frac{1}{\sqrt{2^n}}} 
+               \sum_{z \in 2^n} (-1)^{f(z)} \ket{z} & \text{\{Definition slide 12\}} \\
+       & \stackrel{H^{\otimes n}}{\mapsto} \textstyle{\frac{1}{2^n}} 
+        \sum_{z \in 2^n} (-1)^{f(z)} \Big ( \sum_{z' \in 2^n} (-1)^{z \cdot z'} \ket{z'} 
+       \Big ) &  
+       \text{\{Theorem slide 18\}} \\
+       & = \textstyle{\frac{1}{2^n}} 
+       \sum_{z \in 2^n} \sum_{z' \in 2^n} (-1)^{(z \cdot s) \oplus (z \cdot z')}  \ket{z'}
+       & \text{\{Lemma slide 16\}} \\
+       & = \textstyle{\frac{1}{2^n}} 
+       \sum_{z \in 2^n} \sum_{z' \in 2^n} (-1)^{z \cdot (s \oplus z')} \ket{z'} 
+       & \text{\{Lemma slide 17\}} 
+       \end{flalign*}
+\end{frame}
+
+\begin{frame}{The computation pt. II}
+        Probability of measuring $s$ at the end given by
+        \begin{flalign*}
+                & \, \big \lvert \textstyle{\frac{1}{2^n}} 
+                \sum_{z \in 2^n} (-1)^{z \cdot (s \oplus s)} \ket{s} \big \rvert^2
+                & \\
+                & = \big \lvert \textstyle{\frac{1}{2^n}} 
+                \sum_{z \in 2^n} (-1)^{z \cdot 0} \ket{s} \big \rvert^2
+                & \\
+                & = \big \lvert \textstyle{\frac{1}{2^n}} 
+                \sum_{z \in 2^n} 1 \ket{s} \big \rvert^2
+                &  \\
+                & = \big \lvert \textstyle{\frac{2^n}{2^n}} 
+                \big \rvert^2
+                &  \\
+                & = 1
+        \end{flalign*}
+
+        This entails that somehow all values yielding wrong answers
+        were cancelled
+\end{frame}
+
+\begin{frame}{Going Further Beyond}
+
+        We went from running $f$ $n$ times
+        to running just once
+
+        \pause
+        Still not very impressive (at least for the Computer Scientist :-)) 
+
+        \pause
+        Can we do even better?
+\end{frame}
+\section{Deutsch-Josza's problem}
+\end{document}
