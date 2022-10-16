@@ -459,5 +459,139 @@
         \pause
         Can we do even better?
 \end{frame}
+
 \section{Deutsch-Josza's problem}
+
+\begin{frame}{Deutsch-Josza}
+        \begin{block}{The problem}
+                Take a function $f : \{0,1\}^n \to \{0,1\}$
+
+                You are promised that $f$ is either constant or balanced
+
+                Find out which case holds
+        \end{block}
+        
+        Classically, we evaluate half of the inputs ($\frac{2^{n}}{2} = 2^{n-1}$),
+        evaluate one more and run the decision procedure,
+        \begin{itemize}
+                \item output always the same $\Longrightarrow$ constant
+                \item otherwise $\Longrightarrow$ balanced
+        \end{itemize}
+        which requires running $f$  $2^{n-1} + 1$ times
+
+        Quantumly, we know the answer by runing $f$ only once
+\end{frame}
+
+\begin{frame}{The Circuit}
+        \begin{center}
+                \hspace{-1.5cm}
+                        \begin{quantikz}[transparent]
+                                \lstick{\ket{0}} &[4mm] \gate{H^{\otimes n}} 
+                                \gategroup[wires=1,steps=1,style={dashed,
+                                rounded corners,fill=blue!10, inner xsep=0.2pt},background]
+                                {\tiny{parallelism}} \qwbundle{n}
+                                & \ctrl{1} \gategroup[wires=2,steps=1,style={dashed,
+                                rounded corners,fill=blue!10, inner xsep=0.2pt}, 
+                                label style={label position = 
+                                below, yshift=-0.4cm},background]
+                                {\tiny{interference pattern (created by phase kickback)}}
+                                & \gate{H^{\otimes n}} 
+                                \gategroup[wires=1,steps=1,style={dashed,
+                                rounded corners,fill=blue!10, inner xsep=0.2pt},background]{
+                                \tiny{wave collapse}} 
+                                &[4mm] \qw \qwbundle{n} \\
+                                \lstick{$\ket{-}$}
+                                & \qw & \gate{\, f \,} & \qw & \qw 
+                        \end{quantikz}
+        \end{center} 
+\end{frame}
+
+\begin{frame}{The Computation}
+       In order to make computations simpler we will omit $\ket{-}$ 
+       \begin{flalign*}
+       & \, H^{\otimes n} \ket{0} & \\
+       & = \textstyle{\frac{1}{\sqrt{2^n}}} \sum_{z \in 2^n}  \ket{z} & 
+       \text{\{Theorem slide 18\}} \\
+       & \stackrel{U_f}{\mapsto} \textstyle{\frac{1}{\sqrt{2^n}}} 
+               \sum_{z \in 2^n} (-1)^{f(z)} \ket{z} & \text{\{Definition slide 12\}} \\
+       & \stackrel{H^{\otimes n}}{\mapsto} \textstyle{\frac{1}{2^n}} 
+        \sum_{z \in 2^n} (-1)^{f(z)} \Big ( \sum_{z' \in 2^n} (-1)^{z \cdot z'} \ket{z'} 
+       \Big ) &  
+       \text{\{Theorem slide 18\}} 
+       \end{flalign*}
+       We then proceed by case distinction. Assume that $f$ is constant:
+       \begin{flalign*}
+               & \, \textstyle{\frac{1}{2^n}} 
+               \sum_{z \in 2^n} (-1)^{f(z)} 
+               \Big ( \sum_{z' \in 2^n} (-1)^{z \cdot z'} \ket{z'} \Big ) & \\ 
+               & =  
+               \textstyle{\frac{1}{2^n}} (\pm 1)
+               \sum_{z \in 2^n}  
+               \Big ( \sum_{z' \in 2^n} (-1)^{z \cdot z'} \ket{z'} \Big ) &
+       \end{flalign*}
+\end{frame}
+
+\begin{frame}{The computation pt. II}
+        Probability of measuring $\ket{0}$ at the end given by
+        \begin{flalign*}
+                & \, \big \lvert \textstyle{\frac{1}{2^n}} (\pm 1)
+               \sum_{z \in 2^n}  
+               (-1)^{z \cdot 0} \ket{0} \big \rvert^2
+                & \\
+                & = \big \lvert \textstyle{\frac{1}{2^n}} (\pm 1)
+                \sum_{z \in 2^n}  
+                1 \ket{0} \big \rvert^2
+                & \\
+                & = \big \lvert \textstyle{\frac{2^n}{2^n}} 
+                \big \rvert^2
+                &  \\
+                & = 1
+        \end{flalign*}
+
+        So if $f$ is constant we measure $\ket{0}$ with probability $1$. Now if
+        $f$ is balanced \dots
+\end{frame}
+
+\begin{frame}{The computation pt. III}
+        \vspace{-0.8cm}
+        \small{
+        \begin{flalign*}
+               &\, \textstyle{\frac{1}{2^n}} \sum_{z \in 2^n} (-1)^{f(z)} \Big ( \sum_{z'
+                \in 2^n} (-1)^{z \cdot z'} \ket{z'} \Big ) &  \\
+               & = \textstyle{\frac{1}{2^n}} \Big (\sum_{z \in 2^n, f(z) = 0} 
+               (-1)^{f(z)} \Big ( \sum_{z' \in 2^n} (-1)^{z \cdot z'} \ket{z'} \Big ) & \\
+               & \qquad +
+               \textstyle{\sum_{z \in 2^n, f(z) = 1}}
+               (-1)^{f(z)} \Big ( \sum_{z'
+               \in 2^n} (-1)^{z \cdot z'} \ket{z'} \Big )  \Big ) \\
+               & = \textstyle{\frac{1}{2^n}} \Big (\sum_{z \in 2^n, f(z) = 0} 
+               \Big ( \sum_{z' \in 2^n} (-1)^{z \cdot z'} \ket{z'} \Big ) & \\
+               & \qquad +
+               \textstyle{\sum_{z \in 2^n, f(z) = 1}}
+               (-1) \Big ( \sum_{z'
+               \in 2^n} (-1)^{z \cdot z'} \ket{z'} \Big )  \Big ) 
+        \end{flalign*}
+        }
+        Probability of measuring $\ket{0}$ at the end given by
+        \small{
+        \begin{flalign*}
+                & \, \Big \lvert \textstyle{\frac{1}{2^n}} \Big (\sum_{z \in 2^n, f(z) = 0} 
+               (-1)^{z \cdot 0} \ket{0} +
+               \textstyle{\sum_{z \in 2^n, f(z) = 1}}
+               (-1)(-1)^{z \cdot 0} \ket{0} \Big ) \big \rvert^2
+               & \\
+               & = \Big \lvert \textstyle{\frac{1}{2^n}} \Big (\sum_{z \in 2^n, f(z) = 0} 
+               \ket{0} +
+               \textstyle{\sum_{z \in 2^n, f(z) = 1}}
+               (-1)\ket{0} \Big ) \big \rvert^2 & \\
+               & = \Big \lvert \textstyle{\frac{1}{2^n}} \Big (\sum_{z \in 2^n, f(z) = 0} 
+               \ket{0} -
+               \textstyle{\sum_{z \in 2^n, f(z) = 1}}
+               \ket{0} \Big ) \big \rvert^2 & \\
+                & = 0
+        \end{flalign*}
+        }
+        So if $f$ is balanced we measure $\ket{0}$ with probability $0$
+\end{frame}
+
 \end{document}
