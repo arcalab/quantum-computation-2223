@@ -71,7 +71,7 @@
 
 \begin{document}
 
-\title{Exponential Separation between Quantum and Classical Computation}
+\title{Setting an Exponential Separation between Quantum and Classical Computation}
 
 \frame[plain]{\titlepage}
 
@@ -87,11 +87,11 @@
         Tell us whether the first or second case hold
         \end{block}
 
-        Classically, need to run $f$ \alert{twice}.  Quantumly, it suffices to
-        run \alert{once}
+        Classically, need to run $f$ \alert{twice}.  Quantumly, 
+        \alert{once} is enough 
 
         \pause
-        Can we have a more impressive difference in complexities?
+        Can we have more impressive differences in complexity?
 
 \end{frame}
 
@@ -99,8 +99,11 @@
 
 \begin{frame}{Global Phase Factor}
 
-        We say that vector $e^{i\theta}v$ is equal to $v$
-        up to \alert{global phase factor} $e^{i \theta}$
+        \begin{definition}
+        Let $v,u \in \Complex^{2^n}$ be vectors.  If $u = e^{i\theta}v$ we say
+        that it is equal to $v$ up to \alert{global phase factor} $e^{i
+        \theta}$
+        \end{definition}
 
         \vfill
         \begin{theorem}
@@ -117,6 +120,7 @@
 
 \begin{frame}{Relative Phase Factor}
         
+        \begin{definition}
         We say that vectors $\sum_{x \in 2^n} \alpha_x \ket{x}$ and $\sum_{x
         \in 2^n} \beta_x \ket{x}$ differ by a \alert{relative phase factor} if
         for all $x \in 2^n$
@@ -124,15 +128,15 @@
                 \alpha_x = e^{i \theta_x} \beta_x
                 \qquad \text{(for some angle $\theta_x$)}
         \]
+        \end{definition}       
 
         \begin{example}
-                Vectors $\ket{0} + \ket{1}$ and $\ket{0} - \ket{1}$
+               Vectors $\ket{0} + \ket{1}$ and $\ket{0} - \ket{1}$
                 differ by a relative phase factor
         \end{example}
 
         \pause
-        \vfill
-        Vectors that differ by a relative phase factor are distinguishable
+        Vectors that differ by a relative phase factor are \alert{distinguishable}
 \end{frame}
 
 \section{Phase Kickback}
@@ -142,7 +146,7 @@
         \begin{quantikz}
                &[4mm] \gate{U} \qwbundle{n} &[4mm] \qw \qwbundle{n}
         \end{quantikz}$\,$
-        gives rise to a `controlled' quantum operation
+        gives rise to a controlled quantum operation, which is depicted below
         \[ 
                 \begin{quantikz}
                 &[4mm] \ctrl{1} &[4mm] \qw  \\
@@ -150,12 +154,12 @@
                 \end{quantikz}
         \]
 
-        Then let $v$ be an \alert{eigenvector} of $U$, \ie\ $U v = e^{i \theta} v$,
-        and calculate
+        Let $v$ be an \alert{\underline{eigenvector}} of $U$ (\ie\ $U v = e^{i
+        \theta} v$) and calculate
         \begin{flalign*}
-              &  \, \, cU ( (\alpha \ket{0} + \beta \ket{1}) \otimes v) & \\
+              &  \, \, cU \Big ( (\alpha \ket{0} + \beta \ket{1}) \otimes v \Big ) & \\
               & = cU (\alpha \ket{0} \otimes v + \beta \ket{1} \otimes v) & \\
-              & = \alpha \ket{0} \otimes v + \beta \ket{1} \otimes e^{i\theta} v & \\
+              & = \alpha \ket{0} \otimes v + \beta \ket{1} \otimes \alert{e^{i\theta}} v & \\
               & = (\alpha \ket{0} + \alert{e^{i\theta}} \beta \ket{1}) \otimes v 
         \end{flalign*}
 \end{frame}
@@ -163,22 +167,21 @@
         What just happened?
         \pause
         \begin{itemize}
-                \item Global phase $e^{i \theta}$ introduced to $v$
+                \item Global phase $e^{i \theta}$ (introduced to $v$)
                         was 'kickedback' as a relative phase in the control
                         qubit
                         \pause
                 \item Some information of $U$ is now encoded in the control
                         qubit
-                        \pause
-                \item In general, the introduction of such phases causes
-                        interference patterns that give away information 
-                        about $U$
-        \end{itemize}
+         \end{itemize}
+         In general kickingback such phases causes
+         \alert{interference patterns} that give away information 
+         about $U$
+
 \end{frame}
 
 \begin{frame}{The Phase Kickback Effect pt. III}
-        Consider the circuit:
-
+        Consider the controlled-not operation 
         \[
                \begin{quantikz}
                 & \ctrl{1} & \qw  \\
@@ -186,11 +189,12 @@
                 \end{quantikz}
         \]
 
-        What is the unit vector $v$ that satisfies
-        the equation below?
+        $X$ has $\ket{-}$ as eigenvector with associated
+        eigenstate $-1$. It thus yields the equation
         \[
-                cX \ket{b} v = (-1)^{b} \ket{b} v
+                cX \ket{b} \ket{-} = (-1)^{b} \ket{b} \ket{-}
         \]
+        with $\ket{b}$ an element of the computational basis
 \end{frame}
 
 \begin{frame}{Back to Deutsch's Problem}
@@ -230,7 +234,7 @@
                 \ket{x}\ket{y} \mapsto 
                 \begin{cases}
                         \ket{x} \ket{y} & \text{ if } f(x) = 0\\
-                        \ket{y} \neg \ket{y} & \text{ if } f(x) = 1
+                        \ket{x} \neg \ket{y} & \text{ if } f(x) = 1
                 \end{cases}
         \]
 
@@ -238,7 +242,7 @@
 
 \begin{frame}{Back to Deutsch's Problem pt. II}
 
-        $U_f$ can be seen as a \alert{generalised} controlled \alert{not}-operation
+        $U_f$ can be seen as a \alert{generalised} controlled not-operation
         \[
                 \left \sem{ 
                \begin{quantikz}
@@ -253,12 +257,10 @@
                 \end{cases}
         \]
 
-        $\ket{-}$ is an eigenvector of $X$ with associated eigenstate $-1$
-
-        So analogously to $cX \ket{x} \ket{-} = (-1)^{x} \ket{x} \ket{-}$ we
-        deduce that
+        Recall that $\ket{-}$ is an eigenvector of $X$ with eigenstate $-1$.
+        Thus analogously to before we deduce 
         \[
-                U_f \ket{x} \ket{-} = (-1)^{f(x)} \ket{x} \ket{-}
+                \alert{ U_f \ket{x} \ket{-} = (-1)^{f(x)} \ket{x} \ket{-} }
         \]
 \end{frame}
 
@@ -290,12 +292,11 @@
 
 \section{Bernstein-Vazirani's problem}
 
-\begin{frame}{Going further beyond\dots}
+\begin{frame}{Going Beyond the Current Separation}
 
-        Despite looking almost magical how we handled Deutsch's problem\dots
-
-        corresponding complexity differences between quantum and classical
-        cases is \alert{unimpressive}
+        Albeit looking almost magical how we handled Deutsch's problem, the
+        corresponding complexity difference between quantum and classical is
+        \alert{unimpressive}
         
         Can we come up with a more impressive separation?
 \end{frame}
@@ -367,18 +368,16 @@
                 Find $s$
         \end{block}
 
-        Classically, we compute
+        Classically, we run $f$ $n$-times by computing
         \begin{flalign*}
-                f(10 \dots 0) & = (s_1 \wedge 1) \oplus \dots \oplus (s_n \wedge 0) 
+                f(1 \dots 0) & = (\alert{s_1} \wedge 1) \oplus \dots \oplus (s_n \wedge 0) 
                 = \alert{s_1} \\
-                f(01 \dots 0) & = (s_1 \wedge 0) \oplus (s_2 \wedge 1) \oplus \dots \oplus
-                (s_n \wedge 0) = \alert{s_2} \\
-                \dots & \\
-                f(00 \dots 1) & = (s_1 \wedge 0) \oplus \dots \oplus 
-                (s_n \wedge 1) = \alert{s_n}
+                & \> \vdots \\
+                f(0 \dots 1) & = (s_1 \wedge 0) \oplus \dots \oplus 
+                (\alert{s_n} \wedge 1) = \alert{s_n}
         \end{flalign*}
 
-        Quantumly, we can discover $s$ by running $f$ only \alert{once}
+        Quantumly, we discover $s$ by running $f$ only \alert{once}
 \end{frame}
 
 \begin{frame}{The Circuit}
@@ -406,7 +405,9 @@
 \end{frame}
 
 \begin{frame}{The Computation}
-       In order to make computations simpler we will omit $\ket{-}$ 
+
+       {\scriptsize
+       \textbf{N.B.} In order to not overburden notation we omit $\ket{-}$ }
        \begin{flalign*}
        & \, H^{\otimes n} \ket{0} & \\
        & = \textstyle{\frac{1}{\sqrt{2^n}}} \sum_{z \in 2^n}  \ket{z} & 
@@ -426,7 +427,7 @@
        \end{flalign*}
 \end{frame}
 
-\begin{frame}{The computation pt. II}
+\begin{frame}{The Computation pt. II}
         Probability of measuring $s$ at the end given by
         \begin{flalign*}
                 & \, \big \lvert \textstyle{\frac{1}{2^n}} 
@@ -444,11 +445,14 @@
                 & = 1
         \end{flalign*}
 
-        This entails that somehow all values yielding wrong answers
-        were cancelled
+        This means that somehow all values yielding wrong answers
+        were completely cancelled
+
+        {\scriptsize \textbf{T.P.C.} Show exactly how all the wrong answers
+        were cancelled}
 \end{frame}
 
-\begin{frame}{Going Further Beyond}
+\begin{frame}{Going Even Further Beyond}
 
         We went from running $f$ $n$ times
         to running just once
@@ -463,7 +467,7 @@
 \section{Deutsch-Josza's problem}
 
 \begin{frame}{Deutsch-Josza}
-        \begin{block}{The problem}
+        \begin{block}{The Problem}
                 Take a function $f : \{0,1\}^n \to \{0,1\}$
 
                 You are promised that $f$ is either constant or balanced
@@ -477,9 +481,9 @@
                 \item output always the same $\Longrightarrow$ constant
                 \item otherwise $\Longrightarrow$ balanced
         \end{itemize}
-        which requires running $f$  $2^{n-1} + 1$ times
+        which requires running $f$  \alert{$2^{n-1} + 1$} times
 
-        Quantumly, we know the answer by runing $f$ only once
+        Quantumly, we know the answer by running $f$ only \alert{once}
 \end{frame}
 
 \begin{frame}{The Circuit}
@@ -507,7 +511,9 @@
 \end{frame}
 
 \begin{frame}{The Computation}
-       In order to make computations simpler we will omit $\ket{-}$ 
+
+       {\scriptsize
+       \textbf{N.B.} In order to not overburden notation we omit $\ket{-}$ }
        \begin{flalign*}
        & \, H^{\otimes n} \ket{0} & \\
        & = \textstyle{\frac{1}{\sqrt{2^n}}} \sum_{z \in 2^n}  \ket{z} & 
@@ -519,19 +525,19 @@
        \Big ) &  
        \text{\{Theorem slide 18\}} 
        \end{flalign*}
-       We then proceed by case distinction. Assume that $f$ is constant:
+       We then proceed by case distinction. Assume that $f$ is constant
        \begin{flalign*}
                & \, \textstyle{\frac{1}{2^n}} 
                \sum_{z \in 2^n} (-1)^{f(z)} 
                \Big ( \sum_{z' \in 2^n} (-1)^{z \cdot z'} \ket{z'} \Big ) & \\ 
                & =  
-               \textstyle{\frac{1}{2^n}} (\pm 1)
+               \textstyle{\frac{1}{2^n}} \alert{(\pm 1)}
                \sum_{z \in 2^n}  
                \Big ( \sum_{z' \in 2^n} (-1)^{z \cdot z'} \ket{z'} \Big ) &
        \end{flalign*}
 \end{frame}
 
-\begin{frame}{The computation pt. II}
+\begin{frame}{The Computation pt. II}
         Probability of measuring $\ket{0}$ at the end given by
         \begin{flalign*}
                 & \, \big \lvert \textstyle{\frac{1}{2^n}} (\pm 1)
@@ -549,48 +555,45 @@
         \end{flalign*}
 
         So if $f$ is constant we measure $\ket{0}$ with probability $1$. Now if
-        $f$ is balanced \dots
+        $f$ is balanced\dots
 \end{frame}
 
-\begin{frame}{The computation pt. III}
-        \vspace{-0.8cm}
-        \small{
+\begin{frame}{The Computation pt. III}
         \begin{flalign*}
                &\, \textstyle{\frac{1}{2^n}} \sum_{z \in 2^n} (-1)^{f(z)} \Big ( \sum_{z'
                 \in 2^n} (-1)^{z \cdot z'} \ket{z'} \Big ) &  \\
-               & = \textstyle{\frac{1}{2^n}} \Big (\sum_{z \in 2^n, f(z) = 0} 
+               & = \textstyle{\frac{1}{2^n}} \bigg (\sum_{z \in 2^n, \alert{f(z) = 0}} 
                (-1)^{f(z)} \Big ( \sum_{z' \in 2^n} (-1)^{z \cdot z'} \ket{z'} \Big ) & \\
                & \qquad +
-               \textstyle{\sum_{z \in 2^n, f(z) = 1}}
+               \textstyle{\sum_{z \in 2^n, \alert{f(z) = 1}}}
                (-1)^{f(z)} \Big ( \sum_{z'
-               \in 2^n} (-1)^{z \cdot z'} \ket{z'} \Big )  \Big ) \\
-               & = \textstyle{\frac{1}{2^n}} \Big (\sum_{z \in 2^n, f(z) = 0} 
+               \in 2^n} (-1)^{z \cdot z'} \ket{z'} \Big )  \bigg ) \\
+               & = \textstyle{\frac{1}{2^n}} \bigg (\sum_{z \in 2^n, f(z) = 0} 
                \Big ( \sum_{z' \in 2^n} (-1)^{z \cdot z'} \ket{z'} \Big ) & \\
                & \qquad +
                \textstyle{\sum_{z \in 2^n, f(z) = 1}}
                (-1) \Big ( \sum_{z'
-               \in 2^n} (-1)^{z \cdot z'} \ket{z'} \Big )  \Big ) 
+               \in 2^n} (-1)^{z \cdot z'} \ket{z'} \Big )  \bigg ) 
         \end{flalign*}
-        }
+\end{frame}
+\begin{frame}{The Computation pt. IV}
         Probability of measuring $\ket{0}$ at the end given by
-        \small{
         \begin{flalign*}
                 & \, \Big \lvert \textstyle{\frac{1}{2^n}} \Big (\sum_{z \in 2^n, f(z) = 0} 
                (-1)^{z \cdot 0} \ket{0} +
                \textstyle{\sum_{z \in 2^n, f(z) = 1}}
-               (-1)(-1)^{z \cdot 0} \ket{0} \Big ) \big \rvert^2
+               (-1)(-1)^{z \cdot 0} \ket{0} \Big ) \Big \rvert^2
                & \\
                & = \Big \lvert \textstyle{\frac{1}{2^n}} \Big (\sum_{z \in 2^n, f(z) = 0} 
                \ket{0} +
                \textstyle{\sum_{z \in 2^n, f(z) = 1}}
-               (-1)\ket{0} \Big ) \big \rvert^2 & \\
+               (-1)\ket{0} \Big ) \Big \rvert^2 & \\
                & = \Big \lvert \textstyle{\frac{1}{2^n}} \Big (\sum_{z \in 2^n, f(z) = 0} 
                \ket{0} -
                \textstyle{\sum_{z \in 2^n, f(z) = 1}}
-               \ket{0} \Big ) \big \rvert^2 & \\
+               \ket{0} \Big ) \Big \rvert^2 & \\
                 & = 0
         \end{flalign*}
-        }
         So if $f$ is balanced we measure $\ket{0}$ with probability $0$
 \end{frame}
 
