@@ -597,4 +597,215 @@
         So if $f$ is balanced we measure $\ket{0}$ with probability $0$
 \end{frame}
 
+\section{Simon's problem}
+
+\begin{frame}{Revisiting Deutsch-Josza}
+        \begin{block}{The Problem}
+                Take a function $f : \{0,1\}^n \to \{0,1\}$.
+                You are promised that $f$ is either constant or balanced
+
+                Find out which case holds
+        \end{block}
+        
+        Classically, evaluate half of the inputs ($\frac{2^{n}}{2} = 2^{n-1}$),
+        evaluate one more and run the decision procedure,
+        \begin{itemize}
+                \item output always the same $\Longrightarrow$ constant
+                \item otherwise $\Longrightarrow$ balanced
+        \end{itemize}
+
+        Quantumly, we know the answer by running $f$ only one time 
+
+        \pause
+        But the story does not end here\ \dots
+\end{frame}
+
+\begin{frame}{Visiting Deutsch-Josza Probabilistically}
+
+        To solve the problem with \alert{some margin of error} we evaluate
+        two arbitrary inputs $x$ and $y$,
+        \begin{itemize}
+                \item $f(x) = f(y) \Longrightarrow$ constant
+                \item $f(x) \not = f(y) \Longrightarrow$ balanced
+        \end{itemize}
+        \pause
+        Probability of giving the right answer?
+
+        \pause
+        \begin{itemize}
+                \item $f$ is constant $\Longrightarrow$  right answer
+                        with 100\% accuracy
+                \item $f$ is balanced $\Longrightarrow$ prb of 
+                        $f(x) \not = f(y)$ is 
+                        $\frac{2^{n-1}}{2^n} = \alert{\frac{1}{2}}$
+        \end{itemize}
+
+        \pause
+        Can we do better?
+\end{frame}
+
+\begin{frame}{Visiting Deutsch-Josza Probabilistically pt. II}
+
+        To solve the problem with \alert{some margin of error} we evaluate
+        $k$ arbitrary inputs $x_1,\dots,x_k$,
+        \begin{itemize}
+                \item output always the same  $\Longrightarrow$ constant
+                \item otherwise $\Longrightarrow$ balanced
+        \end{itemize}
+        \pause
+        Probability of giving the right answer?
+
+        \pause
+        \begin{itemize}
+                \item $f$ is constant $\Longrightarrow$  right answer
+                        with 100\% accuracy
+                \item $f$ is balanced $\Longrightarrow$ prb of 
+                        $f(x_i) \not = f(x_k)$  for some $x_i$ and $x_k$ is 
+                        $(\frac{2^{n-1}}{2^n})^k = \alert{\frac{1}{2^k}}$
+        \end{itemize}
+
+        \pause
+        Thus with a small margin of error we determine in \alert{polynomial
+        time} whether $f$ is constant or balanced
+\end{frame}
+
+\begin{frame}{Simon}
+        \begin{block}{The Problem}
+                Take a 2-1 function $f : \{0,1\}^n \to \{0,1\}^n$
+
+                You are promised the existence of a string $s \in \{0,1\}^n$
+                s.t.  $f(x) = f(y) \Rightarrow y = x \oplus s$
+
+                Find out $s$
+        \end{block}
+
+        Classically, evaluate inputs until a collision is detected, \ie\
+        $f(x) = f(y)$ for some $x,y$. Then compute $x \oplus y =
+        x \oplus (x \oplus s) = s$
+
+        Since $f$
+        is 2-1 after collecting $2^{n-1}$ evaluations the next evaluation must
+        collide with one evaluation in the collection
+
+        Thus in the worst case we need $2^{n-1} + 1$ evaluations
+\end{frame}
+
+\begin{frame}{Simon's Problem Probabilistically}
+
+        Probabilistically, to detect a collision with probability $p =
+        \frac{1}{k} \leq \frac{1}{2}$ we need around
+        \[
+                \tikzmark{z1} \sqrt{2 \cdot 2^n \cdot p} \tikzmark{z2} = 
+                \textstyle{\sqrt{\frac{2}{k} \cdot 2^n} }
+                = \alert{\sqrt{\frac{2}{k}} \cdot 2^{\frac{n}{2}}}
+        \]
+        evaluations
+
+       \begin{tikzpicture}[overlay,remember picture,
+       box/.style = {rounded corners},
+       pin edge={-Stealth,thick, red}]
+       \coordinate (z1) at ($({pic cs:z1})+(+0.5ex, 1.5ex)$);
+       \coordinate (z2) at ($({pic cs:z2})+(-0.5ex,-0.5ex)$);
+       \node[semitransparent, 
+             fit=(z1) (z2),
+             pin=below:\tiny{See the Birthday's problem}]  {};
+       \end{tikzpicture}
+
+       Quantumly, we can solve the problem in \alert{polynomial time}
+       with high probability
+\end{frame}
+
+\begin{frame}{Simon's Algorithm (Key Steps)}
+        \begin{itemize}
+                \item Prepare superposition $\frac{1}{\sqrt{2}}(\ket{x} +
+                        \ket{x \oplus s})$ for random $x$
+                \item Use \alert{interference} to extract a string $y$ such that
+                        $y \cdot s = 0$
+                \item Repeat this process $n-1$ times to obtain $n-1$ linear
+                        equations such that $y \cdot s = 0$
+                \item Solve for $s$ using \tikzmark{a1}Gaussian elimination\tikzmark{a2}
+        \end{itemize}
+       \begin{tikzpicture}[overlay,remember picture,
+       box/.style = {rounded corners},
+       pin edge={-Stealth,thick, red}]
+       \coordinate (a1) at ($({pic cs:a1})+(+0.5ex, 1.5ex)$);
+       \coordinate (a2) at ($({pic cs:a2})+(-0.5ex,-0.5ex)$);
+       \node[semitransparent, 
+             fit=(a1) (a2),
+             pin=below:\tiny{Complexity $n^3$}]  {};
+       \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Simon's Algorithm (Preparing the Superposition)}
+        \begin{center}
+                        \begin{quantikz}[transparent]
+                                \lstick{\ket{0}} &[4mm] \gate{H^{\otimes n}} \qwbundle{n}
+                                & \gate[wires=2]{U_f}  
+                                & \qw 
+                                & \qw \\
+                                \lstick{$\mathbf{\ket{0}}$}
+                                & \qwbundle{n} \qw & & \meter{} & \qw 
+                        \end{quantikz}
+        \end{center} 
+        Recall $U_f \ket{x} \ket{y} = \ket{x} \ket{ y \oplus f(x) }$. Then,
+        \begin{flalign*}
+        & U_f (H^{\otimes n} \otimes I) \ket{0}\ket{0} & \\
+        & = U_f \textstyle{\frac{1}{\sqrt{2^n}}} \textstyle{\sum_{x \in 2^n}} \ket{x} \ket{0} & \\
+        & = \textstyle{\frac{1}{\sqrt{2^n}}} \textstyle{\sum_{x \in 2^n}} \ket{x} \ket{f(x)} 
+        &
+        \end{flalign*}
+        We then measure the $n$-bottom qubits to obtain a superposition
+        \[
+               \textstyle{\frac{1}{\sqrt{2}}} (\ket{x} + \ket{x \oplus s})
+        \]
+\end{frame}
+
+\begin{frame}{Simon's Algorithm (Extracting a String)}
+        \begin{center}
+                        \begin{quantikz}[transparent]
+                                \lstick{\ket{\psi}} &[4mm] \gate{H^{\otimes n}} \qwbundle{n}
+                                & \qw 
+                                & \qw \qwbundle{n}
+                        \end{quantikz}
+        \end{center} 
+        \begin{flalign*}
+        & \, H^{\otimes n} \textstyle{\frac{1}{\sqrt{2}}} (\ket{x} + \ket{x \oplus s}) & \\
+        & = \textstyle{\frac{1}{\sqrt{2^{n+1}}}} 
+        \sum_{y \in 2^n} (-1)^{x \cdot y} \ket{y} + (-1)^{(x \oplus s) \cdot y} \ket{y} 
+        &\text{\{Theorem slide 18\}}\\
+        & =  \textstyle{\frac{1}{\sqrt{2^{n+1}}}} 
+        \sum_{y \in 2^n} (-1)^{x \cdot y} \ket{y} + (-1)^{x \cdot y \oplus  s \cdot y} \ket{y} 
+        &\text{\{Lemma slide 17\}} \\
+        & =  \textstyle{\frac{1}{\sqrt{2^{n+1}}}} 
+        \sum_{y \in 2^n} (-1)^{x \cdot y} \ket{y} + (-1)^{x \cdot y} 
+        (-1)^{s \cdot y} \ket{y} 
+        &\text{\{Lemma slide 16\}} \\
+        & =  \textstyle{\frac{1}{\sqrt{2^{n+1}}}} 
+        \sum_{y \in 2^n} (-1)^{x \cdot y} (\alert{1 +(-1)^{s \cdot y}}) \ket{y} 
+        &
+        \end{flalign*}
+
+        Note the destructive interference whenever $s \cdot y = 1$. In fact we can
+        only observe $\ket{y}$ s.t. $s \cdot y = 0$
+\end{frame}
+
+\begin{frame}{The Circuit}
+        \begin{center}
+                        \begin{quantikz}[transparent]
+                                \lstick{\ket{0}} &[4mm] \gate{H^{\otimes n}} \qwbundle{n}                                            \gategroup[wires=2,steps=3,style={dashed,
+                                rounded corners,fill=blue!10, inner xsep=0.2pt},background]
+                                {\tiny{state preparation}} 
+                                &[4mm] \gate[wires=2]{U_f}  
+                                &[4mm] \qw 
+                                &[4mm] \gate{H^{\otimes n}} \qw 
+                                \gategroup[wires=1,steps=1,style={dashed,
+                                rounded corners,fill=blue!10, inner xsep=0.2pt},background]
+                                {\tiny{string extraction by intr. of intrf.}} 
+                                & \qw \\
+                                \lstick{$\mathbf{\ket{0}}$}
+                                & \qwbundle{n} \qw & & \meter{} & \qw & \qw
+                        \end{quantikz}
+        \end{center} 
+\end{frame}
+
 \end{document}
