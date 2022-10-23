@@ -800,12 +800,95 @@
                                 &[4mm] \gate{H^{\otimes n}} \qw 
                                 \gategroup[wires=1,steps=1,style={dashed,
                                 rounded corners,fill=blue!10, inner xsep=0.2pt},background]
-                                {\tiny{string extraction by intr. of intrf.}} 
+                                {\tiny{string extraction by intro. of intrf.}} 
                                 & \qw \\
                                 \lstick{$\mathbf{\ket{0}}$}
                                 & \qwbundle{n} \qw & & \meter{} & \qw & \qw
                         \end{quantikz}
         \end{center} 
 \end{frame}
+
+\begin{frame}{Simon's Algorithm (Solving the System)}
+
+        A system of $(n-1)$ \alert{linearly independent} equations of the form
+        \[
+                \begin{cases}
+                        y_1 \cdot s = 0 \\
+                        \dots \\
+                        y_{(n-1)} \cdot s = 0
+                \end{cases}
+        \]
+        has two solutions 
+
+        One is $s = 0$ but it conflicts with the 2-1 promise. Only
+        the other solution is of interest
+
+        \pause
+        What is the probability of obtaining such a system of equations
+        by running the circuit $n-1$ times?
+\end{frame}
+
+\begin{frame}{Simon's Algorithm (Solving the System)}
+
+        \textbf{Homewrk:} If $s \not = 0$ then for half of the inputs $y$ we
+        have $y \cdot s = 0$ and for the other half $y \cdot s = 1$. Then:
+
+        \begin{tabular}{|c | c | c| }
+                \hline 
+                \# & Possibilities of failure at each step &  Probability of failure 
+                \\
+                \hline
+                1. & $\{0\}$ & $\frac{2^0}{2^{n-1}}$ \\
+                \hline 
+                2. & $\{0,y_1\}$ & $\frac{2^1}{2^{n-1}}$ \\
+                \hline 
+                3. & $\{0,y_1,y_2,y_1 \oplus y_2\}$ & $\frac{2^2}{2^{n-1}}$  \\
+                \hline
+                \dots & \dots & \dots \\
+                \hline
+                n-1. &  $\{0,y_1,y_2, y_3 \dots \}$ &  $\frac{2^{n-2}}{2^{n-1}}$ \\
+                \hline
+        \end{tabular}
+\end{frame}
+
+\begin{frame}{Simon's Algorithm (Solving the System)}
+
+       \begin{tabular}{|c | c | c| }
+                \hline 
+                \# & Possibilities of failure at each step &  Probability of failure 
+                \\
+                \hline
+                1. & $\{0\}$ & $\frac{2^0}{2^{n-1}}$ \\
+                \hline 
+                2. & $\{0,y_1\}$ & $\frac{2^1}{2^{n-1}}$ \\
+                \hline 
+                3. & $\{0,y_1,y_2,y_1 \oplus y_2\}$ & $\frac{2^2}{2^{n-1}}$  \\
+                \hline
+                \dots & \dots & \dots \\
+                \hline
+                n-1. &  $\{0,y_1,y_2, y_3 \dots \}$ &  $\frac{2^{n-2}}{2^{n-1}} = \frac{1}{2}$ \\
+                \hline
+        \end{tabular}
+
+        We thus obtain the sequence of probabilities of failure
+        \[
+                \frac{1}{2}, \frac{1}{4}, \frac{1}{8}, \dots, \frac{1}{2^{n-1}}
+        \]
+        We then deduce that the probability of failing in the first $n-2$ steps
+        \[
+                \frac{1}{4} + \frac{1}{8} + \dots \leq
+                \frac{1}{4} \cdot \left ( \sum_{i \in \mathbb{N}} \frac{1}{2^i} \right )
+                = \frac{1}{2}
+        \]
+\end{frame}
+
+\begin{frame}{Simon's Algorithm (Solving the System)}
+
+       The probability of not failing in the first $n-2$ steps is thus $\frac{1}{2}$ and
+       the probability of not failing the in $n-1$ step is $\frac{1}{2}$ 
+
+       We thus deduce that the probability of not failing is at least $\frac{1}{4}$.
+\end{frame}
+
 
 \end{document}
