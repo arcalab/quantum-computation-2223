@@ -601,29 +601,29 @@
 
 \begin{frame}{Revisiting Deutsch-Josza}
         \begin{block}{The Problem}
-                Take a function $f : \{0,1\}^n \to \{0,1\}$.
-                You are promised that $f$ is either constant or balanced
+                Take a function $f : \{0,1\}^{\alert{n}} \to \{0,1\}$.
+                The latter  either constant or balanced
 
                 Find out which case holds
         \end{block}
         
-        Classically, evaluate half of the inputs ($\frac{2^{n}}{2} = 2^{n-1}$),
+        Classically, evaluate half of the inputs ($\frac{2^{n}}{2} = \alert{2^{n-1}}$),
         evaluate one more and run the decision procedure,
         \begin{itemize}
                 \item output always the same $\Longrightarrow$ constant
                 \item otherwise $\Longrightarrow$ balanced
         \end{itemize}
 
-        Quantumly, we know the answer by running $f$ only one time 
+        Quantumly, we know the answer by running $f$ only \alert{once}
 
         \pause
-        But the story does not end here\ \dots
+        However \dots
 \end{frame}
 
-\begin{frame}{Visiting Deutsch-Josza Probabilistically}
+\begin{frame}{Tackling Deutsch-Josza with Probabilities}
 
-        To solve the problem with \alert{some margin of error} we evaluate
-        two arbitrary inputs $x$ and $y$,
+        To solve the problem with \alert{some margin of error} evaluate
+        two \alert{arbitrary} inputs $x$ and $y$,
         \begin{itemize}
                 \item $f(x) = f(y) \Longrightarrow$ constant
                 \item $f(x) \not = f(y) \Longrightarrow$ balanced
@@ -633,10 +633,9 @@
 
         \pause
         \begin{itemize}
-                \item $f$ is constant $\Longrightarrow$  right answer
-                        with 100\% accuracy
-                \item $f$ is balanced $\Longrightarrow$ prb of 
-                        $f(x) \not = f(y)$ is 
+                \item $f$ is constant $\Longrightarrow$ right answer
+                        with probability $1$ 
+                \item $f$ is balanced $\Longrightarrow$ right answer with probability
                         $\frac{2^{n-1}}{2^n} = \alert{\frac{1}{2}}$
         \end{itemize}
 
@@ -644,9 +643,9 @@
         Can we do better?
 \end{frame}
 
-\begin{frame}{Visiting Deutsch-Josza Probabilistically pt. II}
+\begin{frame}{Tackling Deutsch-Josza with Probabilities pt. II}
 
-        To solve the problem with \alert{some margin of error} we evaluate
+        To solve the problem with \alert{some margin of error} evaluate
         $k$ arbitrary inputs $x_1,\dots,x_k$,
         \begin{itemize}
                 \item output always the same  $\Longrightarrow$ constant
@@ -657,74 +656,91 @@
 
         \pause
         \begin{itemize}
-                \item $f$ is constant $\Longrightarrow$  right answer
-                        with 100\% accuracy
-                \item $f$ is balanced $\Longrightarrow$ prb of 
-                        $f(x_i) \not = f(x_k)$  for some $x_i$ and $x_k$ is 
-                        $(\frac{2^{n-1}}{2^n})^k = \alert{\frac{1}{2^k}}$
+                \item $f$ is constant $\Longrightarrow$ right answer
+                        with probability $1$ 
+                \item $f$ is balanced $\Longrightarrow$ right answer
+                        with probability \dots
+                        \[
+                                \textstyle{ 1-  
+                                \tikzmark{r1} \Big (\frac{2^{n-1}}{2^n} \Big)^k \tikzmark{r2}
+                                = \alert{1 - \frac{1}{2^k}}
+                                }
+                        \]
         \end{itemize}
 
-        \pause
-        Thus with a small margin of error we determine in \alert{polynomial
-        time} whether $f$ is constant or balanced
+
+        \begin{tikzpicture}[overlay,remember picture,
+        box/.style = {rounded corners},
+        pin edge={-Stealth,thick, red}]
+        \coordinate (r1) at ($({pic cs:r1})+(+0.5ex, 1.5ex)$);
+        \coordinate (r2) at ($({pic cs:r2})+(-0.5ex,-0.5ex)$);
+        \node[semitransparent, 
+             fit=(r1) (r2),
+             pin=below:\tiny{Probability of observing the same output in $k$ tries}]  {};
+       \end{tikzpicture}
 \end{frame}
 
 \begin{frame}{Simon}
         \begin{block}{The Problem}
-                Take a 2-1 function $f : \{0,1\}^n \to \{0,1\}^n$
+                Take a \alert{2-1} function $f : \{0,1\}^{\alert{n}} \to \{0,1\}^{\alert{n}}$
 
-                You are promised the existence of a string $s \in \{0,1\}^n$
+                There exists a string $s \in \{0,1\}^n$
                 s.t.  $f(x) = f(y) \Rightarrow y = x \oplus s$
 
                 Find out $s$
         \end{block}
 
-        Classically, evaluate inputs until a collision is detected, \ie\
+        Classically, evaluate inputs until collision is detected, \ie\
         $f(x) = f(y)$ for some $x,y$. Then compute $x \oplus y =
         x \oplus (x \oplus s) = s$
 
-        Since $f$
-        is 2-1 after collecting $2^{n-1}$ evaluations the next evaluation must
-        collide with one evaluation in the collection
+        Since $f$ is 2-1, after collecting $2^{n-1}$ evaluations with no
+        collisions, next evaluation must cause a collision
 
-        Thus in the worst case we need $2^{n-1} + 1$ evaluations
+        So in the worst case we need $\alert{2^{n-1} + 1}$ evaluations
 \end{frame}
 
-\begin{frame}{Simon's Problem Probabilistically}
+\begin{frame}{Tackling Simon with Probabilities}
 
-        Probabilistically, to detect a collision with probability $p =
-        \frac{1}{k} \leq \frac{1}{2}$ we need around
+        How many evaluations do we need to have a collision
+        with probability $p$?
+
+        \pause
+        To have a collision with probability $p =
+        \frac{1}{k} \leq \frac{1}{2}$ we need  
         \[
-                \tikzmark{z1} \sqrt{2 \cdot 2^n \cdot p} \tikzmark{z2} = 
+                \approx \tikzmark{z1} \sqrt{(2 \cdot 2^n) \cdot p} \tikzmark{z2} = 
                 \textstyle{\sqrt{\frac{2}{k} \cdot 2^n} }
-                = \alert{\sqrt{\frac{2}{k}} \cdot 2^{\frac{n}{2}}}
+                = \sqrt{\frac{2}{k}} \cdot \alert{2^{\frac{n}{2}}}
+                \quad \text{evaluations}
         \]
-        evaluations
 
-       \begin{tikzpicture}[overlay,remember picture,
-       box/.style = {rounded corners},
-       pin edge={-Stealth,thick, red}]
-       \coordinate (z1) at ($({pic cs:z1})+(+0.5ex, 1.5ex)$);
-       \coordinate (z2) at ($({pic cs:z2})+(-0.5ex,-0.5ex)$);
-       \node[semitransparent, 
-             fit=(z1) (z2),
-             pin=below:\tiny{See the Birthday's problem}]  {};
-       \end{tikzpicture}
+        \begin{tikzpicture}[overlay,remember picture,
+        box/.style = {rounded corners},
+        pin edge={-Stealth,thick, red}]
+        \coordinate (z1) at ($({pic cs:z1})+(+0.5ex, 1.5ex)$);
+        \coordinate (z2) at ($({pic cs:z2})+(-0.5ex,-0.5ex)$);
+        \node[semitransparent, 
+              fit=(z1) (z2),
+              pin=below:\tiny{See the Birthday's problem}]  {};
+        \end{tikzpicture}
 
-       Quantumly, we can solve the problem in \alert{polynomial time}
-       with high probability
+        \pause
+        But quantumly, we solve the problem in \alert{\underline{polynomial time}} with
+        probability $\approx \textstyle{\frac{1}{4}}$
 \end{frame}
 
-\begin{frame}{Simon's Algorithm (Key Steps)}
-        \begin{itemize}
+\begin{frame}{Simon's Algorithm: The Key Steps}
+       \begin{enumerate}
                 \item Prepare superposition $\frac{1}{\sqrt{2}}(\ket{x} +
-                        \ket{x \oplus s})$ for random $x$
-                \item Use \alert{interference} to extract a string $y$ such that
+                        \ket{x \oplus s})$ for some string $x$
+                \item Use \alert{\underline{interference}} to extract a string $y$ s.t.
                         $y \cdot s = 0$
-                \item Repeat this process $n-1$ times to obtain $n-1$ linear
-                        equations such that $y \cdot s = 0$
-                \item Solve for $s$ using \tikzmark{a1}Gaussian elimination\tikzmark{a2}
-        \end{itemize}
+                \item Repeat previous steps $\alert{n-1}$ times to obtain system of 
+                        equations s.t. $y_k \cdot s = 0$
+                \item Solve the system for $s$ using 
+                        \tikzmark{a1}Gaussian elimination\tikzmark{a2}
+       \end{enumerate}
        \begin{tikzpicture}[overlay,remember picture,
        box/.style = {rounded corners},
        pin edge={-Stealth,thick, red}]
@@ -736,7 +752,7 @@
        \end{tikzpicture}
 \end{frame}
 
-\begin{frame}{Simon's Algorithm (Preparing the Superposition)}
+\begin{frame}{Simon's Algorithm: Preparing the Superposition}
         \begin{center}
                         \begin{quantikz}[transparent]
                                 \lstick{\ket{0}} &[4mm] \gate{H^{\otimes n}} \qwbundle{n}
@@ -746,11 +762,16 @@
                                 \lstick{$\mathbf{\ket{0}}$}
                                 & \qwbundle{n} \qw & & \meter{} & \qw 
                         \end{quantikz}
+
+                        {\tiny
+                        \textbf{N.B.} $U_f \ket{x} \ket{y} = \ket{x} \ket{ y \oplus f(x) }$}
         \end{center} 
-        Recall $U_f \ket{x} \ket{y} = \ket{x} \ket{ y \oplus f(x) }$. Then,
         \begin{flalign*}
-        & U_f (H^{\otimes n} \otimes I) \ket{0}\ket{0} & \\
-        & = U_f \textstyle{\frac{1}{\sqrt{2^n}}} \textstyle{\sum_{x \in 2^n}} \ket{x} \ket{0} & \\
+        & \, U_f (H^{\otimes n} \otimes I) \ket{0}\mathbf{\ket{0}} & \\
+        & = U_f \Big ( 
+                \textstyle{\frac{1}{\sqrt{2^n}}} \textstyle{\sum_{x \in 2^n}} \ket{x} 
+                \mathbf{\ket{0}}
+        \Big ) & \\
         & = \textstyle{\frac{1}{\sqrt{2^n}}} \textstyle{\sum_{x \in 2^n}} \ket{x} \ket{f(x)} 
         &
         \end{flalign*}
@@ -760,7 +781,7 @@
         \]
 \end{frame}
 
-\begin{frame}{Simon's Algorithm (Extracting a String)}
+\begin{frame}{Simon's Algorithm: Extracting the String}
         \begin{center}
                         \begin{quantikz}[transparent]
                                 \lstick{\ket{\psi}} &[4mm] \gate{H^{\otimes n}} \qwbundle{n}
@@ -768,6 +789,7 @@
                                 & \qw \qwbundle{n}
                         \end{quantikz}
         \end{center} 
+        \pause
         \begin{flalign*}
         & \, H^{\otimes n} \textstyle{\frac{1}{\sqrt{2}}} (\ket{x} + \ket{x \oplus s}) & \\
         & = \textstyle{\frac{1}{\sqrt{2^{n+1}}}} 
@@ -785,8 +807,9 @@
         &
         \end{flalign*}
 
-        Note the destructive interference whenever $s \cdot y = 1$. In fact we can
-        only observe $\ket{y}$ s.t. $s \cdot y = 0$
+        \pause
+        Destructive interference when $s \cdot y = 1$. We only observe
+        $\ket{y}$ s.t. $s \cdot y = 0$
 \end{frame}
 
 \begin{frame}{The Circuit}
@@ -808,86 +831,109 @@
         \end{center} 
 \end{frame}
 
-\begin{frame}{Simon's Algorithm (Solving the System)}
+\begin{frame}{Simon's Algorithm: Solving the System to Extract $s$}
 
-        A system of $(n-1)$ \alert{linearly independent} equations of the form
+        A system of $n-1$ \alert{linearly independent} equations,
         \[
                 \begin{cases}
                         y_1 \cdot s = 0 \\
                         \dots \\
-                        y_{(n-1)} \cdot s = 0
+                        y_{n-1} \cdot s = 0
                 \end{cases}
         \]
-        has two solutions 
-
-        One is $s = 0$ but it conflicts with the 2-1 promise. Only
-        the other solution is of interest
+        has two solutions.  One is $s = 0$ but it violates the 2-1
+        promise. So only the other solution is of interest
 
         \pause
-        What is the probability of obtaining such a system of equations
+        Probability of obtaining such a system of equations
         by running the circuit $n-1$ times?
 \end{frame}
 
-\begin{frame}{Simon's Algorithm (Solving the System)}
+\begin{frame}{Simon's Algorithm: Probability of Success}
 
-        \textbf{Homewrk:} If $s \not = 0$ then for half of the inputs $y$ we
-        have $y \cdot s = 0$ and for the other half $y \cdot s = 1$. Then:
+        \begin{block}{Homework}
+                If $s \not = 0$ then for half of the inputs $y$ we
+                have $y \cdot s = 0$ and for the other half $y \cdot s = 1$ 
+        \end{block}
 
+        \vfill
         \begin{tabular}{|c | c | c| }
                 \hline 
                 \# & Possibilities of failure at each step &  Probability of failure 
                 \\
                 \hline
-                1. & $\{0\}$ & $\frac{2^0}{2^{n-1}}$ \\
+                $1$ & $\{0\}$ & $\frac{2^0}{2^{n-1}}$ \\
                 \hline 
-                2. & $\{0,y_1\}$ & $\frac{2^1}{2^{n-1}}$ \\
+                $2$ & $\{0,y_1\}$ & $\frac{2^1}{2^{n-1}}$ \\
                 \hline 
-                3. & $\{0,y_1,y_2,y_1 \oplus y_2\}$ & $\frac{2^2}{2^{n-1}}$  \\
+                $3$ & $\{0,y_1,y_2,y_1 \oplus y_2\}$ & $\frac{2^2}{2^{n-1}}$  \\
                 \hline
                 \dots & \dots & \dots \\
                 \hline
-                n-1. &  $\{0,y_1,y_2, y_3 \dots \}$ &  $\frac{2^{n-2}}{2^{n-1}}$ \\
+                $n-1$ &  $\{0,y_1,y_2, y_3 \dots \}$ &  $\frac{2^{n-2}}{2^{n-1}}$ \\
                 \hline
         \end{tabular}
 \end{frame}
 
-\begin{frame}{Simon's Algorithm (Solving the System)}
-
-       \begin{tabular}{|c | c | c| }
+\begin{frame}{Simon's Algorithm: Probability of Success}
+        \begin{center}
+        \scalebox{0.7}{
+        \begin{tabular}{|c | c | c| }
                 \hline 
                 \# & Possibilities of failure at each step &  Probability of failure 
                 \\
                 \hline
-                1. & $\{0\}$ & $\frac{2^0}{2^{n-1}}$ \\
+                $1$ & $\{0\}$ & $\frac{2^0}{2^{n-1}}$ \\
                 \hline 
-                2. & $\{0,y_1\}$ & $\frac{2^1}{2^{n-1}}$ \\
+                $2$ & $\{0,y_1\}$ & $\frac{2^1}{2^{n-1}}$ \\
                 \hline 
-                3. & $\{0,y_1,y_2,y_1 \oplus y_2\}$ & $\frac{2^2}{2^{n-1}}$  \\
+                $3$ & $\{0,y_1,y_2,y_1 \oplus y_2\}$ & $\frac{2^2}{2^{n-1}}$  \\
                 \hline
                 \dots & \dots & \dots \\
                 \hline
-                n-1. &  $\{0,y_1,y_2, y_3 \dots \}$ &  $\frac{2^{n-2}}{2^{n-1}} = \frac{1}{2}$ \\
+                $n-1$ &  $\{0,y_1,y_2, y_3 \dots \}$ &  $\frac{2^{n-2}}{2^{n-1}}$ \\
                 \hline
         \end{tabular}
+        }
+        \end{center}
 
-        We thus obtain the sequence of probabilities of failure
+        Table yields the sequence of probabilities of failure,
         \[
-                \frac{1}{2}, \frac{1}{4}, \frac{1}{8}, \dots, \frac{1}{2^{n-1}}
+                \textstyle{
+                        \frac{1}{2}, \frac{1}{4}, \frac{1}{8}, \dots, \frac{1}{2^{n-1}}
+                }
+                \qquad
+                \text{ (from bottom to top) }
         \]
-        We then deduce that the probability of failing in the first $n-2$ steps
+        Probability of failing in the first $n-2$ steps is thus 
         \[
-                \frac{1}{4} + \frac{1}{8} + \dots \leq
-                \frac{1}{4} \cdot \left ( \sum_{i \in \mathbb{N}} \frac{1}{2^i} \right )
+                \textstyle{
+                \frac{1}{4} + \frac{1}{8} + \dots = 
+                \frac{1}{4} \Big (1 + \frac{1}{4} + \dots \Big ) \alert{\leq}
+                \frac{1}{4} \cdot \left ( \tikzmark{s1} \sum_{i \in \mathbb{N}} \frac{1}{2^i}
+                \tikzmark{s2} \right )
                 = \frac{1}{2}
+                }
         \]
+        \begin{tikzpicture}[overlay,remember picture,
+        box/.style = {rounded corners},
+        pin edge={-Stealth,thick, red}]
+        \coordinate (s1) at ($({pic cs:s1})+(+0.5ex, 1.5ex)$);
+        \coordinate (s2) at ($({pic cs:s2})+(-0.5ex,-0.5ex)$);
+        \node[semitransparent, 
+             fit=(s1) (s2),
+             pin=below:\tiny{Geometric series whose sum is equal to two}]  {};
+       \end{tikzpicture}
+
 \end{frame}
 
-\begin{frame}{Simon's Algorithm (Solving the System)}
+\begin{frame}{Simon's Algorithm: Probability of Success}
 
-       The probability of not failing in the first $n-2$ steps is thus $\frac{1}{2}$ and
-       the probability of not failing the in $n-1$ step is $\frac{1}{2}$ 
+       Probability of succeeding in the first $n-2$ steps at least $\frac{1}{2}$
 
-       We thus deduce that the probability of not failing is at least $\frac{1}{4}$.
+       Probability of succeeding in the $(n-1)$th step is $\frac{1}{2}$
+
+       Probability of succeeding in all $n-1$ steps therefore at least $\alert{\frac{1}{4}}$
 \end{frame}
 
 
