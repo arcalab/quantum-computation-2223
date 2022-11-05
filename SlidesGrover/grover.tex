@@ -1,0 +1,302 @@
+\documentclass{beamer}
+\usepackage{etex} % fixes new-dimension error
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{mathtools}
+\input{macros}
+%-------------- template --------------------------------------------------
+\usetheme{metropolis}
+\metroset{block=fill}
+%\usetheme{Boadilla}
+% Configuring the foot line
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.4\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertshortauthor
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertsection
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.1\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+% No configuration symbols
+\setbeamertemplate{navigation symbols}{}
+%--------------- packages -------------------------------------------------
+\usepackage{graphicx,amsmath}
+\usepackage{stmaryrd} % cf. interleave
+\usepackage{booktabs}
+\usepackage{amscd}
+\usepackage{multicol}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{alltt}
+\usepackage{proof}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{quantikz}
+\usepackage[new]{old-arrows}
+\usepackage[all]{xy}
+\usepackage{pgfplots}
+\usepackage{textcomp}
+\usetikzlibrary{arrows.meta, calc, fit, tikzmark}
+\usepackage{pstricks,pst-node,pst-text,pst-3d}
+% context
+\AtBeginSection[]
+{
+    \begin{frame}
+        \frametitle{Table of Contents}
+        \tableofcontents[currentsection]
+    \end{frame}
+}
+
+\author[Renato Neves]{Renato Neves}
+
+% logos of institutions
+\titlegraphic{
+  \begin{textblock*}{5cm}(6.7cm,7.45cm)
+     \includegraphics[scale=0.06]{logos/uminho.png}\hspace*{.85cm}~%
+  \end{textblock*}
+  \begin{textblock*}{5cm}(9.4cm,7.42cm)
+    \includegraphics[scale=0.50]{logos/haslab.pdf}
+  \end{textblock*}
+}
+
+% No date
+\date{}
+
+\begin{document}
+
+\title{Quantum Search}
+
+\frame[plain]{\titlepage}
+
+\section{Overview}
+
+\begin{frame}{Grover's Problem}
+
+        \begin{block}{The Problem}
+        Take a function $f : \{0,1\}^n \to \{0,1\}$
+
+        One $x \in \{0,1\}^n$ such that $f(x) = 1$ 
+
+        Discover the $x$  
+        \end{block}
+
+        Classically, need to evaluate $f$ $2^n$ times in the worst case 
+        \pause
+
+        \pause
+        Quantumly, need to evaluate $f$ around \alert{$\sqrt{2^n}$} times
+\end{frame}
+
+\begin{frame}{Applications}
+        Grover's problem occurs in a multitude of scenarios
+        \begin{itemize}
+                \item Searching through unstructured databases
+                \item Finding passwords
+                \item Route planning
+                \item Solving SAT problems
+                \item \alert{NP-problems in general}
+        \end{itemize}
+\end{frame}
+
+\begin{frame}{Key Ideas}
+
+        Like in all previous quantum algorithms, we will rely on
+        \begin{itemize}
+        \item superposition
+        \item and interference (to reduce the amplitude of wrong
+                answers and increase amplitude of right ones)
+        \end{itemize}
+\end{frame}
+
+\begin{frame}{Key Ideas: Superposition}
+        \begin{center}
+                Take $f : \{0,1\}^2 \to \{0,1\}$ with $f(\alert{10}) = 1$
+        
+                \vspace{0.5cm}
+        \scalebox{0.7}{
+        \begin{tikzpicture}
+        \begin{axis}[
+                ybar,
+                ymax=1,
+                ymin=0,
+                symbolic x coords = {00,01,10,11},
+                enlarge x limits=0.2
+        ]
+        \addplot+ coordinates {(00, 0.5) (01, 0.5) (10, 0.5) (11, 0.5)};
+        \end{axis}
+        \end{tikzpicture}
+        }
+
+        $\frac{1}{2} \big (\ket{00} + \ket{01} + \alert{\ket{10}} + \ket{11} \big )$
+        \end{center}
+\end{frame}
+
+\begin{frame}{Key Ideas: Interference pt. I}
+        \begin{center}
+               Inversion about the mean: ($x \mapsto (-x +  mean) + mean$)
+
+                \vspace{0.4cm}
+                \hspace{-1cm}
+        \scalebox{0.7}{
+        \begin{tikzpicture}
+        \begin{axis}[
+                ybar,
+                ymax=1,
+                ymin=0,
+                symbolic x coords = {00,01,10,11},
+                enlarge x limits=0.2,
+                extra y ticks       = 0.3535,
+                extra y tick labels = \small{mean},
+                extra y tick style  = { grid = major }
+        ]
+        \addplot+ coordinates {(00, 0.707) (01, 0) (10, 0) (11, 0.707)};  
+        \legend{before}
+        \end{axis}
+        \end{tikzpicture}
+        \begin{tikzpicture}
+        \begin{axis}[
+                ybar,
+                ymax=1,
+                ymin=0,
+                symbolic x coords = {00,01,10,11},
+                enlarge x limits=0.2,
+                extra y ticks       = 0.3535,
+                extra y tick labels = \small{mean},
+                extra y tick style  = { grid = major }
+        ]
+        \addplot+ coordinates {(00, 0) (01, 0.7070) (10, 0.7070) (11, 0)};  
+        \legend{after}
+        \end{axis}
+        \end{tikzpicture}
+        }
+
+        Intuitively mass of some states was given to others
+        \end{center}
+\end{frame}
+
+\begin{frame}{Key Ideas: Interference pt. II}
+        \begin{center}
+              Mind the following particular case of inversion about the mean 
+
+                \vspace{0.4cm}
+                \hspace{-1cm}
+        \scalebox{0.7}{
+        \begin{tikzpicture}
+        \begin{axis}[
+                ybar,
+                ymax=1,
+                ymin=-0.5,
+                symbolic x coords = {00,01,10,11},
+                enlarge x limits=0.2,
+                extra y ticks       = {0.25,0},
+                extra y tick labels = {\small{mean},{}},
+                extra y tick style  = { grid = major }
+        ]
+        \addplot+ coordinates {(00, 0.5) (01, 0.5) (10, -0.5) (11, 0.5)};  
+        \legend{before}
+        \end{axis}
+        \end{tikzpicture}
+        \begin{tikzpicture}
+        \begin{axis}[
+                ybar,
+                ymax=1,
+                ymin=-0.5,
+                symbolic x coords = {00,01,10,11},
+                enlarge x limits=0.2,
+                extra y ticks       = {0.25,0},
+                extra y tick labels = {\small{mean},{}},
+                extra y tick style  = { grid = major }
+        ]
+        \addplot+ coordinates {(00, 0.0) (01, -0.0) (10, 1) (11, 0.0)};  
+        \legend{after}
+        \end{axis}
+        \end{tikzpicture}
+        }
+        
+        Intuitively, mass of wrong answers was given to the right one 
+        \end{center}
+
+\end{frame}
+
+\section{Putting the previous concepts into practice}
+
+\begin{frame}{The Steps}
+        \begin{enumerate}
+                \item Put all possible answers in uniform superposition
+                \item All \alert{local phases} to the \alert{right answers}
+                \item Invert about the mean
+                \item Repeat steps $2$ and $3$ until ensured we will
+                        measure the right answer with high probability
+                        ($\approx \sqrt{2^n}$ times)
+        \end{enumerate}
+\end{frame}
+
+\begin{frame}{The Circuit}
+
+        \begin{center}
+                \hspace{0.5cm}
+                        \begin{quantikz}[transparent]
+                                \lstick{\ket{0}} &[5mm] \gate{H^{\otimes n}} \qwbundle{n} 
+                                \gategroup[wires=1,steps=1,style={dashed,
+                                rounded corners,fill=blue!10, inner xsep=0.2pt},background]
+                                {\tiny{parallelism}}
+                                & \gate[wires=2]{U_f} \gategroup[wires=2,steps=1,style={dashed,
+                                rounded corners,fill=blue!10, inner xsep=0.2pt}, 
+                                label style={label position = 
+                                below, yshift=-0.4cm},background]
+                                {\tiny{introduction of local phases}}
+                                & \gate{H^{\otimes n}} 
+                                \gategroup[wires=1,steps=3,style={dashed,
+                                rounded corners,fill=blue!10, inner xsep=0.2pt},background]{
+                                \tiny{inversion about the mean}}
+                                & \gate{P} & \gate{H^{\otimes n}} & \qw & \dots \\
+                                \tikzmark{x1} \lstick{$\ket{-}$} \tikzmark{x2}
+                                & \qw & & \qw & \qw & \qw & \qw & \dots
+                        \end{quantikz}
+        \end{center} 
+
+        \begin{tikzpicture}[overlay,remember picture,
+        box/.style = {rounded corners},
+        pin edge={-Stealth,thick, red}]
+        \coordinate (x1) at ($({pic cs:x1})+(+0.0ex, 1.5ex)$);
+        \coordinate (x2) at ($({pic cs:x2})+(-5.5ex,-1.5ex)$);
+        \node[semitransparent, 
+             fit=(x1) (x2),
+             pin=below:\tiny{Eigenvector of $U_f$ with $-1$ as eigenvalue}]  {};
+       \end{tikzpicture}
+
+       {\scriptsize
+       \textbf{N.B.} It is often convenient to omit the bottom qubit}
+
+\end{frame}
+
+\begin{frame}{Adding Local Phases}
+
+        Recall from last lectures the notion of phase
+        kickback and that
+        \[
+                U_f \ket{x} \ket{-} = (-1)^{f(x)} \ket{x} \ket{-}
+        \]
+        
+        In particular, if $x$ is as \alert{solution} of $f$ we obtain a \alert{phase flip}
+        \[
+                U_f \ket{x} \ket{-} = (-1) \ket{x} \ket{-}
+        \]
+
+\end{frame}
+
+\begin{frame}{Inversion About the Mean pt. I}
+        We start with the operation that phase flips
+        add basis states different from $\ket{0}$
+        \[
+                P = 2 \ket{0}\bra{0} - I
+        \]
+\end{frame}
+\end{document}
