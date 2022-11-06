@@ -294,9 +294,56 @@
 
 \begin{frame}{Inversion About the Mean pt. I}
         We start with the operation that phase flips
-        add basis states different from $\ket{0}$
+        basis states different from $\ket{0}$
         \[
                 P = 2 \ket{0}\bra{0} - I
         \]
+        Then we calculate
+        \begin{flalign*}
+             &\,   H^{\otimes n} (2 \ket{0} \bra{0} - I) H^{\otimes n} & \\
+             & = (H^{\otimes n} (2 \ket{0} \bra{0}) - H^{\otimes n}) H^{\otimes n} & \\
+             & = H^{\otimes n} (2 \ket{0} \bra{0}) H^{\otimes n} - H^{\otimes n} H^{\otimes n} & \\
+             & = 2 H^{\otimes n} \ket{0} \bra{0} H^{\otimes n} - I
+        \end{flalign*}
+        Denoting $H^{\otimes n} \ket{0}$ by $\ket{\psi}$ we obtain,
+        \[
+                2 \ket{\psi} \bra{\psi} - I
+        \]
 \end{frame}
+
+\begin{frame}{Inversion About the Mean pt. II}
+
+        \begin{enumerate}
+
+                \item Prove that $\ket{\psi}\bra{\psi} = \frac{1}{N} \sum_{x,y
+                        \in N} \ket{x}\bra{y}$
+
+                \item Prove that $2\ket{\psi}\bra{\psi} -
+                          I$ is the desired inversion about the mean
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Inversion About the Mean pt. III}
+
+        \begin{flalign*}
+                & \,\textstyle{ \Big (2 \frac{1}{N} \sum_{x,y \in N} \ket{x} \bra{y} - I \Big ) 
+                \sum_{k \in N} \alpha_k \ket{k} } & \\
+                & = \textstyle { 2 \frac{1}{N} \sum_{x,y \in N} \ket{x}\bra{y} 
+                \Big ( \sum_{k \in N} \alpha_k \ket{k} \Big ) - \sum_k \alpha_k \ket{k} } &  \\
+                & = \textstyle { 2 \frac{1}{N} \sum_{x,y \in N} 
+                \Big ( \sum_{k \in N} \alpha_k \langle y,k \rangle \ket{x} \Big ) - 
+                \sum_k \alpha_k \ket{k} } & \\
+                & = \textstyle { 2 \frac{1}{N} \sum_{x,y \in N} 
+                \alpha_y \ket{x} - 
+                \sum_k \alpha_k \ket{k} } & \\
+                & = \textstyle { 
+                        2 \underbrace{\frac{1}{N} \sum_{y \in N} \alpha_y}_{\text{\alert{mean} - } \alpha} 
+                        \sum_{x \in N}  \ket{x} - \sum_k \alpha_k \ket{k} } & \\
+                & = \textstyle { 
+                \sum_{x \in N} 2 \alert{\alpha}  \ket{x} - \sum_k \alpha_k \ket{k} } &  \\
+                & = \textstyle { 
+        \sum_{k \in N} (- \alpha_k + 2 \alert{\alpha}) \ket{k} } &  
+        \end{flalign*}
+\end{frame}
+
 \end{document}
