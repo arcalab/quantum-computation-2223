@@ -346,4 +346,122 @@
         \end{flalign*}
 \end{frame}
 
+\begin{frame}{Example: $N = 2^3 = 8, w = 011$}
+        \scalebox{0.7}{
+                \hspace{-0.5cm}
+        \begin{tikzpicture}
+        \begin{axis}[
+                ybar,
+                ymax=1,
+                ymin=0,
+                symbolic x coords = {000,001,010,011,100,101,110,111},
+                enlarge x limits=0.035
+        ]
+        \addplot+ coordinates {(000, 0.3535) (001, 0.3535) (010, 0.3535) (011, 0.3535)
+                (100,0.3535) (101,0.3535) (110,0.3535) (111,0.3535)};  
+        \legend{uniform superposition}
+        \end{axis}
+        \end{tikzpicture}
+        \begin{tikzpicture}
+        \begin{axis}[
+                ybar,
+                ymax=0.5,
+                ymin=-0.5,
+                extra y ticks       = {0.26,0},
+                extra y tick labels = {\small{mean},{}},
+                extra y tick style  = { grid = major },
+                symbolic x coords = {000,001,010,011,100,101,110,111},
+                enlarge x limits=0.035
+        ]
+        \addplot+ coordinates {(000, 0.3535) (001, 0.3535) (010, 0.3535) (011, -0.3535)
+                (100,0.3535) (101,0.3535) (110,0.3535) (111,0.3535)};  
+        \legend{after oracle}
+        \end{axis}
+        \end{tikzpicture}
+
+}
+ 
+\end{frame}
+
+\begin{frame}{Example: $N = 2^3 = 8, w = 011$}
+        \scalebox{0.7}{
+                \hspace{-0.6cm}
+        \begin{tikzpicture}
+        \begin{axis}[
+                ybar,
+                ymax=0.5,
+                ymin=-0.5,
+                extra y ticks       = {0.26,0},
+                extra y tick labels = {\small{mean},{}},
+                extra y tick style  = { grid = major },
+                symbolic x coords = {000,001,010,011,100,101,110,111},
+                enlarge x limits=0.035
+        ]
+        \addplot+ coordinates {(000, 0.3535) (001, 0.3535) (010, 0.3535) (011, -0.3535)
+                (100,0.3535) (101,0.3535) (110,0.3535) (111,0.3535)};  
+        \legend{after oracle}
+        \end{axis}
+        \end{tikzpicture}
+        \begin{tikzpicture}
+        \begin{axis}[
+                ybar,
+                ymax=1,
+                ymin=0,
+                extra y ticks       = {0},
+                symbolic x coords = {000,001,010,011,100,101,110,111},
+                enlarge x limits=0.035
+        ]
+        \addplot+ coordinates {(000, 0.176) (001, 0.176) (010, 0.176) (011, 0.88)
+                (100,0.176) (101,0.176) (110,0.176) (111,0.176)};  
+        \legend{inversion}
+        \end{axis}
+        \end{tikzpicture}
+
+}
+ 
+\end{frame}
+
+\begin{frame}{Example: $N = 2^3 = 8, w = 011$}
+        \scalebox{0.7}{
+                \hspace{-0.7cm}
+       \begin{tikzpicture}
+        \begin{axis}[
+                ybar,
+                ymax=1,
+                ymin=-1,
+                extra y ticks       = {0.044,0},
+                extra y tick labels = {\small{mean},{}},
+                extra y tick style  = { grid = major },
+                symbolic x coords = {000,001,010,011,100,101,110,111},
+                enlarge x limits=0.035
+        ]
+        \addplot+ coordinates {(000, 0.176) (001, 0.176) (010, 0.176) (011, -0.88)
+                (100,0.176) (101,0.176) (110,0.176) (111,0.176)};  
+        \legend{after oracle}
+        \end{axis}
+        \end{tikzpicture}
+        \begin{tikzpicture}
+        \begin{axis}[
+                ybar,
+                ymax=1,
+                ymin=-1,
+                extra y ticks       = {0},
+                extra y tick labels = {{}},
+                extra y tick style  = { grid = major },
+                symbolic x coords = {000,001,010,011,100,101,110,111},
+                enlarge x limits=0.035
+        ]
+        \addplot+ coordinates {(000, -0.088) (001, -0.088) (010, -0.088) (011, 0.972)
+                (100,-0.088) (101,-0.088) (110,-0.088) (111,-0.088)};  
+        \legend{inversion}
+        \end{axis}
+        \end{tikzpicture}
+
+}
+ 
+        \vspace{0.5cm}
+        At the end probability of measuring $011$ is $\approx 94.5\%$
+\end{frame}
+
+
 \end{document}
