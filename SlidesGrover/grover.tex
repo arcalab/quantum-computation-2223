@@ -43,7 +43,7 @@
 \usepackage[all]{xy}
 \usepackage{pgfplots}
 \usepackage{textcomp}
-\usetikzlibrary{arrows.meta, calc, fit, tikzmark}
+\usetikzlibrary{arrows.meta, calc, fit, tikzmark, fillbetween}
 \usepackage{pstricks,pst-node,pst-text,pst-3d}
 % context
 \AtBeginSection[]
@@ -80,9 +80,9 @@
 \begin{frame}{Grover's Problem}
 
         \begin{block}{The Problem}
-        Take a function $f : \{0,1\}^n \to \{0,1\}$
+                Take a function $f : \{0,1\}^{\alert{n}} \to \{0,1\}$
 
-        One $x \in \{0,1\}^n$ such that $f(x) = 1$ 
+        There exists one $x \in \{0,1\}^{\alert{n}}$ such that $f(x) = 1$ 
 
         Discover the $x$  
         \end{block}
@@ -101,18 +101,18 @@
                 \item Finding passwords
                 \item Route planning
                 \item Solving SAT problems
-                \item \alert{NP-problems in general}
+                \item \alert{NP}-problems in general
         \end{itemize}
 \end{frame}
 
 \begin{frame}{Key Ideas}
 
         Like in all previous quantum algorithms, we will rely on
-        \begin{itemize}
+        \begin{enumerate}
         \item superposition
-        \item and interference (to reduce the amplitude of wrong
-                answers and increase amplitude of right ones)
-        \end{itemize}
+        \item interference (to decrease amplitude of wrong
+                answers and increase amplitude of the right ones)
+        \end{enumerate}
 \end{frame}
 
 \begin{frame}{Key Ideas: Superposition}
@@ -134,13 +134,13 @@
         \end{tikzpicture}
         }
 
-        $\frac{1}{2} \big (\ket{00} + \ket{01} + \alert{\ket{10}} + \ket{11} \big )$
+        $\frac{1}{2} \Big (\ket{00} + \ket{01} + \alert{\ket{10}} + \ket{11} \Big )$
         \end{center}
 \end{frame}
 
 \begin{frame}{Key Ideas: Interference pt. I}
         \begin{center}
-               Inversion about the mean: ($x \mapsto (-x +  mean) + mean$)
+                Inversion about the \alert{\underline{mean}}: ($x \mapsto (-x +  mean) + mean$)
 
                 \vspace{0.4cm}
                 \hspace{-1cm}
@@ -225,14 +225,14 @@
 
 \end{frame}
 
-\section{Putting the previous concepts into practice}
+\section{Putting inversion into practice}
 
 \begin{frame}{The Steps}
         \begin{enumerate}
                 \item Put all possible answers in uniform superposition
-                \item All \alert{local phases} to the \alert{right answers}
+                \item Negate \alert{phases} of the \alert{right answer}
                 \item Invert about the mean
-                \item Repeat steps $2$ and $3$ until ensured we will
+                \item \alert{Repeat} steps $2$ and $3$ until ensured we will
                         measure the right answer with high probability
                         ($\approx \sqrt{2^n}$ times)
         \end{enumerate}
@@ -241,7 +241,9 @@
 \begin{frame}{The Circuit}
 
         \begin{center}
-                \hspace{0.5cm}
+                \hspace{0.2cm}
+                \begin{tikzpicture}
+                  \node{
                         \begin{quantikz}[transparent]
                                 \lstick{\ket{0}} &[5mm] \gate{H^{\otimes n}} \qwbundle{n} 
                                 \gategroup[wires=1,steps=1,style={dashed,
@@ -256,10 +258,22 @@
                                 \gategroup[wires=1,steps=3,style={dashed,
                                 rounded corners,fill=blue!10, inner xsep=0.2pt},background]{
                                 \tiny{inversion about the mean}}
-                                & \gate{P} & \gate{H^{\otimes n}} & \qw & \dots \\
+                                & \gate{P} & \gate{H^{\otimes n}} & \qw  \\
                                 \tikzmark{x1} \lstick{$\ket{-}$} \tikzmark{x2}
-                                & \qw & & \qw & \qw & \qw & \qw & \dots
+                                & \qw & & \qw & \qw & \qw & \qw 
                         \end{quantikz}
+                };
+                    \draw [
+                    thick,
+                    decoration={
+                        brace,
+                        mirror,
+                        raise=0.5cm
+                    },
+                    decorate
+                    ] (-1.1,-1.2) -- (4,-1.2) 
+                    node [pos=0.5,anchor=north,yshift=-0.55cm] {run $\sqrt{N}$ times};
+              \end{tikzpicture}
         \end{center} 
 
         \begin{tikzpicture}[overlay,remember picture,
@@ -294,7 +308,7 @@
 
 \begin{frame}{Inversion About the Mean pt. I}
         We start with the operation that phase flips
-        basis states different from $\ket{0}$
+        basis states different from $\ket{0}$, \ie\
         \[
                 P = 2 \ket{0}\bra{0} - I
         \]
@@ -316,7 +330,7 @@
         \begin{enumerate}
 
                 \item Prove that $\ket{\psi}\bra{\psi} = \frac{1}{N} \sum_{x,y
-                        \in N} \ket{x}\bra{y}$
+                        \in N} \ket{x}\bra{y}$ with $N = 2^n$
 
                 \item Prove that $2\ket{\psi}\bra{\psi} -
                           I$ is the desired inversion about the mean
@@ -463,5 +477,49 @@
         At the end probability of measuring $011$ is $\approx 94.5\%$
 \end{frame}
 
+\section{Grover's performance}
+
+\begin{frame}{Setting the Stage pt. I}
+
+        In order to further analyse Grover's algorithm, it is useful to take a
+        \alert{$2$-dimensional geometrical} perspective
+        
+        \pause
+        Take the vectors \alert{$\ket{w}$} and $\alert{\ket{r}} =
+        \frac{1}{\sqrt{N-1}} \sum_{x \not = w} \ket{x}$. We obtain a
+        $2$-dimensional vector space with orthonormal basis
+        $\{\ket{w},\ket{r}\}$
+
+        \pause
+        Additionally, the uniform superposition $\ket{\psi}$ can be rewritten
+        as
+        \[
+                \textstyle{
+                \frac{1}{\sqrt{N}} \ket{w} + \sqrt{\frac{N-1}{N}} \ket{r}
+        }
+        \]
+
+        \pause
+        This gives \dots
+\end{frame}
+
+\begin{frame}{Setting the Stage pt. II}
+
+        \begin{center}
+        \begin{tikzpicture}[scale=0.5]
+            \draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+            \draw[->] (-5,0)--(5,0) node[right]{$\ket{r}$};
+            \draw[->] (0,-5)--(0,5) node[above]{$\ket{w}$};
+            \draw[name path=fr, blue,->,line width = 0.25mm] (0,0) -- (3,2) 
+                    node[left]{$\ket{\psi}$};
+            \path[name path=circ] (0,0) circle (2);
+            \draw[red, ->, intersection segments={of=circ and fr, sequence=L1}];
+            \node[red] at (2.3,0.7) {$\frac{\theta}{2}$};
+        \end{tikzpicture}
+        \end{center}
+
+        where $\sin(\frac{\theta}{2}) = \frac{1}{\sqrt{N}}$. Our goal is to rotate
+        the vector to become \alert{as close as possible} to $\ket{w}$
+\end{frame}
 
 \end{document}
