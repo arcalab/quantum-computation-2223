@@ -1,17 +1,18 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>Quantum Computation 2022/23</title>		
+  <title>Quantum Computation 2022/23</title>
 
-	<meta name="description" content="Quantum Computation 22/23">
-	<meta name="keywords" content="Quantum computing">
-	<meta name="author" content="Renato Neves" >
-	
-<!-- 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" /> -->
+  <meta name="description" content="Quantum Computation 22/23">
+  <meta name="keywords" content="Quantum computing">
+  <meta name="author" content="Renato Neves">
+
+  <!-- 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" /> -->
   <link href="extra/css/bootstrap-bw.min.css" rel="stylesheet" media="screen">
   <link href="extra/css/main.css" rel="stylesheet">
 
@@ -21,214 +22,232 @@
 <body>
 
 
-<div class="navbar navbar-default navbar-fixed-top"> <!-- navbar-fixed-top -->
-  <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-    <a class="navbar-brand" href="index.html">
-<!--     AC -->
-    </a>
-  </div>
-  <div class="navbar-collapse collapse navbar-responsive-collapse">
-    <ul class="nav navbar-nav" id="myTab">
-      <li class="active"><a href="#">Home</a></li>
-  		<li><a href="#programa">Syllabus</a></li>
-	  	<li><a href="#material">Summaries</a></li>
-      <li><a href="#biblio">Bibliography</a></li>
+  <div class="navbar navbar-default navbar-fixed-top">
+    <!-- navbar-fixed-top -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">
+        <!--     AC -->
+      </a>
+    </div>
+    <div class="navbar-collapse collapse navbar-responsive-collapse">
+      <ul class="nav navbar-nav" id="myTab">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#programa">Syllabus</a></li>
+        <li><a href="#material">Summaries</a></li>
+        <li><a href="#biblio">Bibliography</a></li>
         <li><a href="#funcionamento">Pragmatics</a></li>
-    </ul>
-  </div>
-</div>
-
-
- 
-<div class="splash">
-	<h2 class="splash-title">Quantum Computation 2022-23</h2>
-	<h4 class="splash-subtitle">M.Sc. in Physics Engineering </h4>
-  <h4 class="splash-subtitle">Informatics Department, University of Minho</h4>
+      </ul>
+    </div>
   </div>
 
 
-<div id="myTabContent" class="container">
-<div class="bs-component">
+
+  <div class="splash">
+    <h2 class="splash-title">Quantum Computation 2022-23</h2>
+    <h4 class="splash-subtitle">M.Sc. in Physics Engineering </h4>
+    <h4 class="splash-subtitle">Informatics Department, University of Minho</h4>
+  </div>
+
+
+  <div id="myTabContent" class="container">
+    <div class="bs-component">
 
 
 
-<!--~~~~~~~~~~~~~~~~~~~~~~~-->
-<h2>Learning Outcomes</h2>
+      <!--~~~~~~~~~~~~~~~~~~~~~~~-->
+      <h2>Learning Outcomes</h2>
 
-<p>
-On successful completion  of the course students should be able,
-<p>
+      <p>
+        On successful completion of the course students should be able,
+      <p>
 
-<ul>
-        <li> 
-                to understand basic concepts of computability and computational complexity;
+      <ul>
         <li>
-                to understand basic concepts and techniques in quantum algorithmics;
+          to understand basic concepts of computability and computational complexity;
         <li>
-                to  design and analyse quantum algorithms;
+          to understand basic concepts and techniques in quantum algorithmics;
         <li>
-                to implement and run quantum algorithms in the Qiskit open-source 
-                software development kit.
-</ul>
-</p>
+          to design and analyse quantum algorithms;
+        <li>
+          to implement and run quantum algorithms in the Qiskit open-source
+          software development kit.
+      </ul>
+      </p>
 
-<!--~~~~~~~~~~~~~~~~~~~~~~~-->
+      <!--~~~~~~~~~~~~~~~~~~~~~~~-->
 
-<!--~~~~~~~~~~~~~~~~~~~~~~~-->
-<div id="programa"></div>
-<h2>Syllabus</h2>
+      <!--~~~~~~~~~~~~~~~~~~~~~~~-->
+      <div id="programa"></div>
+      <h2>Syllabus</h2>
 
-<ul>
-<li> <strong> Computability and  complexity </strong>
-<ul>
-  <li> Mathematical backgound: sets, orders, groups. 
-  <li> Turing machines and computability. 
-  <li> Computational complexity. Algorithms and complexity classes. 
-  <li> Complexity in quantum computation.
-</ul> 
-<li> <strong> Quantum computation and algorithms</strong>
-<ul>
-  <li> The quantum computational model (gates, measurements, and circuits).
-  <li> Introduction to quantum algorithms.
-  <li> Algorithms based on phase amplification.
-  <li> Algorithms based on the quantum Fourier transform.
-  <li> Case studies in quantum algorithmics.
-</ul> 
-<li>
-    <strong> Quantum  programming</strong>
-    <ul>
-        <li> Quantum programming in Qiskit and other tools.
-    </ul>
-</ul>
-
-
-
-<!--~~~~~~~~~~~~~~~~~~~~~~~-->
-<div id="material"></div>
-<h2>Summaries (2022-23)</h2>
-
-<h5> T Lectures</h5>
-
-<table style="width:100%">
-<tr>
-        <td><strong>Sep 19 (09:00 - 11:00)</strong></td>
-        <td>Introduction to the course and its dynamics (<a href="intro.pdf">slides</a>)</td>
-</tr>
-<tr>
-        <td><strong>Sep 26 (09:00 - 11:00)</strong></td>
-        <td>A first glimpse of quantum algorithmics: superposition, quantum interference, 
-                and Deutsch's algorithm
-              (<a href="introAlg.pdf">slides</a>)</td>
-</tr>
-<tr>
-        <td><strong>Oct 03 (09:00 - 11:00)</strong></td>
-        <td>Continuation of the previous lecture. Basic aspects of entanglement 
-              (<a href="introEnt.pdf">slides</a>)</td>
-</tr>
-<tr>
-        <td><strong>Oct 10 (09:00 - 11:00)</strong></td>
-        <td> Continuation of the previous lecture. Quantum teleportation 
-              (<a href="introEnt.pdf">slides</a>)</td>
-</tr>
-<tr>
-        <td><strong>Oct 17 (09:00 - 11:00)</strong></td>
-        <td> The phase kickback effect. Bernstein-Vazirani's algorithm and Deutsch-Josza's algorithm
-              (<a href="expSep.pdf">slides</a>)</td>
-</tr>
-<tr>
-        <td><strong>Oct 24 (11:00 - 13:00)</strong></td>
-        <td> Simon's algorithm
-              (<a href="expSep.pdf">slides</a>)</td>
-</tr>
-<tr>
-        <td><strong>Nov 07 (09:00-11:00)</strong></td>
-        <td> Grover's algorithm and its geometrical representation (<a href="grover.pdf">slides</a>)</td>
-</tr>
+      <ul>
+        <li> <strong> Computability and complexity </strong>
+          <ul>
+            <li> Mathematical backgound: sets, orders, groups.
+            <li> Turing machines and computability.
+            <li> Computational complexity. Algorithms and complexity classes.
+            <li> Complexity in quantum computation.
+          </ul>
+        <li> <strong> Quantum computation and algorithms</strong>
+          <ul>
+            <li> The quantum computational model (gates, measurements, and circuits).
+            <li> Introduction to quantum algorithms.
+            <li> Algorithms based on phase amplification.
+            <li> Algorithms based on the quantum Fourier transform.
+            <li> Case studies in quantum algorithmics.
+          </ul>
+        <li>
+          <strong> Quantum programming</strong>
+          <ul>
+            <li> Quantum programming in Qiskit and other tools.
+          </ul>
+      </ul>
 
 
-</table>
 
-<h5> TP Lectures </h5>
+      <!--~~~~~~~~~~~~~~~~~~~~~~~-->
+      <div id="material"></div>
+      <h2>Summaries (2022-23)</h2>
 
-<table style="width:100%">
-<tr>
-  <td><strong>Sep 19 (11:00 - 13:00)</strong></td>
-  <td>Algebra of quantum operations (<a href="LectureNotesTP\01 - Algebra of quantum operations\class01.pdf" target="_blank" rel="noopener noreferrer">Exercises 1</a>)</td>
-</tr>
-<tr>
-  <td><strong>Sep 26 (11:00 - 13:00)</strong></td>
-  <td>Quantum circuit formalism; Quantum projects (<a href="LectureNotesTP\02 - Quantum circuit formalism\class02.pdf" target="_blank" rel="noopener noreferrer"> Exercises 2</a>)</td>
-</tr>
-<tr>
-  <td><strong>Oct 3 (11:00-13:00)</strong></td>
-  <td>Quantum Operations and Simulations in Qiskit (<a href="LectureNotesTP\03 - Qiskit Intro\class03.ipynb" target="_blank" rel="noopener noreferrer"> Exercises 3</a>)</td>
-</tr>
-<tr>
-  <td><strong>Oct 10 (11:00-13:00)</strong></td>
-  <td>IBM Q and Superdense Coding (<a href="LectureNotesTP\04 - IBMQ and Dense Coding\class04.ipynb" target="_blank" rel="noopener noreferrer">Exercises 4</a>)</td>
-</tr>
-<tr>
-  <td><strong>Oct 24 (09:00-11:00)</strong></td>
-  <td>The Deutsch-Jozsa Algorithm; Simulate Real Devices(<a href="LectureNotesTP/05 - Deutsch-Jozsa/class05.ipynb" target="_blank" rel="noopener noreferrer">Exercises 5</a>)</td>
-</tr>
-<tr>
-  <td><strong>Oct 31 (09:00-11:00)</strong></td>
-  <td>Bernstein-Vazirani Algorithm; Measurement Errors Mitigation (<a href="LectureNotesTP/06 - Bernstein-Vazirani/class06.ipynb" target="_blank" rel="noopener noreferrer">Exercises 6</a>)</td>
-</tr>
-<tr>
-  <td><strong>Oct 31 (11:00-13:00)</strong></td>
-  <td>Simon's Algorithm; C<sup>n</sup>NOT decomposition (<a href="LectureNotesTP/07 - Simon/class07.ipynb" target="_blank" rel="noopener noreferrer">Exercises 7</a>)</td>
-</tr>
-<tr>
-  <td><strong>Nov 07 (11:00-13:00)</strong></td>
-  <td>Grover's Algorithm (<a href="LectureNotesTP/08 - Grover/class08.zip" target="_blank" rel="noopener noreferrer">Exercises</a>)</td>
-</tr>
-</table>
-    <!--~~~~~~~~~~~~~~~~~~~~~~~-->
-    <div id="biblio"></div>
-    <h2>Bibliography</h2>
+      <h5> T Lectures</h5>
+
+      <table style="width:100%">
+        <tr>
+          <td><strong>Sep 19 (09:00 - 11:00)</strong></td>
+          <td>Introduction to the course and its dynamics (<a href="intro.pdf">slides</a>)</td>
+        </tr>
+        <tr>
+          <td><strong>Sep 26 (09:00 - 11:00)</strong></td>
+          <td>A first glimpse of quantum algorithmics: superposition, quantum interference,
+            and Deutsch's algorithm
+            (<a href="introAlg.pdf">slides</a>)</td>
+        </tr>
+        <tr>
+          <td><strong>Oct 03 (09:00 - 11:00)</strong></td>
+          <td>Continuation of the previous lecture. Basic aspects of entanglement
+            (<a href="introEnt.pdf">slides</a>)</td>
+        </tr>
+        <tr>
+          <td><strong>Oct 10 (09:00 - 11:00)</strong></td>
+          <td> Continuation of the previous lecture. Quantum teleportation
+            (<a href="introEnt.pdf">slides</a>)</td>
+        </tr>
+        <tr>
+          <td><strong>Oct 17 (09:00 - 11:00)</strong></td>
+          <td> The phase kickback effect. Bernstein-Vazirani's algorithm and Deutsch-Josza's algorithm
+            (<a href="expSep.pdf">slides</a>)</td>
+        </tr>
+        <tr>
+          <td><strong>Oct 24 (11:00 - 13:00)</strong></td>
+          <td> Simon's algorithm
+            (<a href="expSep.pdf">slides</a>)</td>
+        </tr>
+        <tr>
+          <td><strong>Nov 07 (09:00-11:00)</strong></td>
+          <td> Grover's algorithm and its geometrical representation (<a href="grover.pdf">slides</a>)</td>
+        </tr>
 
 
-    <h5> Computability and Computational Complexity </h5>
-    <ul>
+      </table>
+
+      <h5> TP Lectures </h5>
+
+      <table style="width:100%">
+        <tr>
+          <td><strong>Sep 19 (11:00 - 13:00)</strong></td>
+          <td>Algebra of quantum operations (<a href="LectureNotesTP\01 - Algebra of quantum operations\class01.pdf"
+              target="_blank" rel="noopener noreferrer">Exercises 1</a>)</td>
+        </tr>
+        <tr>
+          <td><strong>Sep 26 (11:00 - 13:00)</strong></td>
+          <td>Quantum circuit formalism; Quantum projects (<a
+              href="LectureNotesTP\02 - Quantum circuit formalism\class02.pdf" target="_blank"
+              rel="noopener noreferrer"> Exercises 2</a>)</td>
+        </tr>
+        <tr>
+          <td><strong>Oct 3 (11:00-13:00)</strong></td>
+          <td>Quantum Operations and Simulations in Qiskit (<a href="LectureNotesTP\03 - Qiskit Intro\class03.ipynb"
+              target="_blank" rel="noopener noreferrer"> Exercises 3</a>)</td>
+        </tr>
+        <tr>
+          <td><strong>Oct 10 (11:00-13:00)</strong></td>
+          <td>IBM Q and Superdense Coding (<a href="LectureNotesTP\04 - IBMQ and Dense Coding\class04.ipynb"
+              target="_blank" rel="noopener noreferrer">Exercises 4</a>)</td>
+        </tr>
+        <tr>
+          <td><strong>Oct 24 (09:00-11:00)</strong></td>
+          <td>The Deutsch-Jozsa Algorithm; Simulate Real Devices(<a
+              href="LectureNotesTP/05 - Deutsch-Jozsa/class05.ipynb" target="_blank" rel="noopener noreferrer">Exercises
+              5</a>)</td>
+        </tr>
+        <tr>
+          <td><strong>Oct 31 (09:00-11:00)</strong></td>
+          <td>Bernstein-Vazirani Algorithm; Measurement Errors Mitigation (<a
+              href="LectureNotesTP/06 - Bernstein-Vazirani/class06.ipynb" target="_blank"
+              rel="noopener noreferrer">Exercises 6</a>)</td>
+        </tr>
+        <tr>
+          <td><strong>Oct 31 (11:00-13:00)</strong></td>
+          <td>Simon's Algorithm; C<sup>n</sup>NOT decomposition (<a href="LectureNotesTP/07 - Simon/class07.ipynb"
+              target="_blank" rel="noopener noreferrer">Exercises 7</a>)</td>
+        </tr>
+        <tr>
+          <td><strong>Nov 07 (11:00-13:00)</strong></td>
+          <td>Grover's Algorithm (<a href="LectureNotesTP/08 - Grover/class08.zip" target="_blank"
+              rel="noopener noreferrer">Exercises</a>)</td>
+        </tr>
+        <tr>
+          <td><strong>Nov 12 (11:00-13:00)</strong></td>
+          <td>Grover's Algorithm - Part 2 (<a href="LectureNotesTP/09 - Grover2/class09.ipynb" target="_blank" 
+              rel="noopener noreferrer">Exercises</a>)</td>
+        </tr>
+      </table>
+      <!--~~~~~~~~~~~~~~~~~~~~~~~-->
+      <div id="biblio"></div>
+      <h2>Bibliography</h2>
+
+
+      <h5> Computability and Computational Complexity </h5>
+      <ul>
 
         <li>
-            H. R. Lewis and C. H. Papadimitriou. <strong> Elements of the Theory of Computation</strong>. Prentice
-            Hall (2nd Ed), 1997.
+          H. R. Lewis and C. H. Papadimitriou. <strong> Elements of the Theory of Computation</strong>. Prentice
+          Hall (2nd Ed), 1997.
         <li>
-            S. Arora and B. Barak. <strong>Computational Complexity: A Modern Approach</strong>. Cambridge
-            University Press, 2009.
+          S. Arora and B. Barak. <strong>Computational Complexity: A Modern Approach</strong>. Cambridge
+          University Press, 2009.
         </li>
         <li>
-            C. Moore and S. Mertens<strong> The nature of computation</strong>. Oxford
-            University Press, 2011.
+          C. Moore and S. Mertens<strong> The nature of computation</strong>. Oxford
+          University Press, 2011.
         </li>
-    </ul>
+      </ul>
 
 
 
-    <h5> Quantum Computation and Algorithms </h5>
-    <ul>
+      <h5> Quantum Computation and Algorithms </h5>
+      <ul>
 
         <li>
-            M. A. Nielsen and I. L. Chuang. <strong>Quantum Computation and Quantum Information</strong> (10th
-            Anniversary Edition). Cambridge University Press, 2010
+          M. A. Nielsen and I. L. Chuang. <strong>Quantum Computation and Quantum Information</strong> (10th
+          Anniversary Edition). Cambridge University Press, 2010
         <li>
-            E. Rieffel and W. Polak. <strong>Quantum Computing: A Gentle Introduction</strong>. MIT Press, 2011.
+          E. Rieffel and W. Polak. <strong>Quantum Computing: A Gentle Introduction</strong>. MIT Press, 2011.
         <li>
-            F. Kaye, R. Laflamme and M. Mosca. <strong>An Introduction to Quantum Computing</strong>. Oxford University Press, 2007.
+          F. Kaye, R. Laflamme and M. Mosca. <strong>An Introduction to Quantum Computing</strong>. Oxford University
+          Press, 2007.
         <li>
-            N. S. Yanofsky and M. A. Mannucci. <strong>Quantum Computing for Computer Scientists</strong>. Cambridge
-            University Press, 2008.
+          N. S. Yanofsky and M. A. Mannucci. <strong>Quantum Computing for Computer Scientists</strong>. Cambridge
+          University Press, 2008.
         <li>
-            W. Scherer. <strong>Mathematics of Quantum Computing</strong>. Springer, 2019.
-    </ul>
-<!--
+          W. Scherer. <strong>Mathematics of Quantum Computing</strong>. Springer, 2019.
+      </ul>
+      <!--
 <h5> Some extra references on quantum algorithms
   </font><font color="red">    <strong>NEW</strong></font></h5>
 
@@ -253,105 +272,105 @@ On successful completion  of the course students should be able,
 
 
 
-    <h5> Bedtime readings </h5>
-    <ul>
+      <h5> Bedtime readings </h5>
+      <ul>
 
         <li>
-            N. S. Yanofsky. <strong>The Outer Limits of Reason</strong>. MIT Press, 2013.
+          N. S. Yanofsky. <strong>The Outer Limits of Reason</strong>. MIT Press, 2013.
         <li>
-            S. Aaronson. <strong>Quantum Computing since Democritus</strong>. Cambridge
-            University Press, 2013.
+          S. Aaronson. <strong>Quantum Computing since Democritus</strong>. Cambridge
+          University Press, 2013.
         </li>
-	<li>
-	    J. Preskill <strong>Quantum Computing in the NISQ era and beyond</strong>. Quantum 2, 79, 2018.
-	</li>  
-    </ul>
+        <li>
+          J. Preskill <strong>Quantum Computing in the NISQ era and beyond</strong>. Quantum 2, 79, 2018.
+        </li>
+      </ul>
 
 
-    <h5> Links </h5>
-    <ul>
+      <h5> Links </h5>
+      <ul>
         <li><a href="https://complexityzoo.net/Complexity_Zoo">The complexity zoo</a></li>
         <li><a href="http://quantumalgorithmzoo.org/">Quantum Algorithms zoo</a></li>
         <li><a href="https://quantum-computing.ibm.com/composer">IBM Quantum Experience</a></li>
         <li><a href="http://lmf.di.uminho.pt">Our research's group website</a></li>
         <li><a href="https://qiskit.org/textbook/preface.html">Learn Quantum Computation using Qiskit</a></li>
-    </ul>
-   <div id="funcionamento"></div>
-    <h2>Pragmatics</h2>
-
-
-<h5><a name="Docentes"></a> Lecturers </h5>
-<ul>
-        <li>
-                <a href="https://alfa.di.uminho.pt/~nevrenato/">Renato Neves</a>
-        </li>
-        <li>
-                <a href="https://anac.nery.name/">Ana Neri</a>
-        </li>
-</ul>
-
-    <h5><a name="Avaliação"></a> Assessment </h5>
-      <ul>
-              <li> 
-                      Training assignment on programming quantum algorithms (50%)
-                      (Available: 12/12/2022)
-              </li>
-              <li>
-                      Three individual (as)synchronous tests (50%) proposed along
-                      the T lectures
-                      (<a href="tpc1.pdf">test 1</a>)</td>
-              </li>
       </ul>
-    <h5><a name="Contacts"></a> Contact </h5>
+      <div id="funcionamento"></div>
+      <h2>Pragmatics</h2>
 
-    <ul>
-        <li> 
-                Appointments - Renato: Thu, 14:00-18:00 (please send an email the day before).
-        </li>
-        <li> 
-                Email - Renato: nevrenato at gmail dot com 
+
+      <h5><a name="Docentes"></a> Lecturers </h5>
+      <ul>
+        <li>
+          <a href="https://alfa.di.uminho.pt/~nevrenato/">Renato Neves</a>
         </li>
         <li>
-                Appointments - Ana: Wed, 14:00-18:00 (please send an email the day before).
+          <a href="https://anac.nery.name/">Ana Neri</a>
+        </li>
+      </ul>
+
+      <h5><a name="Avaliação"></a> Assessment </h5>
+      <ul>
+        <li>
+          Training assignment on programming quantum algorithms (50%)
+          (Available: 12/12/2022)
         </li>
         <li>
-                Email - Ana: ana dot i dot neri at inesctec dot pt
+          Three individual (as)synchronous tests (50%) proposed along
+          the T lectures
+          (<a href="tpc1.pdf">test 1</a>)</td>
         </li>
-    </ul>
+      </ul>
+      <h5><a name="Contacts"></a> Contact </h5>
 
-    <!--~~~~~~~~~~~~~~~~~~~~~~~-->
-</div> <!-- bs-component -->
-</div> <!-- container -->
+      <ul>
+        <li>
+          Appointments - Renato: Thu, 14:00-18:00 (please send an email the day before).
+        </li>
+        <li>
+          Email - Renato: nevrenato at gmail dot com
+        </li>
+        <li>
+          Appointments - Ana: Wed, 14:00-18:00 (please send an email the day before).
+        </li>
+        <li>
+          Email - Ana: ana dot i dot neri at inesctec dot pt
+        </li>
+      </ul>
 
-<!-- FOOTERS -->
+      <!--~~~~~~~~~~~~~~~~~~~~~~~-->
+    </div> <!-- bs-component -->
+  </div> <!-- container -->
 
-<div class="panel-footer" id="wrapper-footer">
-<div id="footer">
-</div>
-</div>
+  <!-- FOOTERS -->
 
-<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="extra/js/bootstrap.min.js"></script>
-<!-- <script src="../assets/js/bootswatch.js"></script> -->
+  <div class="panel-footer" id="wrapper-footer">
+    <div id="footer">
+    </div>
+  </div>
 
-<script>
+  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="extra/js/bootstrap.min.js"></script>
+  <!-- <script src="../assets/js/bootswatch.js"></script> -->
 
-  $(document).on('click','.navbar-collapse.in',function(e) {
-    if( $(e.target).is('a') && $(e.target).attr('class') != 'dropdown-toggle' ) {
+  <script>
+
+    $(document).on('click', '.navbar-collapse.in', function (e) {
+      if ($(e.target).is('a') && $(e.target).attr('class') != 'dropdown-toggle') {
         $(this).collapse('hide');
-    }
-  });
-  
-  // post-process the tweeter feed.
-  (function ($) {
-    window.setTimeout(function(){
-      $(".twitter-timeline").contents().find(".e-entry-title").attr("style", "color: #666666; font-family: 'Roboto','Helvetica Neue',Helvetica,Arial,sans-serif;");
-    }, 1000);
+      }
+    });
 
-  })(jQuery);
+    // post-process the tweeter feed.
+    (function ($) {
+      window.setTimeout(function () {
+        $(".twitter-timeline").contents().find(".e-entry-title").attr("style", "color: #666666; font-family: 'Roboto','Helvetica Neue',Helvetica,Arial,sans-serif;");
+      }, 1000);
 
-</script>
+    })(jQuery);
+
+  </script>
 
 </body>
-</html>
 
+</html>
