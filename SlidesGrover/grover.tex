@@ -520,6 +520,314 @@
 
         where $\sin(\frac{\theta}{2}) = \frac{1}{\sqrt{N}}$. Our goal is to rotate
         the vector to become \alert{as close as possible} to $\ket{w}$
+
+\end{frame}
+
+
+\begin{frame}{Revisiting the Oracle and Inversion about the Mean}
+
+       In order to analyse Grover's performance it is useful to revisit two
+       operations under the light of the $2$-dimensional vector space spanned
+       by $\{\ket{w},\ket{r}\}$. Namely,
+       \begin{itemize}
+               \item the oracle
+               \item and inversion about the mean operation
+       \end{itemize}
+       
+\end{frame}
+
+\begin{frame}{The Oracle pt. I}
+        Recall that it is defined by
+        \[
+                \begin{cases}
+                        \ket{x} \mapsto \ket{x} & \text{ if } x \not = w \\
+                        \ket{x} \mapsto - \ket{x} & \text{ otherwise }
+                \end{cases}
+        \]
+
+        In particular for the basis $\{\ket{w},\ket{r}\}$ we deduce that 
+        \[
+                \begin{cases}
+                        \ket{w} \mapsto \ket{w} \\
+                        \ket{r} \mapsto \ket{r}
+                \end{cases}
+        \]
+
+        This corresponds to \alert{$2\ket{r}\bra{r} - I$}
+\end{frame}
+
+\usetikzlibrary{angles, arrows.meta, quotes}
+
+\begin{frame}{The Oracle pt. II}
+        In general $\Big (2 \ket{r} \bra{r} - I \Big ) (a \ket{w} + b \ket{r})
+        = - a \ket{w} + b \ket{r}$
+
+        Thus the operation corresponds to \alert{reflection about the $\ket{r}$-axis}
+        \begin{center}
+        \begin{tikzpicture}[scale=0.4]
+            \draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+            \draw[->] (-5,0)--(5,0) coordinate (x)  node[right]{$\ket{r}$};
+            \draw[->] (0,-5)--(0,5) node[above]{$\ket{w}$};
+            \draw[name path=fr, blue,->,line width = 0.25mm] (0,0) -- (3,2) 
+                    node[left]{$v$};
+            \path[name path=circ] (0,0) circle (2);
+            \draw[red, ->, intersection segments={of=circ and fr, sequence=L1}];
+            \node[red] at (2.3,0.7) {$\alpha$};
+            \draw[name path=fr2, blue,->,line width = 0.25mm] (0,0) -- (3,-2) 
+                  coordinate (n)  node[left]{$\Big (2 \ket{r} \bra{r} - I \Big ) v$};
+        \end{tikzpicture}
+        \end{center}
+
+        $\Big (2 \ket{r} \bra{r} - I \Big ) (\sin(\alert{\alpha}) \ket{w} 
+        + \cos(\alert{\alpha}) \ket{r})
+        = \sin(\alert{- \alpha}) \ket{w} + \cos(\alert{-\alpha}) \ket{r}$
+\end{frame}
+
+\begin{frame}{Inversion about the Mean}
+        $2 \ket{\psi} \bra{\psi} - I$ corresponds to reflection
+        around the $\ket{\psi}$-axis
+
+        \begin{center}
+        \begin{tikzpicture}[scale=0.4]
+            \draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+            \draw[->] (-5,0)--(5,0) node[right]{$\ket{r}$};
+            \draw[->] (0,-5)--(0,5) node[above]{$\ket{w}$};
+            \draw[name path=fr, blue,->,line width = 0.25mm] (0,0) -- (3,2) 
+                    node[left]{$\ket{\psi}$};
+            \draw[name path=fr2, blue,->,line width = 0.25mm] (0,0) -- (3.3,-1.2) 
+                    node[left]{$v$};
+            \draw[name path=fr3, blue,->,line width = 0.25mm] (0,0) -- (0.2,+3.3) 
+                    node[left]{$\Big ( 2 \ket{\psi} \bra{\psi} - I \Big )v$};
+            \path[name path=circ] (0,0) circle (2);
+            \draw[red, ->, intersection segments={of=circ and fr, sequence=L1}];
+            \node[red] at (2.3,0.7) {$\frac{\theta}{2}$};
+        \end{tikzpicture}
+        \end{center}
+
+        {\small
+        $\Big (2 \ket{\psi} \bra{\psi} - I \Big ) (\sin(- \alpha) \ket{w} 
+        + \cos(- \alpha) \ket{r})
+        = \sin(\alert{\alpha + \theta }) \ket{w} + \cos(\alert{\alpha + \theta}) \ket{r}$
+        }
+\end{frame}
+
+\begin{frame}{Analysis of Grover Iterations pt. I}
+
+                Let $G$ denote the composition of the oracle with
+                inversion about the mean. Then
+                \begin{flalign*}
+                        \textstyle{
+                        G \Big (\sin \frac{\theta}{2} \ket{w} + \cos \frac{\theta}{2} \ket{r} \Big )                            }
+                &=
+                        \textstyle{
+                \sin (\theta + \frac{\theta}{2}) \ket{w} + \cos (\theta + \frac{\theta}{2}) \ket{r}
+                          } \\
+                        \textstyle{
+                        G^2 \Big (\sin \frac{\theta}{2} \ket{w} + \cos \frac{\theta}{2} \ket{r} \Big )                            }
+                &=
+                        \textstyle{
+                \sin (2\theta + \frac{\theta}{2}) \ket{w} + \cos (2\theta + \frac{\theta}{2}) \ket{r}
+                          } \\
+                        \dots & = \dots \\
+                        \textstyle{
+                        G^{\alert{k}} \Big (\sin \frac{\theta}{2} \ket{w} + \cos \frac{\theta}{2} \ket{r} \Big )                            }
+                &=
+                        \textstyle{
+                                \sin (\alert{k}\theta + \frac{\theta}{2}) \ket{w} + 
+                                \cos (\alert{k}\theta + \frac{\theta}{2}) \ket{r}
+                          } 
+                \end{flalign*}
+\end{frame}
+
+\begin{frame}{Analysis of Grover Iterations pt. II}
+        Need to find $k$ s.t. $\sin(k \theta + \frac{\theta}{2}) = 1$,
+        equivalently $k$ s.t. $k \theta + \frac{\theta}{2} = \frac{\pi}{2}$
+
+        \begin{flalign*}
+               & \textstyle { k \theta + \frac{\theta}{2} = \frac{\pi}{2} } & \\
+                \equiv & k = \frac{ \frac{\pi}{2} - \frac{\theta}{2} }{\theta} &  \\
+               \equiv & \textstyle{
+               k = \frac{\pi}{2\theta} - \frac{1}{2} }&  \\
+               \equiv & \textstyle{
+               k \approx \frac{\pi}{(\frac{4}{\sqrt{N}})} - \frac{1}{2} }& \text{for large } N, 
+               \textstyle{ \frac{\theta}{2} \approx \frac{1}{\sqrt{N}} } \\
+               \equiv & \textstyle{
+               k \approx \frac{\pi \sqrt{N}}{4} - \frac{1}{2} }&  
+        \end{flalign*}
+
+        Hence complexity $O(\sqrt{N})$
+\end{frame}
+
+\section{Multiple Solutions}
+
+\begin{frame}{Grover's Problem with Multiple Solutions}
+
+        \begin{block}{The Problem}
+        Take a function $f : \{0,1\}^{\alert{n}} \to \{0,1\}$
+
+        There exist $M$ elements $x \in \{0,1\}^{\alert{n}}$ such that $f(x) = 1$ 
+
+        Discover one of such $x$  
+        \end{block}
+
+        Classically, need to evaluate $f$ $(2^n - M)$ times in the worst case 
+
+        \pause
+        Quantumly, need to evaluate $f$ around \alert{$\sqrt{\frac{2^n}{M}}$} times
+\end{frame}
+
+\begin{frame}{The Circuit}
+
+        \begin{center}
+                \hspace{0.2cm}
+                \begin{tikzpicture}
+                  \node{
+                        \begin{quantikz}[transparent]
+                                \lstick{\ket{0}} &[5mm] \gate{H^{\otimes n}} \qwbundle{n} 
+                                \gategroup[wires=1,steps=1,style={dashed,
+                                rounded corners,fill=blue!10, inner xsep=0.2pt},background]
+                                {\tiny{parallelism}}
+                                & \gate[wires=2]{U_f} \gategroup[wires=2,steps=1,style={dashed,
+                                rounded corners,fill=blue!10, inner xsep=0.2pt}, 
+                                label style={label position = 
+                                below, yshift=-0.4cm},background]
+                                {\tiny{introduction of local phases}}
+                                & \gate{H^{\otimes n}} 
+                                \gategroup[wires=1,steps=3,style={dashed,
+                                rounded corners,fill=blue!10, inner xsep=0.2pt},background]{
+                                \tiny{inversion about the mean}}
+                                & \gate{P} & \gate{H^{\otimes n}} & \qw  \\
+                                \tikzmark{x1} \lstick{$\ket{-}$} \tikzmark{x2}
+                                & \qw & & \qw & \qw & \qw & \qw 
+                        \end{quantikz}
+                };
+                    \draw [
+                    thick,
+                    decoration={
+                        brace,
+                        mirror,
+                        raise=0.5cm
+                    },
+                    decorate
+                    ] (-1.1,-1.2) -- (4,-1.2) 
+                    node [pos=0.5,anchor=north,yshift=-0.55cm] {run $\sqrt{\frac{N}{M}}$ times};
+              \end{tikzpicture}
+        \end{center} 
+
+        \begin{tikzpicture}[overlay,remember picture,
+        box/.style = {rounded corners},
+        pin edge={-Stealth,thick, red}]
+        \coordinate (x1) at ($({pic cs:x1})+(+0.0ex, 1.5ex)$);
+        \coordinate (x2) at ($({pic cs:x2})+(-5.5ex,-1.5ex)$);
+        \node[semitransparent, 
+             fit=(x1) (x2),
+             pin=below:\tiny{Eigenvector of $U_f$ with $-1$ as eigenvalue}]  {};
+       \end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}{The Geometrical Perspective with Multiple Solutions}
+
+        In order to further analyse Grover's algorithm, it is useful to take a
+        \alert{$2$-dimensional geometrical} perspective
+        
+        \pause
+        Take $\ket{w} = \frac{1}{\sqrt{M}} \sum_{x \text{ a sol. }} \ket{x}$
+        and $\ket{r} =
+        \frac{1}{\sqrt{N-M}} \sum_{x \text{ not a sol. }} \ket{x}$. We obtain a
+        $2$-dimensional vector space with orthonormal basis
+        $\{\ket{w},\ket{r}\}$
+
+        \pause
+        Additionally, the uniform superposition $\ket{\psi}$ can be rewritten
+        as
+        \[
+                \textstyle{
+                        \sqrt{\frac{M}{N}} \ket{w} + \sqrt{\frac{N-M}{N}} \ket{r}
+        }
+        \]
+
+        \pause
+        This gives \dots
+\end{frame}
+
+\begin{frame}{The Geometrical Perspective with Multiple Solutions pt. II}
+
+        \begin{center}
+        \begin{tikzpicture}[scale=0.5]
+            \draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+            \draw[->] (-5,0)--(5,0) node[right]{$\ket{r}$};
+            \draw[->] (0,-5)--(0,5) node[above]{$\ket{w}$};
+            \draw[name path=fr, blue,->,line width = 0.25mm] (0,0) -- (3,2) 
+                    node[left]{$\ket{\psi}$};
+            \path[name path=circ] (0,0) circle (2);
+            \draw[red, ->, intersection segments={of=circ and fr, sequence=L1}];
+            \node[red] at (2.3,0.7) {$\frac{\theta}{2}$};
+        \end{tikzpicture}
+        \end{center}
+
+        where $\sin(\frac{\theta}{2}) = \sqrt{\frac{M}{N}}$. Our goal again is
+        to rotate the vector to become \alert{as close as possible} to
+        $\ket{w}$
+
+\end{frame}
+
+\begin{frame}{The Operations}
+        The oracle operation $2\ket{r}\bra{r} - I$ still corresponds to a
+        reflection about the $\ket{r}$-axis
+
+        The inversion about the mean $2\ket{\psi}\bra{\psi} - I$ still
+        corresponds to a reflection about the $\ket{\psi}$-axis
+
+
+        Thus \dots
+\end{frame}
+
+\begin{frame}{Analysis of Grover Iterations pt. I}
+
+                Let $G$ denote the composition of the oracle with
+                inversion about the mean. Then
+                \begin{flalign*}
+                        \textstyle{
+                        G \Big (\sin \frac{\theta}{2} \ket{w} + \cos \frac{\theta}{2} \ket{r} \Big )                            }
+                &=
+                        \textstyle{
+                \sin (\theta + \frac{\theta}{2}) \ket{w} + \cos (\theta + \frac{\theta}{2}) \ket{r}
+                          } \\
+                        \textstyle{
+                        G^2 \Big (\sin \frac{\theta}{2} \ket{w} + \cos \frac{\theta}{2} \ket{r} \Big )                            }
+                &=
+                        \textstyle{
+                \sin (2\theta + \frac{\theta}{2}) \ket{w} + \cos (2\theta + \frac{\theta}{2}) \ket{r}
+                          } \\
+                        \dots & = \dots \\
+                        \textstyle{
+                        G^{\alert{k}} \Big (\sin \frac{\theta}{2} \ket{w} + \cos \frac{\theta}{2} \ket{r} \Big )                            }
+                &=
+                        \textstyle{
+                                \sin (\alert{k}\theta + \frac{\theta}{2}) \ket{w} + 
+                                \cos (\alert{k}\theta + \frac{\theta}{2}) \ket{r}
+                          } 
+                \end{flalign*}
+\end{frame}
+
+\begin{frame}{Analysis of Grover Iterations pt. II}
+        Need to find $k$ s.t. $\sin(k \theta + \frac{\theta}{2}) = 1$,
+        equivalently $k$ s.t. $k \theta + \frac{\theta}{2} = \frac{\pi}{2}$
+
+        \begin{flalign*}
+               & \textstyle { k \theta + \frac{\theta}{2} = \frac{\pi}{2} } & \\
+                \equiv & k = \frac{ \frac{\pi}{2} - \frac{\theta}{2} }{\theta} &  \\
+               \equiv & \textstyle{
+               k = \frac{\pi}{2\theta} - \frac{1}{2} }&  \\
+               \equiv & \textstyle{
+               k \approx \frac{\pi}{(4\sqrt{\frac{M}{N}})} - \frac{1}{2} }& \text{for } M \ll N, 
+               \textstyle{ \frac{\theta}{2} \approx \sqrt{\frac{M}{N}} } \\
+               \equiv & \textstyle{
+               k \approx \frac{\pi}{4}\sqrt{\frac{N}{M}} - \frac{1}{2} }&  
+        \end{flalign*}
+
+        Hence complexity $O \Big (\sqrt{\frac{N}{M}} \Big )$
 \end{frame}
 
 \end{document}
