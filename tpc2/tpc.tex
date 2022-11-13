@@ -1,0 +1,63 @@
+\documentclass[a4paper, 11pt]{article}
+
+%% packages
+\usepackage{fullpage} % changes the margin
+\usepackage{hyperref} % Links
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{braket}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{quantikz}
+\usepackage[linewidth=1pt]{mdframed}
+%%
+
+%% environments
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{examples}{Example}
+\newtheorem{exercises}{Exercises}
+\newtheorem{exercise}{Exercise}
+\newtheorem{postulate}{Postulate}
+%%
+
+%% config
+\date{}
+\linespread{1.15}
+%%
+
+\begin{document}
+
+\allowdisplaybreaks[2]
+\title{Quantum Computation 2022/23\\ \small{TPC-2}}
+\author{Renato Neves \\ \scriptsize
+  \href{mailto:nevrenato@di.uminho.pt}{nevrenato@di.uminho.pt}}
+\maketitle
+
+\noindent
+The goal of this assignment is to write a short essay (around 2 pages) that
+lists and discusses applications of Grover's algorithm~\cite{nielsen16} to
+different domains. Among other things, we will value essays whose claims and
+ideas are tested and illustrated via implementations in \texttt{Qiskit}. For
+example, a possibility is to illustrate via one such implementation the claim
+that Grover's algorithm can be applied to a \textsc{SAT} problem with more than
+one solution.
+
+\begin{mdframed}
+  What to submit: The report in \texttt{PDF}. Please send by email
+  (\texttt{nevrenato@di.uminho.pt}) a unique zip file with the name
+  ``\texttt{qc2122-N.zip}'', where ``\texttt{N}'' is your student number.  The
+  subject of the email should be ``\texttt{qc2122 N TPC-2}''.
+\end{mdframed}
+
+
+
+%% Bibliography
+\bibliographystyle{alpha}
+\bibliography{biblio}
+
+\end{document}
