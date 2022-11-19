@@ -79,170 +79,206 @@
 
 \begin{frame}{Quantum Phase Estimation}
         \begin{block}{The Problem}
-                A unitary operator on $n$ qubits
+                Unitary operator on $n$ qubits
 
-                Corresponding eigenvector with eigenvalue $\alert{e^{i 2 \pi
-                \phi}}$ ($0 \leq \phi < 1$)
+                Eigenvector with eigenvalue $\lambda = 
+                \tikzmark{x1}\alert{e^{i 2 \pi \phi}} \tikzmark{x2}$ ($0 \leq \phi < 1$)
 
                 Find out $\phi$
         \end{block}
 
+        \begin{tikzpicture}[overlay,remember picture,
+        box/.style = {rounded corners},
+        pin edge={-Stealth,thick, red}]
+        \coordinate (x2) at ($({pic cs:x2})+(+0.5ex, 1ex)$);
+        \coordinate (x1) at ($({pic cs:x1})+(-0.5ex,0.3ex)$);
+        \node[semitransparent, 
+              fit=(x1) (x2),
+              pin=below:\tiny{Eigenvalues of unitaries are always of form above}]  {};
+        \end{tikzpicture}
+
         \pause
-        Problem is present in different situations
+        This problem occurs in diverse tasks
         \begin{itemize}
                 \item Shor's algorithm
                 \item Determining $n$º of solutions in unstructured search
-                \item \dots
         \end{itemize}
 \end{frame}        
 
-\begin{frame}{An Important Subroutine}
+\begin{frame}{A Certain Subroutine}
+
         Previous problem uses an important subroutine called
         \begin{center}
-                \alert{Quantum Fourier Transform (QFT)}
+                \alert{\underline{Quantum Fourier Transform (QFT)}}
         \end{center}
 
         Essentially a \alert{\underline{change-of-basis}} operation which
-        stores information concerning the computational basis in
+        encodes information of computational basis states in
         \alert{\underline{local phases}}
 
-        \pause
-        We start by studying this operation in detail
 \end{frame}
 
 \section{Quantum Fourier Transform}
 
-\begin{frame}{Quantum Fourier Transform: One Qubit}
+\begin{frame}{QFT: 1 Qubit}
 
-        Let $\omega = e^{i 2 \pi \frac{1}{2}}$
-        \begin{align*}
-                QFT_1 \ket{0} & = \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                + \alert{1} \ket{1} \big )} & =
-                        \textstyle{\frac{1}{\sqrt{2}} \Big (\ket{0} 
-                        + \alert{\omega^{1 \cdot 0}} \ket{1} \Big )} &
-                \\
-                QFT_1 \ket{1} & = \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                + \alert{(-1)} \ket{1} \big )}  & =
-                \textstyle{\frac{1}{\sqrt{2}} \Big (\ket{0} 
-                + \alert{\omega^{1 \cdot 1}} \ket{1} \Big )} &
-        \end{align*}
+        \[
+                QFT_1 \ket{0} = \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                + \alert{1} \ket{1} \big )} 
+                        \hspace{1cm} 
+                QFT_1 \ket{1} = \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                + \alert{(-1)} \ket{1} \big )} 
+        \]
 
         \pause
-        Thus $QFT_1 = H$ and operation $H^{-1}$ allows to extract information
+        Hence $QFT_1 = H$. Operation $\tikzmark{y1}H^{-1}\tikzmark{y2}$ 
+        allows to extract information
         encoded in local phases
 
+        \begin{tikzpicture}[overlay,remember picture,
+        box/.style = {rounded corners},
+        pin edge={-Stealth,thick, red}]
+        \coordinate (y1) at ($({pic cs:y1})+(+0.5ex, 1ex)$);
+        \coordinate (y2) at ($({pic cs:y2})+(-0.5ex, -0.5ex)$);
+        \node[semitransparent, 
+              fit=(y1) (y2),
+              pin=below:\tiny{$= H$}]  {};
+        \end{tikzpicture}
+
         \pause
-        In general $QFT_1 \ket{x} = \textstyle{\frac{1}{\sqrt{2}} \Big (\ket{0} 
-        + \alert{\omega^{1 \cdot x}} \ket{1} \Big )}$
+        \vfill
+        \begin{block}{Exercise}
+                Let $\omega_1 = e^{i \tikzmark{z1}2 \pi \frac{1}{2}}\tikzmark{z2}$.
+                Show that $QFT_1 \ket{x} = \textstyle{\frac{1}{\sqrt{2}} \Big (\ket{0} 
+                + \alert{\omega_1^{1 \cdot x}} \ket{1} \Big )}$
+        \end{block}
+
+        \begin{tikzpicture}[overlay,remember picture,
+        box/.style = {rounded corners},
+        pin edge={-Stealth,thick, red}]
+        \coordinate (z1) at ($({pic cs:z1})+(+0.5ex, 1ex)$);
+        \coordinate (z2) at ($({pic cs:z2})+(-0.5ex, -0.5ex)$);
+        \node[semitransparent, 
+              fit=(z1) (z2),
+              pin=below:\tiny{angle of $\pi$ radians}]  {};
+        \end{tikzpicture}
+
 \end{frame}
 
-\begin{frame}{Quantum Fourier Transform: Two Qubits}
+\begin{frame}{QFT: 2 Qubits}
 
-        Let $\omega = e^{i 2 \pi \frac{1}{\alert{4}}}$
+        Let $\omega_2 = e^{i 2 \pi \frac{1}{\alert{4}}}$
         \begin{align*}
                 QFT_2 \ket{00} & = \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                + \omega^{2 \cdot \alert{0}} \ket{1} \big )}  \otimes  
+                + \omega_2^{2 \cdot \alert{0}} \ket{1} \big )}  \otimes  
                 \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                + \omega^{1 \cdot \alert{0}} \ket{1} \big )}   \\
+                + \omega_2^{1 \cdot \alert{0}} \ket{1} \big )}   \\
                 QFT_2 \ket{01} & = \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                + \omega^{2 \cdot \alert{1}} \ket{1} \big )}   \otimes
+                + \omega_2^{2 \cdot \alert{1}} \ket{1} \big )}   \otimes
                 \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                + \omega^{1 \cdot \alert{1}} \ket{1} \big )}  \\
+                + \omega_2^{1 \cdot \alert{1}} \ket{1} \big )}  \\
                 QFT_2 \ket{10} & = \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                + \omega^{2 \cdot \alert{2}} \ket{1} \big )}   \otimes
+                + \omega_2^{2 \cdot \alert{2}} \ket{1} \big )}   \otimes
                 \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                + \omega^{1 \cdot \alert{2}} \ket{1} \big )}  \\
+                + \omega_2^{1 \cdot \alert{2}} \ket{1} \big )}  \\
                 QFT_2 \ket{11} & = \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                + \omega^{2 \cdot \alert{3}} \ket{1} \big )}   \otimes
+                + \omega_2^{2 \cdot \alert{3}} \ket{1} \big )}   \otimes
                 \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                + \omega^{1 \cdot \alert{3}} \ket{1} \big )} 
+                + \omega_2^{1 \cdot \alert{3}} \ket{1} \big )} 
         \end{align*}
 
         \pause
-        Use Bloch sphere to visualise $QFT_2 \ket{x}$ and note that 
+        \begin{block}{Exercise}
+        Use Bloch sphere to study $QFT_2 \ket{x}$. Specifically note that 
         \begin{itemize}
-               \item previously, info. of $\ket{x}$ encoded in poles and
-                       now encoded in the \alert{$xz$-plane}
-               \item for every \alert{$\omega$-rotation} on the rightmost 
-                       qubit \alert{$2$} such rotations on the leftmost 
+               \item previously, info. of $\ket{x}$ encoded by vectors
+                       pointing to the poles; 
+                       now is encoded by vectors in the \alert{$xz$-plane}
+               \item for every \alert{\underline{$\omega_2$-rotation}} on the second
+                       qubit there are \alert{$two$} such rotations on the first
+                       qubit
         \end{itemize}
+        \end{block}
+
 \end{frame}
 
-\begin{frame}{Quantum Fourier Transform: Two Qubits}
+\begin{frame}{QFT: 2 Qubits}
 
-        {\scriptsize Recall $\omega = e^{i 2 \pi \frac{1}{\alert{4}}}$}
-
-        In order to derive a circuit for $QFT_2$ calculate
+        In order to derive a circuit for $QFT_2$, we calculate
         \begin{align*}
                 QFT_2 \ket{x} & = \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                + \omega^{2 \cdot \alert{x}} \ket{1} \big )}   \otimes
+                + \omega_2^{2 \cdot \alert{x}} \ket{1} \big )}   \otimes
                 \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                + \omega^{1 \cdot \alert{x}} \ket{1} \big )} \\
+                + \omega_2^{1 \cdot \alert{x}} \ket{1} \big )} \\
                               & =
                               \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                              + \omega^{\alert{2(2x_1 + x_2)}} \ket{1} \big )}\otimes
+                              + \omega_2^{\alert{2(2x_1 + x_2)}} \ket{1} \big )}\otimes
                               \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                              + \omega^{\alert{2x_1 + x_2}} \ket{1} \big )} 
+                              + \omega_2^{\alert{2x_1 + x_2}} \ket{1} \big )} 
                               \\
                               & =
                               \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                              + \omega^{\alert{4x_1 + 2 x_2}} \ket{1} \big )}\otimes
+                              + \omega_2^{\alert{4x_1 + 2 x_2}} \ket{1} \big )}\otimes
                               \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                              + \omega^{\alert{2x_1 + x_2}} \ket{1} \big )} 
+                              + \omega_2^{\alert{2x_1 + x_2}} \ket{1} \big )} 
                               \\
                               & =
                               \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                              + \omega^{\alert{4x_1}} \omega^{\alert{2 x_2}} \ket{1} \big )}
+                              + \omega_2^{\alert{4x_1}} \omega_2^{\alert{2 x_2}} \ket{1} \big )}
                               \otimes
                               \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                              + \omega^{\alert{2x_1}} \omega^{\alert{x_2}} \ket{1} \big )} 
+                              + \omega_2^{\alert{2x_1}} \omega_2^{\alert{x_2}} \ket{1} \big )} 
                               \\
                               & =
                               \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                              + \omega^{\alert{2 x_2}} \ket{1} \big )}
+                              + \omega_2^{\alert{2 x_2}} \ket{1} \big )}
                               \otimes
                               \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                              + \omega^{\alert{2x_1}} \omega^{\alert{x_2}} \ket{1} \big )} 
+                              + \omega_2^{\alert{2x_1}} \omega_2^{\alert{x_2}} \ket{1} \big )} 
                               \\
                               & =
                               \underbrace{\textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
                               + (-1)^{\alert{x_2}} \ket{1} \big )}}_{H\ket{x2}}
                               \otimes
                               \underbrace{\textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                              + (-1)^{\alert{x_1}} \omega^{\alert{x_2}} \ket{1} \big )}}_{
-                              cR_2((H\ket{x1}) \otimes \ket{x2})}
+                              + (-1)^{\alert{x_1}} \omega_2^{\alert{x_2}} \ket{1} \big )}}_{
+                              \text{some controlled rot. on } H\ket{x1}}
         \end{align*}
-
-        \pause
-        What is $cR_2$?
 
 \end{frame}
 
-\begin{frame}{Quantum Fourier Transform: Two Qubits}
+\begin{frame}{QFT: 2 Qubits}
 
-        $R_2\ket{0} = \ket{0}$ and $R_2\ket{1} = \omega \ket{1}$.
-        Intuitively $R_2$ rotates a vector in the $xz$-plane
+        Take $R_2\ket{0} = \ket{0}$ and $R_2\ket{1} = \omega \ket{1}$.
+        Intuitively, $R_2$ rotates a vector in the $xz$-plane
         \alert{$\frac{\pi}{2}$} radians
 
         \pause
-        $cR_2$ is the \alert{controlled} $R_2$ operation defined by
+        It yields a \alert{controlled}-$R_2$ operation defined by
+                $\ket{x}\ket{0} \mapsto \ket{x} \ket{0}$ and
+                $\ket{x}\ket{1} \mapsto R_2 \ket{x} \ket{1}$.
+        Equivalently
         \[
-                cR_2 \ket{x}\ket{0} = \ket{x} \ket{0} \hspace{1cm}
-                cR_2 \ket{x}\ket{1} = R_2 \ket{x} \ket{1}
+                \ket{0}\ket{x_2} \mapsto \ket{0} \ket{x_2} \hspace{1cm}
+                \ket{1}\ket{x_2} \mapsto \omega^{\alert{x_2}} \ket{1} \ket{x_2}
         \]
-        equivalently $cR_2\ket{0}\ket{x_2} = \ket{0} \ket{x_2}$
-        and $cR_2 \ket{1}\ket{x_2} = \omega^{\alert{x_2}} \ket{1} \ket{x_2}$
 
         \pause
-        Putting all pieces together we derive the QFT circuit for 2 qubits:
+        Putting all pieces together we derive the QFT circuit for 2 qubits
         \begin{center}
-                \begin{quantikz}
-                        \lstick{$\ket{x_1}$} & \gate{H} & \gate{R_2} & \qw &\swap{1} & \qw  \\
+                \begin{quantikz}[transparent]
+                        \lstick{$\ket{x_1}$} & \gate{H} & \gate{R_2} & \qw &\swap{1} 
+                        \gategroup[wires=2,steps=1,style={dashed,
+                                rounded corners,fill=blue!10, inner xsep=0.2pt}, 
+                                label style={label position = 
+                                below, yshift=-0.4cm},background]
+                                {\tiny{swaps positions of qubits}} & \qw  \\
                         \lstick{$\ket{x_2}$} & \qw & \ctrl{-1} & \gate{H} &\targX{} & \qw 
                 \end{quantikz}
 
         \end{center}
 \end{frame}
+
 
 \begin{frame}{Quantum Fourier Transform: Three Qubits}
         Let $\omega_n = e^{i 2 \pi \cdot \frac{1}{2^n}}$. Note
