@@ -1,0 +1,414 @@
+\documentclass{beamer}
+\usepackage{etex} % fixes new-dimension error
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{mathtools}
+\input{macros}
+%-------------- template --------------------------------------------------
+\usetheme{metropolis}
+\metroset{block=fill}
+%\usetheme{Boadilla}
+% Configuring the foot line
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.4\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertshortauthor
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertsection
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.1\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+% No configuration symbols
+\setbeamertemplate{navigation symbols}{}
+%--------------- packages -------------------------------------------------
+\usepackage{graphicx,amsmath}
+\usepackage{stmaryrd} % cf. interleave
+\usepackage{booktabs}
+\usepackage{amscd}
+\usepackage{multicol}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{alltt}
+\usepackage{proof}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{quantikz}
+\usepackage[new]{old-arrows}
+\usepackage[all]{xy}
+\usepackage{pgfplots}
+\usepackage{textcomp}
+\usetikzlibrary{arrows.meta, calc, fit, tikzmark, fillbetween}
+\usepackage{pstricks,pst-node,pst-text,pst-3d}
+% context
+\AtBeginSection[]
+{
+    \begin{frame}
+        \frametitle{Table of Contents}
+        \tableofcontents[currentsection]
+    \end{frame}
+}
+
+\author[Renato Neves]{Renato Neves}
+
+% logos of institutions
+\titlegraphic{
+  \begin{textblock*}{5cm}(6.7cm,7.45cm)
+     \includegraphics[scale=0.06]{logos/uminho.png}\hspace*{.85cm}~%
+  \end{textblock*}
+  \begin{textblock*}{5cm}(9.4cm,7.42cm)
+    \includegraphics[scale=0.50]{logos/haslab.pdf}
+  \end{textblock*}
+}
+
+% No date
+\date{}
+
+\begin{document}
+
+\title{Quantum Phase Estimation}
+
+\frame[plain]{\titlepage}
+
+\section{Introduction}
+
+\begin{frame}{Quantum Phase Estimation}
+        \begin{block}{The Problem}
+                A unitary operator on $n$ qubits
+
+                Corresponding eigenvector with eigenvalue $\alert{e^{i 2 \pi
+                \phi}}$ ($0 \leq \phi < 1$)
+
+                Find out $\phi$
+        \end{block}
+
+        \pause
+        Problem is present in different situations
+        \begin{itemize}
+                \item Shor's algorithm
+                \item Determining $n$º of solutions in unstructured search
+                \item \dots
+        \end{itemize}
+\end{frame}        
+
+\begin{frame}{An Important Subroutine}
+        Previous problem uses an important subroutine called
+        \begin{center}
+                \alert{Quantum Fourier Transform (QFT)}
+        \end{center}
+
+        Essentially a \alert{\underline{change-of-basis}} operation which
+        stores information concerning the computational basis in
+        \alert{\underline{local phases}}
+
+        \pause
+        We start by studying this operation in detail
+\end{frame}
+
+\section{Quantum Fourier Transform}
+
+\begin{frame}{Quantum Fourier Transform: One Qubit}
+
+        Let $\omega = e^{i 2 \pi \frac{1}{2}}$
+        \begin{align*}
+                QFT_1 \ket{0} & = \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                + \alert{1} \ket{1} \big )} & =
+                        \textstyle{\frac{1}{\sqrt{2}} \Big (\ket{0} 
+                        + \alert{\omega^{1 \cdot 0}} \ket{1} \Big )} &
+                \\
+                QFT_1 \ket{1} & = \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                + \alert{(-1)} \ket{1} \big )}  & =
+                \textstyle{\frac{1}{\sqrt{2}} \Big (\ket{0} 
+                + \alert{\omega^{1 \cdot 1}} \ket{1} \Big )} &
+        \end{align*}
+
+        \pause
+        Thus $QFT_1 = H$ and operation $H^{-1}$ allows to extract information
+        encoded in local phases
+
+        \pause
+        In general $QFT_1 \ket{x} = \textstyle{\frac{1}{\sqrt{2}} \Big (\ket{0} 
+        + \alert{\omega^{1 \cdot x}} \ket{1} \Big )}$
+\end{frame}
+
+\begin{frame}{Quantum Fourier Transform: Two Qubits}
+
+        Let $\omega = e^{i 2 \pi \frac{1}{\alert{4}}}$
+        \begin{align*}
+                QFT_2 \ket{00} & = \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                + \omega^{2 \cdot \alert{0}} \ket{1} \big )}  \otimes  
+                \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                + \omega^{1 \cdot \alert{0}} \ket{1} \big )}   \\
+                QFT_2 \ket{01} & = \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                + \omega^{2 \cdot \alert{1}} \ket{1} \big )}   \otimes
+                \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                + \omega^{1 \cdot \alert{1}} \ket{1} \big )}  \\
+                QFT_2 \ket{10} & = \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                + \omega^{2 \cdot \alert{2}} \ket{1} \big )}   \otimes
+                \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                + \omega^{1 \cdot \alert{2}} \ket{1} \big )}  \\
+                QFT_2 \ket{11} & = \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                + \omega^{2 \cdot \alert{3}} \ket{1} \big )}   \otimes
+                \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                + \omega^{1 \cdot \alert{3}} \ket{1} \big )} 
+        \end{align*}
+
+        \pause
+        Use Bloch sphere to visualise $QFT_2 \ket{x}$ and note that 
+        \begin{itemize}
+               \item previously, info. of $\ket{x}$ encoded in poles and
+                       now encoded in the \alert{$xz$-plane}
+               \item for every \alert{$\omega$-rotation} on the rightmost 
+                       qubit \alert{$2$} such rotations on the leftmost 
+        \end{itemize}
+\end{frame}
+
+\begin{frame}{Quantum Fourier Transform: Two Qubits}
+
+        {\scriptsize Recall $\omega = e^{i 2 \pi \frac{1}{\alert{4}}}$}
+
+        In order to derive a circuit for $QFT_2$ calculate
+        \begin{align*}
+                QFT_2 \ket{x} & = \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                + \omega^{2 \cdot \alert{x}} \ket{1} \big )}   \otimes
+                \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                + \omega^{1 \cdot \alert{x}} \ket{1} \big )} \\
+                              & =
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{\alert{2(2x_1 + x_2)}} \ket{1} \big )}\otimes
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{\alert{2x_1 + x_2}} \ket{1} \big )} 
+                              \\
+                              & =
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{\alert{4x_1 + 2 x_2}} \ket{1} \big )}\otimes
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{\alert{2x_1 + x_2}} \ket{1} \big )} 
+                              \\
+                              & =
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{\alert{4x_1}} \omega^{\alert{2 x_2}} \ket{1} \big )}
+                              \otimes
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{\alert{2x_1}} \omega^{\alert{x_2}} \ket{1} \big )} 
+                              \\
+                              & =
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{\alert{2 x_2}} \ket{1} \big )}
+                              \otimes
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{\alert{2x_1}} \omega^{\alert{x_2}} \ket{1} \big )} 
+                              \\
+                              & =
+                              \underbrace{\textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + (-1)^{\alert{x_2}} \ket{1} \big )}}_{H\ket{x2}}
+                              \otimes
+                              \underbrace{\textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + (-1)^{\alert{x_1}} \omega^{\alert{x_2}} \ket{1} \big )}}_{
+                              cR_2((H\ket{x1}) \otimes \ket{x2})}
+        \end{align*}
+
+        \pause
+        What is $cR_2$?
+
+\end{frame}
+
+\begin{frame}{Quantum Fourier Transform: Two Qubits}
+
+        $R_2\ket{0} = \ket{0}$ and $R_2\ket{1} = \omega \ket{1}$.
+        Intuitively $R_2$ rotates a vector in the $xz$-plane
+        \alert{$\frac{\pi}{2}$} radians
+
+        \pause
+        $cR_2$ is the \alert{controlled} $R_2$ operation defined by
+        \[
+                cR_2 \ket{x}\ket{0} = \ket{x} \ket{0} \hspace{1cm}
+                cR_2 \ket{x}\ket{1} = R_2 \ket{x} \ket{1}
+        \]
+        equivalently $cR_2\ket{0}\ket{x_2} = \ket{0} \ket{x_2}$
+        and $cR_2 \ket{1}\ket{x_2} = \omega^{\alert{x_2}} \ket{1} \ket{x_2}$
+
+        \pause
+        Putting all pieces together we derive the QFT circuit for 2 qubits:
+        \begin{center}
+                \begin{quantikz}
+                        \lstick{$\ket{x_1}$} & \gate{H} & \gate{R_2} & \qw &\swap{1} & \qw  \\
+                        \lstick{$\ket{x_2}$} & \qw & \ctrl{-1} & \gate{H} &\targX{} & \qw 
+                \end{quantikz}
+
+        \end{center}
+\end{frame}
+
+\begin{frame}{Quantum Fourier Transform: Three Qubits}
+        Let $\omega_n = e^{i 2 \pi \cdot \frac{1}{2^n}}$. Note
+        that $\omega_n^2 = \omega_{n -1}$ and thus
+        $\omega_n^{2^{n-1}} = e^{i \pi}$
+        \begin{flalign*}
+                & QFT_3 \ket{x} \\ & = \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                + \omega^{4 \cdot \alert{x}}_3 \ket{1} \big )} \otimes
+                \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                + \omega^{2 \cdot \alert{x}}_3 \ket{1} \big )}  \otimes
+                \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                + \omega^{1 \cdot \alert{x}}_3 \ket{1} \big )} \\
+                              & = \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + (-1)^{\alert{x}} \ket{1} \big )} \otimes
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{2 \cdot \alert{x}}_3 \ket{1} \big )}  \otimes
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{1 \cdot \alert{x}}_3 \ket{1} \big )} 
+                              \\
+                              & = \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + (-1)^{\alert{x_3}} \ket{1} \big )} \otimes
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{2 \cdot \alert{x}}_3 \ket{1} \big )}  \otimes
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{1 \cdot \alert{x}}_3 \ket{1} \big )} 
+                              \\
+                              & = H \ket{x_3} \otimes
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{2 \cdot \alert{(4x_1+2x_2+x_3)}}_3
+                               \ket{1} \big )}  \otimes
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{1 \cdot \alert{x}}_3 \ket{1} \big )}
+                              \\
+                              & = H \ket{x_3} \otimes
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{2 \cdot \alert{(4x_1+2x_2+x_3)}}_3
+                               \ket{1} \big )}  \otimes
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{1 \cdot \alert{x}}_3 \ket{1} \big )}
+                              \\
+                              & = H \ket{x_3} \otimes
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{2 \cdot \alert{(4x_1+2x_2)}}_3 
+                              \omega^{2 \cdot \alert{x_3}}_3 
+                              \ket{1} \big )}\otimes
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{1 \cdot \alert{x}}_3 \ket{1} \big )}
+                              \\
+                              & = H \ket{x_3} \otimes
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{2 \cdot \alert{(2x_1+x_2)}}_2 
+                              \omega^{\alert{x_3}}_2 
+                              \ket{1} \big )}\otimes
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{\alert{4x_1 + 2x_2 + x_3}}_3 \ket{1} \big )}
+        \end{flalign*}
+\end{frame}
+
+\begin{frame}{Quantum Fourier Transform: Three Qubits}
+ \begin{flalign*}
+                &  \\ & \dots \dots \\
+                              & = H \ket{x_3} \otimes
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{2 \cdot \alert{(2x_1+x_2)}}_2 
+                              \omega^{\alert{x_3}}_2 
+                              \ket{1} \big )}\otimes
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{\alert{4x_1 + 2x_2 + x_3}}_3 \ket{1} \big )}
+                              \\
+                              & = H \ket{x_3} \otimes
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{2 \cdot \alert{(2x_1+x_2)}}_2 
+                              \omega^{\alert{x_3}}_2 
+                              \ket{1} \big )}\otimes
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{\alert{4x_1 + 2x_2}}_3 \omega^{\alert{x_3}}_3
+                              \ket{1} \big )}
+                              \\
+                              & = H \ket{x_3} \otimes
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{2 \cdot \alert{(2x_1+x_2)}}_2 
+                              \omega^{\alert{x_3}}_2 
+                              \ket{1} \big )}\otimes
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{2 \cdot \alert{(2x_1 + x_2)}}_3 \omega^{\alert{x_3}}_3
+                              \ket{1} \big )}
+                              \\
+                              & = H \ket{x_3} \otimes
+                              \underbrace{ \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{2 \cdot \alert{(2x_1+x_2)}}_2 
+                              \omega^{\alert{x_3}}_2 
+                              \ket{1} \big )}\otimes
+                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              + \omega^{\alert{2x_1 + x_2}}_2 \omega^{\alert{x_3}}_3
+                              \ket{1} \big )}}_{= \, \text{some controlled-rotations on } 
+                                 QFT_2 \ket{x_1 x_2}}
+        \end{flalign*}
+\end{frame}
+
+\begin{frame}{Quantum Fourier Transform: Three Qubits}
+
+        $R_n\ket{0} = \ket{0}$ and $R_n\ket{1} = \omega_n \ket{1}$
+
+        $cR_n$ is the \alert{controlled} $R_n$ operation defined by
+        \[
+                cR_n \ket{x}\ket{0} = \ket{x} \ket{0} \hspace{1cm}
+                cR_n \ket{x}\ket{1} = R_n \ket{x} \ket{1}
+        \]
+        equivalently $cR_n\ket{0}\ket{y} = \ket{0} \ket{y}$
+        and $cR_n \ket{1}\ket{y} = \omega^{\alert{y}}_n \ket{1} \ket{y}$
+
+        \pause
+        Putting all pieces together we derive the QFT circuit for 3 qubits:
+        \begin{center}
+                \begin{quantikz}
+                        \lstick{$\ket{x_1}$} & \gate[wires=2]{QFT_2} & \qw
+                                             & \gate{R_2} & \qw & 
+                        \gate[wires=3]{sw(+_{mod 3})} & \qw  \\
+                        \lstick{$\ket{x_2}$} & & \gate{R_3} & \qw & \qw & \qw & \qw \\
+                        \lstick{$\ket{x_3}$} & \qw & \ctrl{-1} & \ctrl{-2} & \gate{H} & \qw
+                                             & \qw
+                \end{quantikz}
+
+        \end{center}
+\end{frame}
+
+\begin{frame}{Quantum Fourier Transform: $n$ Qubits}        
+        Let $\omega_n = e^{i 2 \pi \cdot \frac{1}{2^n}}$
+        \begin{flalign*}
+                & QFT_n \ket{x} = \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                + \omega^{2^{n-1} \cdot \alert{x}}_n \ket{1} \big )} \otimes
+                \dots  \otimes
+                \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                + \omega^{2^{0} \cdot \alert{x}}_n \ket{1} \big )} 
+        \end{flalign*}
+
+        \pause
+        The QFT circuit for n qubits:
+        \begin{center}
+                \begin{quantikz}
+                        \lstick{$\ket{x_1}$} & \gate[wires=3]{QFT_{n}} & \qw
+                                             & \gate{R_2} & \qw & 
+                        \gate[wires=4]{sw(+_{mod {n+1}})} & \qw  \\
+                        \dots \,  & \dots & \dots &  & \dots \,  & \dots & \dots &  \\
+                        \lstick{$\ket{x_n}$} & & \gate{R_n} & \qw & \qw & \qw & \qw \\
+                        \lstick{$\ket{x_{n+1}}$} & \qw & \ctrl{-1} & \ctrl{-3} & \gate{H} & \qw
+                                             & \qw
+                \end{quantikz}
+
+        \end{center}
+\end{frame}
+
+\begin{frame}{Number of gates involved in the QFT}
+        $\# gates (sw(+_{mod n})) = n -1$
+        $\# gates (QFT_n) = n + n-1 + \# gates (QFT_{n-1})$
+
+        Thus
+        \[
+                 \# gates (QFT_n) =  \sum_{i = 1}^{n} i + \sum_{i = 1}^{n} i - 1 =
+                 \sum_{i = 1}^{n} i + \sum_{i = 1}^{n-1} i \approx
+                 \frac{n^2}{2} + \frac{(n-1)^2}{2} 
+        \]
+        \[
+                 \leq
+                 \frac{n^2}{2} + \frac{n^2}{2}  = n^2
+        \]
+\end{frame}
+
+\end{document}
