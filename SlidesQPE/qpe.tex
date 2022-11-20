@@ -593,34 +593,13 @@
         \end{tikzpicture}
 \end{frame}        
 
-\begin{frame}{A Simple Example}
-
-        Take a unitary $U$ with an eigenvector
-        $\ket{\psi}$ whose eigenvalue is either $1 = e^{i 2 \pi \cdot \alert{0}}$
-        or $-1 = e^{i 2 \pi \cdot \alert{\frac{1}{2}}}$
-
-        We wish to discover whether $\phi$ is $0$ or $\frac{1}{2}$
-
-
-        \pause
-        Consider the circuit
-        \begin{center}
-        \begin{quantikz}
-                \lstick{\ket{0}} & \gate{H} & \ctrl{1} & \gate{H} & \meter{}& \qw \\
-                \lstick{\ket{\psi}} & \qwbundle{n} & \gate{U} & \qwbundle{n} & \qw
-        \end{quantikz}
-
-        measure $\ket{0} \Rightarrow \phi = 0$; 
-        measure $\ket{1} \Rightarrow \phi = 1$
-        \end{center}
-\end{frame}
 
 \begin{frame}{A Simple Example}
         Take a unitary $U$ with an eigenvector
-        $\ket{\psi}$ whose eigenvalue is either $1 = e^{i 2 \pi \cdot \alert{0}}$
-        or $-1 = e^{i 2 \pi \cdot \alert{\frac{1}{2}}}$
-
-        We wish to discover whether $\phi$ is $0$ or $\frac{1}{2}$
+        $\ket{\psi}$ whose eigenvalue is $e^{i 2 \pi \alert{\phi}}$
+         
+        $\phi$ is equal to one of the values $\{ \alert{0} \cdot \frac{1}{2}, 
+        \alert{1} \cdot \frac{1}{2} \}$. Find out $\phi$
 
         \pause
         This is obtained via the circuit
@@ -657,6 +636,8 @@
               pin=below:\tiny{decimal representation of $x$}]  {};
         \end{tikzpicture}
 
+        Intuitively it applies $U$ to $\ket{y}$ a number of times equal to $x$
+
         \pause
         \begin{block}{Examples}
         $\ket{10}\ket{y} \mapsto \ket{10} (UU \ket{y})$
@@ -686,7 +667,8 @@
         \end{center}
 
         \pause
-        Note we use $\alert{n}$ `simply' controlled rotations $U^{2^i}$
+        Note that the multi-controlled operation
+        uses $\alert{n}$ `simply'-controlled rotations $U^{2^i}$
 \end{frame}
 
 \begin{frame}{Another Example}
