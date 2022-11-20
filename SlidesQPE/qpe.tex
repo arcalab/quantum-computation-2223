@@ -793,12 +793,29 @@
                 circuit in the one below
         \end{block}
 
+        \vfill
         \begin{center}
                 \begin{quantikz}
                         \lstick{\ket{0}} & \qwbundle{n} 
-                                         & \gate{QFT_n} 
-                                         & \ctrl{1} 
+                                         & \gate{QFT_n}
+                                         \gategroup[wires=1,steps=1,style={dashed,
+                                         rounded corners,fill=blue!10, inner xsep=0.2pt}, 
+                                         label style={label position = 
+                                         above, yshift=0cm},background]
+                                         {\tiny{converts $\ket{0}$ to Fourier basis}} 
+                                         & \ctrl{1}\gategroup[wires=2,steps=1,style={dashed,
+                                         rounded corners,fill=blue!10, inner xsep=0.2pt}, 
+                                         label style={label position = 
+                                         below, yshift=-0.4cm,xshift=-0.2cm},background]
+                                         {\tiny{encodes $x$ in local phases (in the form of
+                                         rotations)}}
                                          & \gate{QFT^{-1}_n}
+                                         \gategroup[wires=1,steps=1,style={dashed,
+                                         rounded corners,fill=blue!10, inner xsep=0.2pt}, 
+                                         label style={label position = 
+                                         above, yshift=0.0cm, xshift=0.6cm},background]
+                                         {\tiny{converts encoded info. to 
+                                         comput. basis}}
                                          & \qwbundle{n}
                         \\
                         \lstick{\ket{\psi}} & \qwbundle{m}
@@ -810,4 +827,41 @@
         \end{center}
 \end{frame}
 
+\begin{frame}{Complexity of Quantum Phase Estimation}
+        \begin{center}
+                \begin{quantikz}
+                        \lstick{\ket{0}} & \qwbundle{n} 
+                                         & \gate{QFT_n}
+                                         \gategroup[wires=1,steps=1,style={dashed,
+                                         rounded corners,fill=blue!10, inner xsep=0.2pt}, 
+                                         label style={label position = 
+                                         above, yshift=0cm},background]
+                                         {\tiny{converts $\ket{0}$ to Fourier basis}} 
+                                         & \ctrl{1}\gategroup[wires=2,steps=1,style={dashed,
+                                         rounded corners,fill=blue!10, inner xsep=0.2pt}, 
+                                         label style={label position = 
+                                         below, yshift=-0.4cm,xshift=-0.2cm},background]
+                                         {\tiny{encodes $x$ in local phases (in the form of
+                                         rotations)}}
+                                         & \gate{QFT^{-1}_n}
+                                         \gategroup[wires=1,steps=1,style={dashed,
+                                         rounded corners,fill=blue!10, inner xsep=0.2pt}, 
+                                         label style={label position = 
+                                         above, yshift=0.0cm, xshift=0.6cm},background]
+                                         {\tiny{converts encoded info. to 
+                                         comput. basis}}
+                                         & \qwbundle{n}
+                        \\
+                        \lstick{\ket{\psi}} & \qwbundle{m}
+                                            & \qw
+                                            & \gate{U}
+                                            & \qw
+                                            & \qwbundle{m}
+                \end{quantikz}
+        \end{center}
+        How many gates does the circuit above use?
+
+        \pause
+        $n$ `Hadamards' + $n$ `simply'-controlled gates + $n^2$ gates for $QFT^{-1}_n$
+\end{frame}
 \end{document}
