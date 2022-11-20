@@ -279,144 +279,168 @@
         \end{center}
 \end{frame}
 
-
-\begin{frame}{Quantum Fourier Transform: Three Qubits}
-        Let $\omega_n = e^{i 2 \pi \cdot \frac{1}{2^n}}$. Note
-        that $\omega_n^2 = \omega_{n -1}$ and thus
-        $\omega_n^{2^{n-1}} = e^{i \pi}$
-        \begin{flalign*}
-                & QFT_3 \ket{x} \\ & = \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+\begin{frame}{QFT: 3 Qubits}
+        Let $\omega_{\alert{n}} = e^{i 2 \pi \cdot \frac{1}{2^{\alert{n}}}}$
+        (division of the \alert{\underline{unit circle}} in $2^{\alert{n}}$ slices)
+        \[
+                QFT_3 \ket{\alert{x}} = \textstyle{ \big (\ket{0} 
                 + \omega^{4 \cdot \alert{x}}_3 \ket{1} \big )} \otimes
-                \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                \textstyle{ \big (\ket{0} 
                 + \omega^{2 \cdot \alert{x}}_3 \ket{1} \big )}  \otimes
-                \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                \textstyle{ \big (\ket{0} 
+                + \omega^{1 \cdot \alert{x}}_3 \ket{1} \big )} 
+        \]
+
+        \pause
+        Actually, it is now easy to extrapolate the general defn.
+        of QFT
+        \[
+                QFT_n \ket{\alert{x}} = \textstyle{ \big (\ket{0} 
+                + \omega^{2^{n-1} \cdot \alert{x}}_n \ket{1} \big )} \otimes
+                \dots
+                \otimes
+                \textstyle{ \big (\ket{0} 
+                + \omega^{2^0 \cdot \alert{x}}_n \ket{1} \big )} 
+        \]
+
+        {\small \textbf{N.B.} In both equations above we drop the normalisation
+        factor $\textstyle{\frac{1}{\sqrt{2}}}$ in each state to make notation
+        easier on the eyes}
+
+\end{frame}
+
+\begin{frame}{QFT: 3 Qubits}
+        In order to derive a circuit for
+        $QFT_3$, we observe
+        \[
+                \omega_n^2 = \omega_{n -1} \> \text{ and thus } \>
+                \omega_n^{2^{n-1}} = e^{i \pi} = -1
+        \]
+        and recall that a binary number $x_1 \dots x_n$ represents the natural
+        number $2^{n-1} \cdot x_1 + \dots + 2^0 \cdot x_n$. \pause We then calculate
+        \begin{flalign*}
+                & QFT_3 \ket{x} \\ & = \textstyle{\big (\ket{0} 
+                + \omega^{4 \cdot \alert{x}}_3 \ket{1} \big )} \otimes
+                \textstyle{ \big (\ket{0} 
+                + \omega^{2 \cdot \alert{x}}_3 \ket{1} \big )}  \otimes
+                \textstyle{ \big (\ket{0} 
                 + \omega^{1 \cdot \alert{x}}_3 \ket{1} \big )} \\
-                              & = \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              & = \textstyle{ \big (\ket{0} 
                               + (-1)^{\alert{x}} \ket{1} \big )} \otimes
-                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              \textstyle{ \big (\ket{0} 
                               + \omega^{2 \cdot \alert{x}}_3 \ket{1} \big )}  \otimes
-                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              \textstyle{ \big (\ket{0} 
                               + \omega^{1 \cdot \alert{x}}_3 \ket{1} \big )} 
                               \\
-                              & = \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              & = \textstyle{ \big (\ket{0} 
                               + (-1)^{\alert{x_3}} \ket{1} \big )} \otimes
-                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              \textstyle{ \big (\ket{0} 
                               + \omega^{2 \cdot \alert{x}}_3 \ket{1} \big )}  \otimes
-                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              \textstyle{ \big (\ket{0} 
                               + \omega^{1 \cdot \alert{x}}_3 \ket{1} \big )} 
                               \\
                               & = H \ket{x_3} \otimes
-                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              \textstyle{ \big (\ket{0} 
                               + \omega^{2 \cdot \alert{(4x_1+2x_2+x_3)}}_3
                                \ket{1} \big )}  \otimes
-                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              \textstyle{ \big (\ket{0} 
                               + \omega^{1 \cdot \alert{x}}_3 \ket{1} \big )}
                               \\
                               & = H \ket{x_3} \otimes
-                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                              + \omega^{2 \cdot \alert{(4x_1+2x_2+x_3)}}_3
-                               \ket{1} \big )}  \otimes
-                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                              + \omega^{1 \cdot \alert{x}}_3 \ket{1} \big )}
-                              \\
-                              & = H \ket{x_3} \otimes
-                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              \textstyle{ \big (\ket{0} 
                               + \omega^{2 \cdot \alert{(4x_1+2x_2)}}_3 
                               \omega^{2 \cdot \alert{x_3}}_3 
                               \ket{1} \big )}\otimes
-                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              \textstyle{ \big (\ket{0} 
                               + \omega^{1 \cdot \alert{x}}_3 \ket{1} \big )}
                               \\
-                              & = H \ket{x_3} \otimes
-                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                              + \omega^{2 \cdot \alert{(2x_1+x_2)}}_2 
-                              \omega^{\alert{x_3}}_2 
-                              \ket{1} \big )}\otimes
-                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                              + \omega^{\alert{4x_1 + 2x_2 + x_3}}_3 \ket{1} \big )}
-        \end{flalign*}
+                              \end{flalign*}
 \end{frame}
-
-\begin{frame}{Quantum Fourier Transform: Three Qubits}
+\begin{frame}{QFT: 3 Qubits}
+        \vspace{-2cm}
  \begin{flalign*}
                 &  \\ & \dots \dots \\
                               & = H \ket{x_3} \otimes
-                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              \textstyle{ \big (\ket{0} 
                               + \omega^{2 \cdot \alert{(2x_1+x_2)}}_2 
                               \omega^{\alert{x_3}}_2 
                               \ket{1} \big )}\otimes
-                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              \textstyle{ \big (\ket{0} 
                               + \omega^{\alert{4x_1 + 2x_2 + x_3}}_3 \ket{1} \big )}
                               \\
                               & = H \ket{x_3} \otimes
-                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              \textstyle{ \big (\ket{0} 
                               + \omega^{2 \cdot \alert{(2x_1+x_2)}}_2 
                               \omega^{\alert{x_3}}_2 
                               \ket{1} \big )}\otimes
-                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              \textstyle{ \big (\ket{0} 
                               + \omega^{\alert{4x_1 + 2x_2}}_3 \omega^{\alert{x_3}}_3
                               \ket{1} \big )}
                               \\
                               & = H \ket{x_3} \otimes
-                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              \textstyle{ \big (\ket{0} 
                               + \omega^{2 \cdot \alert{(2x_1+x_2)}}_2 
                               \omega^{\alert{x_3}}_2 
                               \ket{1} \big )}\otimes
-                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              \textstyle{ \big (\ket{0} 
                               + \omega^{2 \cdot \alert{(2x_1 + x_2)}}_3 \omega^{\alert{x_3}}_3
                               \ket{1} \big )}
                               \\
                               & = H \ket{x_3} \otimes
-                              \underbrace{ \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              \underbrace{ \textstyle{ \big (\ket{0} 
                               + \omega^{2 \cdot \alert{(2x_1+x_2)}}_2 
                               \omega^{\alert{x_3}}_2 
                               \ket{1} \big )}\otimes
-                              \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
+                              \textstyle{ \big (\ket{0} 
                               + \omega^{\alert{2x_1 + x_2}}_2 \omega^{\alert{x_3}}_3
-                              \ket{1} \big )}}_{= \, \text{some controlled-rotations on } 
+                              \ket{1} \big )}}_{\text{some controlled-rotations on } 
                                  QFT_2 \ket{x_1 x_2}}
         \end{flalign*}
-\end{frame}
-
-\begin{frame}{Quantum Fourier Transform: Three Qubits}
-
-        $R_n\ket{0} = \ket{0}$ and $R_n\ket{1} = \omega_n \ket{1}$
-
-        $cR_n$ is the \alert{controlled} $R_n$ operation defined by
-        \[
-                cR_n \ket{x}\ket{0} = \ket{x} \ket{0} \hspace{1cm}
-                cR_n \ket{x}\ket{1} = R_n \ket{x} \ket{1}
-        \]
-        equivalently $cR_n\ket{0}\ket{y} = \ket{0} \ket{y}$
-        and $cR_n \ket{1}\ket{y} = \omega^{\alert{y}}_n \ket{1} \ket{y}$
 
         \pause
-        Putting all pieces together we derive the QFT circuit for 3 qubits:
+        Calculation easily extends to $QFT_n$ (\emph{in lieu} of $QFT_3$) which
+        suggests a recursive defn. for the general $QFT$ circuit
+\end{frame}
+
+\begin{frame}{QFT: 3 Qubits}
+
+        Take $R_n\ket{0} = \ket{0}$ and $R_n\ket{1} = \omega_n \ket{1}$.
+        Intuitively, $R_n$ rotates a vector in the $xz$-plane
+        `\alert{one $2^n$-th} of the unit circle'
+
+        It yields a \alert{controlled}-$R_n$ operation defined by
+        $\ket{x}\ket{0} \mapsto \ket{x} \ket{0}$ and $\ket{x}\ket{1} \mapsto
+        R_n \ket{x} \ket{1}$. Equivalently
+        \[
+                \ket{0}\ket{y} \mapsto \ket{0} \ket{y} \text{ and }
+                \ket{1}\ket{y} \mapsto \omega^{\alert{y}}_n \ket{1} \ket{y}
+        \]
+
+        \pause
+        Putting all pieces together we derive the QFT circuit for 3 qubits
         \begin{center}
+                \scalebox{0.7}{
                 \begin{quantikz}
                         \lstick{$\ket{x_1}$} & \gate[wires=2]{QFT_2} & \qw
                                              & \gate{R_2} & \qw & 
-                        \gate[wires=3]{sw(+_{mod 3})} & \qw  \\
-                        \lstick{$\ket{x_2}$} & & \gate{R_3} & \qw & \qw & \qw & \qw \\
-                        \lstick{$\ket{x_3}$} & \qw & \ctrl{-1} & \ctrl{-2} & \gate{H} & \qw
-                                             & \qw
+                        \swap{2} \gategroup[wires=3,steps=2,style={dashed,
+                                rounded corners,fill=blue!10, inner xsep=0.2pt}, 
+                                label style={label position = 
+                                below, yshift=-0.4cm},background]
+                                {\tiny{swaps positions of qubits by doing
+        $+1$ in base $3$}} & \qw & \qw \\
+                        \lstick{$\ket{x_2}$} & & \gate{R_3} & \qw & \qw & \qw
+                                             & \swap{1} & \qw \\
+                        \lstick{$\ket{x_3}$} & \qw & \ctrl{-1} & \ctrl{-2} & \gate{H} 
+                                             & \targX{}
+                                             & \targX{} & \qw
                 \end{quantikz}
-
+                }
         \end{center}
 \end{frame}
 
-\begin{frame}{Quantum Fourier Transform: $n$ Qubits}        
-        Let $\omega_n = e^{i 2 \pi \cdot \frac{1}{2^n}}$
-        \begin{flalign*}
-                & QFT_n \ket{x} = \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                + \omega^{2^{n-1} \cdot \alert{x}}_n \ket{1} \big )} \otimes
-                \dots  \otimes
-                \textstyle{\frac{1}{\sqrt{2}} \big (\ket{0} 
-                + \omega^{2^{0} \cdot \alert{x}}_n \ket{1} \big )} 
-        \end{flalign*}
-
-        \pause
-        The QFT circuit for n qubits:
+\begin{frame}{General QFT Circuit}        
+       The QFT circuit for n qubits
         \begin{center}
                 \begin{quantikz}
                         \lstick{$\ket{x_1}$} & \gate[wires=3]{QFT_{n}} & \qw
