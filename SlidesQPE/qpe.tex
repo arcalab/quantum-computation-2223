@@ -524,4 +524,290 @@
         Thus complexity of QFT is \alert{polynomial}
 \end{frame}
 
+\begin{frame}{An Equivalent Formulation of QFT}
+        Previously we saw that
+        \[
+                QFT_n \ket{x} = \textstyle{
+                        \frac{1}{\sqrt{2}} (\ket{0} + \omega_{n}^{2^{n - 1} \cdot x}\ket{1})
+                        \otimes \dots \otimes
+                        \frac{1}{\sqrt{2}} (\ket{0} + \omega_{n}^{1 \cdot x}\ket{1})
+                }
+        \]
+        \pause
+        Equivalent and useful definition given by
+        \[
+                QFT_n \ket{x} = \textstyle{
+                        \frac{1}{\sqrt{2^n}} 
+                        \sum_{k = 0}^{2^n - 1}  \omega_n^{x \cdot k} \ket{k}
+                }
+        \]
+        \pause
+        \begin{block}{Examples with $n=1$ and $n = 2$}
+                \begin{align*}
+                        QFT_1 \ket{x} & = \textstyle{
+                                \frac{1}{\sqrt{2}} (\ket{0} + \omega_1^{x} \ket{1})
+                        }
+                        \\
+                        QFT_2 \ket{x} & = \textstyle{
+                                \frac{1}{\sqrt{2^2}}
+                                (\ket{00} + \omega_2^x \ket{01} 
+                                + \omega_2^{2 \cdot x} \ket{10} +
+                                \omega_2^{3 \cdot x}\ket{11})
+                        }
+                \end{align*}
+        \end{block}
+\end{frame}
+
+\begin{frame}{Exercises}
+        \begin{block}{Exercise 1}
+                Show that both definitions of $QFT$ coincide
+                when $n = 2$
+        \end{block}
+
+        \begin{block}{Exercise 2}
+                Can you show that both definitions coincide
+                for arbitrary $n$?
+        \end{block}
+\end{frame}
+
+\section{Quantum Phase Estimation}
+
+\begin{frame}{Quantum Phase Estimation}
+        \begin{block}{The Problem}
+                Unitary operator on $n$ qubits
+
+                Eigenvector with eigenvalue $\lambda = 
+                \tikzmark{x1}\alert{e^{i 2 \pi \phi}} \tikzmark{x2}$ ($0 \leq \phi < 1$)
+
+                Find out $\phi$
+        \end{block}
+
+        \begin{tikzpicture}[overlay,remember picture,
+        box/.style = {rounded corners},
+        pin edge={-Stealth,thick, red}]
+        \coordinate (x2) at ($({pic cs:x2})+(+0.5ex, 1ex)$);
+        \coordinate (x1) at ($({pic cs:x1})+(-0.5ex,0.3ex)$);
+        \node[semitransparent, 
+              fit=(x1) (x2),
+              pin=below:\tiny{Eigenvalues of unitaries are always of form above}]  {};
+        \end{tikzpicture}
+\end{frame}        
+
+\begin{frame}{A Simple Example}
+
+        Take a unitary $U$ with an eigenvector
+        $\ket{\psi}$ whose eigenvalue is either $1 = e^{i 2 \pi \cdot \alert{0}}$
+        or $-1 = e^{i 2 \pi \cdot \alert{\frac{1}{2}}}$
+
+        We wish to discover whether $\phi$ is $0$ or $\frac{1}{2}$
+
+
+        \pause
+        Consider the circuit
+        \begin{center}
+        \begin{quantikz}
+                \lstick{\ket{0}} & \gate{H} & \ctrl{1} & \gate{H} & \meter{}& \qw \\
+                \lstick{\ket{\psi}} & \qwbundle{n} & \gate{U} & \qwbundle{n} & \qw
+        \end{quantikz}
+
+        measure $\ket{0} \Rightarrow \phi = 0$; 
+        measure $\ket{1} \Rightarrow \phi = 1$
+        \end{center}
+\end{frame}
+
+\begin{frame}{A Simple Example}
+        Take a unitary $U$ with an eigenvector
+        $\ket{\psi}$ whose eigenvalue is either $1 = e^{i 2 \pi \cdot \alert{0}}$
+        or $-1 = e^{i 2 \pi \cdot \alert{\frac{1}{2}}}$
+
+        We wish to discover whether $\phi$ is $0$ or $\frac{1}{2}$
+
+        \pause
+        This is obtained via the circuit
+        \begin{center}
+        \begin{quantikz}
+                \lstick{\ket{0}} & \gate{H} & \ctrl{1} & \gate{QFT_1^{-1}} & \qw \\
+                \lstick{\ket{\psi}} & \qwbundle{n} & \gate{U} & \qwbundle{n}  
+        \end{quantikz}
+
+        \end{center}
+
+\end{frame}
+
+\begin{frame}{Multi-Controlled Operations}
+        Take a unitary $U$ on $n$ qubits
+
+        It gives rise to a multi-controlled operation
+        \[
+        \Bigg \llbracket 
+        \begin{quantikz}
+                & \qwbundle{n} & \ctrl{1} & \qwbundle{n} & \qw \\
+                & \qwbundle{m} & \gate{U} & \qwbundle{m} & \qw 
+        \end{quantikz}
+        \Bigg \rrbracket =
+        \ket{x} \ket{y} \mapsto \ket{x} U^{\tikzmark{d1}\alert{x}\tikzmark{d2}} \ket{y}
+        \]
+        \begin{tikzpicture}[overlay,remember picture,
+        box/.style = {rounded corners},
+        pin edge={-Stealth,thick, red}]
+        \coordinate (d1) at ($({pic cs:d1})+(+0.5ex, 1ex)$);
+        \coordinate (d2) at ($({pic cs:d2})+(-0.5ex,-0.5ex)$);
+        \node[semitransparent, 
+              fit=(d1) (d2),
+              pin=below:\tiny{decimal representation of $x$}]  {};
+        \end{tikzpicture}
+
+        \pause
+        \begin{block}{Examples}
+        $\ket{10}\ket{y} \mapsto \ket{10} (UU \ket{y})$
+        and 
+        $\ket{00}\ket{y} \mapsto \ket{00} \ket{y}$
+        \end{block}
+\end{frame}
+
+\begin{frame}{Multi-Controlled Operations}
+
+        Recall that a binary number $x_1 \dots x_n$ corresponds to
+        the natural number $2^{n-1} x_1 + \dots + 2^0 x_n$
+
+        We use this to build the previous multi-controlled operation
+        in terms of simpler operations
+        \begin{center}
+                \begin{quantikz}
+                        & \qw & \ctrl{3} & \qw & \qw & \qw
+                        \\
+                        & \dots & & \dots & &
+                        \\
+                        & \qw & \qw & \qw & \ctrl{1} & \qw 
+                        \\
+                        & \qwbundle{m} & \gate{U^{2^{n-1}}} & \dots 
+                        & \gate{U^{2^0}} & \qwbundle{m}
+                \end{quantikz}
+        \end{center}
+
+        \pause
+        Note we use $\alert{n}$ `simply' controlled rotations $U^{2^i}$
+\end{frame}
+
+\begin{frame}{Another Example}
+        Take a unitary $U$ with an eigenvector $\ket{\psi}$ whose eigenvalue is
+        $e^{i 2 \pi \cdot \phi}$
+
+        $\phi$ is equal to one of the following values $\left \{ 0 \cdot \frac{1}{4}, 1
+        \cdot \frac{1}{4}, 2 \cdot \frac{1}{4}, 3 \cdot \frac{1}{4} \right \}$
+
+        \pause
+        In order to discover $\phi$ we use the circuit 
+        \begin{center}
+        \begin{quantikz}
+        \lstick{\ket{0}} &[4mm]  
+        \gate{H^{\otimes 2}} \qwbundle{2} & \ctrl{1} & \gate[wires=1]{QFT_2^{-1}} & \qw \\
+                \lstick{\ket{\psi}} & \qwbundle{n} & \gate{U} & \qwbundle{n} & \qw
+        \end{quantikz}
+        \end{center}
+
+\end{frame}
+
+\begin{frame}{Another Example}
+        \begin{center}
+                \scalebox{0.90}{
+        \begin{quantikz}
+        \lstick{\ket{0}} &[4mm]  
+        \gate{H^{\otimes 2}} \qwbundle{2} & \ctrl{1} & \gate[wires=1]{QFT_2^{-1}} & \qw \\
+                \lstick{\ket{\psi}} & \qwbundle{n} & \gate{U} & \qwbundle{n} & \qw
+        \end{quantikz}
+                }
+        \end{center}
+        \begin{flalign*}
+            &  \ket{0} \ket{0} &  
+            \\
+            & \stackrel{H^{\otimes 2}}{\mapsto} \textstyle{
+                    \frac{1}{\sqrt{2^2}}
+                    (\ket{00} + \ket{01} + \ket{10} + \ket{11})
+            } & 
+            \\
+            & \stackrel{\text{ctrl. } U}{\mapsto}
+                \textstyle{
+                    \frac{1}{\sqrt{2^2}}
+                    (\ket{00} + e^{i 2 \pi \alert{\phi}} \ket{01} + e^{i 2 \pi 
+                    \alert{\phi} \cdot 2} 
+                    \ket{10} + e^{i 2 \pi \alert{\phi} \cdot 3} \ket{11})
+            } & 
+            \\
+            & = 
+                \textstyle{
+                    \frac{1}{\sqrt{2^2}}
+                    (\ket{00} + e^{i 2 \pi \alert{x \cdot \frac{1}{4}} } \ket{01} 
+                    + e^{i 2 \pi \alert{x \cdot \frac{1}{4}} \cdot 2} 
+                    \ket{10} + e^{i 2 \pi \alert{x \cdot \frac{1}{4}} \cdot 3} \ket{11})
+            }
+            \\
+            & = 
+                \textstyle{
+                    \frac{1}{\sqrt{2^2}}
+                    (\ket{00} + \omega_2^{\alert{x}} \ket{01} 
+                    + \omega_2^{\alert{x} \cdot 2} 
+                    \ket{10} 
+                    + \omega_2^{\alert{x} \cdot 3} \ket{11})
+            }
+            \\
+            & \stackrel{QFT_2^{-1}}{\mapsto}
+            \ket{\alert{x}}
+        \end{flalign*}
+\end{frame}
+
+\begin{frame}{Yet Another Example}
+        Take a unitary $U$ with eigenvector $\ket{\psi}$ whose
+        eigenvalue is $e^{i 2 \pi \phi}$
+        
+        $\phi$ is equal to one of the following values $\left \{ 0 \cdot
+        \frac{1}{2^n}, \dots, 2^{n-1} \cdot \frac{1}{2^n} \right \}$
+
+        \pause
+        In order to discover $\phi$ we use the following circuit
+        \begin{center}
+                \begin{quantikz}
+                        \lstick{\ket{0}} & \qwbundle{n} 
+                                         & \gate{H^{\otimes n}} 
+                                         & \ctrl{1} 
+                                         & \gate{QFT^{-1}_n}
+                                         & \qwbundle{n}
+                        \\
+                        \lstick{\ket{\psi}} & \qwbundle{m}
+                                            & \qw
+                                            & \gate{U}
+                                            & \qw
+                                            & \qwbundle{m}
+                \end{quantikz}
+        \end{center}
+
+        \begin{block}{Exercise}
+                Prove that the circuit returns $x$ with
+                $\phi = x \cdot \frac{1}{2^n}$
+        \end{block}
+\end{frame}
+\begin{frame}{Yet Another Example}
+        \begin{block}{Exercise}
+                Show that $QFT_n \ket{0} = H^{\otimes n} \ket{0}$.
+                Note that this allows to rewrite the previous
+                circuit in the one below
+        \end{block}
+
+        \begin{center}
+                \begin{quantikz}
+                        \lstick{\ket{0}} & \qwbundle{n} 
+                                         & \gate{QFT_n} 
+                                         & \ctrl{1} 
+                                         & \gate{QFT^{-1}_n}
+                                         & \qwbundle{n}
+                        \\
+                        \lstick{\ket{\psi}} & \qwbundle{m}
+                                            & \qw
+                                            & \gate{U}
+                                            & \qw
+                                            & \qwbundle{m}
+                \end{quantikz}
+        \end{center}
+\end{frame}
+
 \end{document}
