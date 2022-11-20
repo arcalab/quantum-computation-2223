@@ -440,35 +440,88 @@
 \end{frame}
 
 \begin{frame}{General QFT Circuit}        
-       The QFT circuit for n qubits
         \begin{center}
                 \begin{quantikz}
-                        \lstick{$\ket{x_1}$} & \gate[wires=3]{QFT_{n}} & \qw
-                                             & \gate{R_2} & \qw & 
-                        \gate[wires=4]{sw(+_{mod {n+1}})} & \qw  \\
-                        \dots \,  & \dots & \dots &  & \dots \,  & \dots & \dots &  \\
-                        \lstick{$\ket{x_n}$} & & \gate{R_n} & \qw & \qw & \qw & \qw \\
-                        \lstick{$\ket{x_{n+1}}$} & \qw & \ctrl{-1} & \ctrl{-3} & \gate{H} & \qw
-                                             & \qw
+                        \lstick{$\ket{x_1}$} & \gate[wires=3]{QFT_{n-1}} & \qw
+                                             & \gate{R_2} & \qw & \swap{3} 
+                                             \gategroup[wires=4,steps=3,style={dashed,
+                                rounded corners,fill=blue!10, inner xsep=0.2pt}, 
+                                label style={label position = 
+                                below, yshift=-0.4cm},background]
+                                {\tiny{swaps positions of qubits by doing
+        $+1$ in base $n$}} & \qw & \qw & \qw
+                        \\
+                        \dots \, \, & \dots & \dots &  & \dots \,  & \dots & \dots &\dots & 
+                        \\
+                        \lstick{$\ket{x_{n-1}}$} & & \gate{R_n} & \qw & \qw & \qw & 
+                        \dots & \swap{1} & \qw
+                        \\
+                        \lstick{$\ket{x_{n}}$} & \qw & \ctrl{-1} & \ctrl{-3} & \gate{H} & 
+                        \targX{} & \dots  & \targX{} & \qw
                 \end{quantikz}
 
         \end{center}
 \end{frame}
 
-\begin{frame}{Number of gates involved in the QFT}
-        $\# gates (sw(+_{mod n})) = n -1$
-        $\# gates (QFT_n) = n + n-1 + \# gates (QFT_{n-1})$
+\begin{frame}{Complexity of QFT}
 
-        Thus
-        \[
-                 \# gates (QFT_n) =  \sum_{i = 1}^{n} i + \sum_{i = 1}^{n} i - 1 =
-                 \sum_{i = 1}^{n} i + \sum_{i = 1}^{n-1} i \approx
-                 \frac{n^2}{2} + \frac{(n-1)^2}{2} 
-        \]
-        \[
-                 \leq
-                 \frac{n^2}{2} + \frac{n^2}{2}  = n^2
-        \]
+        How many gates does the QFT circuit require?
+
+        \pause
+        nº gates $QFT_{n} =$
+        nº gates $QFT_{n-1} \> \> + \> \> \tikzmark{a1}1\tikzmark{a2} \> \> + 
+        \> \> \tikzmark{b1}n-1\tikzmark{b2} \> \> + \> \> \tikzmark{c1}n-1\tikzmark{c2}$
+        \begin{tikzpicture}[overlay,remember picture,
+        box/.style = {rounded corners},
+        pin edge={-Stealth,thick, red}]
+        \coordinate (a1) at ($({pic cs:a1})+(+0.5ex, 1ex)$);
+        \coordinate (a2) at ($({pic cs:a2})+(-0.5ex,0.3ex)$);
+        \node[semitransparent, 
+              fit=(a1) (a2),
+              pin=below:\tiny{Hadamard}]  {};
+        \end{tikzpicture}
+        \begin{tikzpicture}[overlay,remember picture,
+        box/.style = {rounded corners},
+        pin edge={-Stealth,thick, red}]
+        \coordinate (b1) at ($({pic cs:b1})+(+0.5ex, 1.2ex)$);
+        \coordinate (b2) at ($({pic cs:b2})+(-0.5ex,-0.8ex)$);
+        \node[semitransparent, 
+              fit=(b1) (b2),
+              pin=below:\tiny{Rotations $R_n$}]  {};
+        \end{tikzpicture}
+        \begin{tikzpicture}[overlay,remember picture,
+        box/.style = {rounded corners},
+        pin edge={-Stealth,thick, red}]
+        \coordinate (c1) at ($({pic cs:c1})+(+0.5ex, 1ex)$);
+        \coordinate (c2) at ($({pic cs:c2})+(-0.5ex,0.4ex)$);
+        \node[semitransparent, 
+              fit=(c1) (c2),
+              pin=below:\tiny{nº of swap gates}]  {};
+        \end{tikzpicture}
+ 
+
+        \pause
+        \vspace{0.3cm}
+        We then calculate,
+        \begin{align*}
+                \text{nº gates } QFT_n & = \text{nº gates } QFT_{n-1} + n + n-1
+                \\
+                                       & = \textstyle{
+                                               \sum_{i = 1}^{n} i + \sum_{i = 0}^{n-1} i
+                                       }
+                \\      
+                                       & = \textstyle{ 
+                                               \frac{(n+1)n}{2} + \frac{n(n-1)}{2}
+                                       }
+                \\
+                                       & \approx \textstyle{ 
+                                               \frac{n^2}{2} + \frac{n^2}{2}
+                                       }
+                \\              
+                                      & = n^2
+        \end{align*}
+
+        Thus complexity of QFT is \alert{polynomial}
 \end{frame}
 
 \end{document}
