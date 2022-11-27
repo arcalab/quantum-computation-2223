@@ -87,16 +87,16 @@
         Problem can be difficult (particularly if $f$ has no obvious
         structure, such as being trigonometric)
 
-        \alert{Integer factorisation} reduces to it 
-
-        We will see how quantum computation tackles the problem
+        We will see how quantum computation tackles it
 \end{frame}
 
 \begin{frame}{Order-Finding}
         Actually we tackle only a specific
         case $\Rightarrow$  \alert{order-finding}
 
-        The latter is handled efficiently via quantum phase estimation
+        The latter is handled efficiently via QPE 
+
+        \alert{Integer factorisation} reduces to it
 
         The only quantum component in Shor's algorithm
 \end{frame}
@@ -144,8 +144,9 @@
                 Given an integer $N$ the set of \alert{integers mod $N$} is $\{
                 0, 1, \dots, N - 1 \}$
         \end{definition}
-        We can think of this set as a \alert{circular} circuit where the
-        position after $N-1$ is $0$
+
+        We can think of this set as a \alert{circular} circuit with different
+        positions and where the position after $N-1$ is $0$
 
         \begin{definition}
                 For two integers $x$ and $y$ we write $\alert{x \equiv y \,
@@ -161,7 +162,7 @@
 \begin{frame}{Order-Finding}
 
         \begin{definition}
-                For co-prime integers $a$ and $N$ the \alert{order of $a \,
+                For co-prime integers $a < N$ the \alert{order of $a \,
                 (\mathrm{mod} \, N)$} is the smallest integer $r > 0$ s.t.
                 $a^r \equiv 1 \, (\mathrm{mod} \, N)$
         \end{definition}
@@ -179,17 +180,222 @@
         \end{block}
 \end{frame}
 
-\section{Order-finding}
+\section{The problem of order-finding}
 
 \begin{frame}{Order-Finding}
         \begin{block}{The Problem}
-                An integer $N$ and an integer
-                $a$ s.t. both are co-prime
+                Co-prime integers $a < N$ 
 
                 What is the order of $a \, (\mathrm{mod} \, N)$?
         \end{block}
 
         \pause
-        Problem is difficult for large integers
+        Classically, problem can be difficult for large integers
+
+        Quantumly, it can be solved efficiently via QPE
 \end{frame}
+
+\begin{frame}{QPE Revisited}
+
+        Recall the QPE circuit
+        \begin{center}
+                \begin{quantikz}
+                        \lstick{\ket{0}} & \qwbundle{n} 
+                                         & \gate{QFT_n}
+                                         \gategroup[wires=1,steps=1,style={dashed,
+                                         rounded corners,fill=blue!10, inner xsep=0.2pt}, 
+                                         label style={label position = 
+                                         above, yshift=0cm},background]
+                                         {\tiny{converts $\ket{0}$ to Fourier basis}} 
+                                         & \ctrl{1}\gategroup[wires=2,steps=1,style={dashed,
+                                         rounded corners,fill=blue!10, inner xsep=0.2pt}, 
+                                         label style={label position = 
+                                         below, yshift=-0.4cm,xshift=-0.2cm},background]
+                                         {\tiny{encodes $k$ in local phases (in the form of
+                                         rotations)}}
+                                         & \gate{QFT^{-1}_n}
+                                         \gategroup[wires=1,steps=1,style={dashed,
+                                         rounded corners,fill=blue!10, inner xsep=0.2pt}, 
+                                         label style={label position = 
+                                         above, yshift=0.0cm, xshift=0.6cm},background]
+                                         {\tiny{converts encoded info. to 
+                                         comput. basis}}
+                                         & \qwbundle{n}
+                        \\
+                        \lstick{\ket{\psi}} & \qwbundle{m}
+                                            & \qw
+                                            & \gate{U}
+                                            & \qw
+                                            & \qwbundle{m}
+                \end{quantikz}
+        \end{center}
+
+        Need to choose suitable $U$ and $\ket{\psi}$ to disclose the order
+\end{frame}
+
+\section{Choosing suitale input parameters in QPE}
+
+\begin{frame}{Choosing the Right Unitary}
+
+        Take co-prime integers $a < N$
+
+        Let $m = \lceil \log_2 N \rceil$ and define
+        $U : \Complex^{2^m} \to \Complex^{2^m}$
+        \[
+                U \ket{x} = \begin{cases}
+                        \ket{ x a \, (\mathrm{mod} \, N)} & \text{if }
+                        0 \leq x \leq N -1 \\
+                        \ket{x} & \text{otherwise}
+                \end{cases}
+        \]
+
+        \begin{block}{Exercise}
+                Show that $U \ket{a^n \, (\mathrm{mod} \, N)} = 
+                \ket{a^{n+1} \, (\mathrm{mod} \, N)}$
+        \end{block}
+
+        \pause
+        Next step is to identify \alert{\underline{suitable eigenvectors}}
+\end{frame}
+
+%\begin{frame}{A First Approach}
+%                We know that if $N = 5$ the sequence $3^0, 3^1, 3^2, 3^3, 3^4,
+%                3^5, 3^6, \dots$ leads to the sequence $1, 3, 4, 2, \alert{1},
+%                3, 4, \dots$ 
+%
+%                Order $r$ of $3 \, (\mathrm{mod} \, 5)$ is thus $4$. Then
+%                \begin{flalign*}
+%                        & \, \textstyle{
+%                                U \Big (\frac{1}{\sqrt{r}} (\ket{1} + \ket{3} 
+%                        + \ket{4} + \ket{2} \Big )} &
+%                        \\
+%                        & \,
+%                        \textstyle{
+%                                = U \Big (\frac{1}{\sqrt{r}} 
+%                                \sum_{i = 0}^{r-1} \ket{3^i \, (\mathrm{mod} \, 5)} \Big ) 
+%                        } &
+%                        \\
+%                        & \,
+%                        \textstyle{
+%                                = \frac{1}{\sqrt{r}} 
+%                                \sum_{i = 0}^{r-1} \ket{3^{i+1} \, (\mathrm{mod} \, 5)}
+%                        } &
+%                        \\
+%                        & \,
+%                        \textstyle{
+%                                = \frac{1}{\sqrt{r}} \Big (
+%                                        \ket{3} + \ket{4} + \ket{2} + \ket{1}
+%                                \Big )
+%                        } &
+%                        \\
+%                        & \,
+%                        \textstyle{
+%                                = \frac{1}{\sqrt{r}} \Big (
+%                                        \ket{1} + \ket{3} + \ket{4} + \ket{2}
+%                                \Big )
+%                        } &
+%                \end{flalign*}
+%\end{frame}
+%
+%\begin{frame}{A First Approach pt. II}
+%        In general
+%        \[
+%                \textstyle{
+%                                U \Big (\frac{1}{\sqrt{r}} 
+%                                \sum_{i = 0}^{r-1} \ket{a^i \, (\mathrm{mod} \, N)} \Big ) 
+%                } 
+%                =
+%                \textstyle{
+%                                \frac{1}{\sqrt{r}} 
+%                                \sum_{i = 0}^{r-1} \ket{a^i \, (\mathrm{mod} \, N)} 
+%                } 
+%        \]
+%
+%        However the corresponding phase is $e^{i 2 \pi \cdot \big (\alert{0} \cdot
+%        \frac{1}{2^n}\big )}$
+%
+%        This does not give any information about the period
+%\end{frame}
+%
+%\begin{frame}{A Second Approach}
+%
+%        Let $\omega = e^{i 2 \pi \cdot \frac{1}{r}}$ 
+%        $\underbrace{\text{(division of the \alert{\underline{unit circle}} in
+%        $r$ slices)}}_{\text{a.k.a. the r roots of unity}}$
+%
+%        Let $\ket{\psi_1} = \textstyle{
+%                \, U \Big ( \frac{1}{\sqrt{r}} \sum_{i = 0}^{r-1} \omega^{-i} 
+%                \ket{a^i \, (\mathrm{mod} \, N) }\Big )
+%                }$ 
+%        \begin{flalign*}
+%                &
+%                \textstyle{
+%                \, U \Big ( \frac{1}{\sqrt{r}} \sum_{i = 0}^{r-1} \omega^{-i} 
+%                \ket{a^i \, (\mathrm{mod} \, N) }\Big )
+%                } &
+%                \\
+%                & = \textstyle{
+%                \frac{1}{\sqrt{r}} \sum_{i = 0}^{r-1} \omega^{-i} 
+%                \ket{a^{i +1} \, (\mathrm{mod} \, N) }
+%                } &
+%                \\
+%                & = \textstyle{
+%                \frac{1}{\sqrt{r}} \sum_{i = 0}^{r-1} \omega \omega^{-(i+1)} 
+%                \ket{a^{i +1} \, (\mathrm{mod} \, N) }
+%                } &
+%                \\& = \textstyle{ \omega \left (
+%                \frac{1}{\sqrt{r}} \sum_{i = 0}^{r-1} \omega^{-(i+1)} 
+%                \ket{a^{i +1} \, (\mathrm{mod} \, N) }\right )
+%                } &
+%                \\ & = \textstyle{ \omega \left (
+%                \frac{1}{\sqrt{r}} \sum_{i = 0}^{r-1} \omega^{-i} 
+%                \ket{a^{i} \, (\mathrm{mod} \, N) }\right )
+%                } &
+%        \end{flalign*}
+%
+%        Thus if we feed QPE with the previous unitary $U$ and eigenvector
+%        $\ket{\psi_1}$ we will obtain an approximation of $\frac{1}{r}$
+%
+%        However $\ket{\psi}$ is difficult to construct. Can you see why?
+%\end{frame}
+%\newcommand{\iprod}[2]{ \langle #1 | #2 \rangle}
+%
+%\begin{frame}{The Third Approach}
+%        We define
+%        $\ket{\psi_k} = \textstyle{
+%                \sum_{i = 0}^{r - 1} \omega^{-ik} \ket{a^i \, (\mathrm{mod} \, N)}
+%        }$
+%        and set
+%        $\ket{\psi} = \textstyle{
+%                \frac{1}{\sqrt{r}} \sum_{k = 0}^{r-1} \ket{\psi_k}
+%        }$
+%
+%        Let us calculate the amplitude of $\ket{1}$ in $\ket{\psi}$
+%        \begin{flalign*}
+%                \iprod{1}{\psi} & = \textstyle{
+%                        \frac{1}{\sqrt{r}} \sum_{k = 0}^{r - 1} \, \iprod{1}{\psi_k} 
+%                }
+%                \\
+%                                & = \textstyle{
+%                                        \frac{1}{\sqrt{r}} \sum_{k=0}^{r-1}
+%                                        \frac{1}{\sqrt{r}} \sum_{i=0}^{r-1} \omega^{-i k}
+%                                        \, \iprod{1}{a^i \, (\mathrm{mod} \, N)}
+%                                }
+%                                \\
+%                                & =  \textstyle{
+%                                        \frac{1}{r} \sum_{k=0}^{r-1}
+%                                        \sum_{i=0}^{r-1} \omega^{-i k}
+%                                        \, \iprod{1}{a^i \, (\mathrm{mod} \, N)}
+%                                }
+%                                \\
+%                                & =   \textstyle{
+%                                        \frac{1}{r} \sum_{k=0}^{r-1}
+%                                        \omega^{-0 k}
+%                                }
+%                                \\
+%                                & = 1
+%        \end{flalign*}
+%        Consequently $\ket{\psi} = \ket{1}$ !
+%\end{frame}
+
 \end{document}
