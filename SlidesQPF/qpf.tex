@@ -393,4 +393,103 @@
         \end{block}
 \end{frame}
 
+\begin{frame}{A Third Approach}
+        $U\ket{\psi_k} = \omega^{k} \ket{\psi_k} = e^{i 2 \pi
+        \alert{\frac{k}{r}}} \ket{\psi_k}$ and $\alert{\ket{\psi}} = \frac{1}{\sqrt{r}}
+        \sum_{i = 0}^{r - 1} \ket{\psi_k}$. Therefore
+        \begin{center}
+                \begin{quantikz}
+                        \lstick{\ket{0}} & \qwbundle{n} 
+                                         & \gate{QFT_n}
+                                         \gategroup[wires=1,steps=1,style={dashed,
+                                         rounded corners,fill=blue!10, inner xsep=0.2pt}, 
+                                         label style={label position = 
+                                         above, yshift=0cm},background]
+                                         {\tiny{converts $\ket{0}$ to Fourier basis}} 
+                                         & \ctrl{1}\gategroup[wires=2,steps=1,style={dashed,
+                                         rounded corners,fill=blue!10, inner xsep=0.2pt}, 
+                                         label style={label position = 
+                                         below, yshift=-0.4cm,xshift=-0.2cm},background]
+                                         {\tiny{encodes info. in local phases (in the form of
+                                         rotations)}}
+                                         & \gate{QFT^{-1}_n}
+                                         \gategroup[wires=1,steps=1,style={dashed,
+                                         rounded corners,fill=blue!10, inner xsep=0.2pt}, 
+                                         label style={label position = 
+                                         above, yshift=0.0cm, xshift=0.6cm},background]
+                                         {\tiny{converts encoded info. to 
+                                         comput. basis}}
+                                         & \qwbundle{n}
+                        \\
+                        \lstick{\ket{\psi}} & \qwbundle{m}
+                                            & \qw
+                                            & \gate{U}
+                                            & \qw
+                                            & \qwbundle{m}
+                \end{quantikz}
+        \end{center}
+        returns $\frac{1}{\sqrt{r}} \sum_{k = 0}^{r -1} \left (\ket{\tilde
+        \phi_k} \ket{\psi_k} \right )$ where each $\ket{\tilde \phi_k}$ is the
+        best $\alert{n}$-bit approximation of $\alert{\frac{k}{r}}$ with
+        probability $\geq \frac{4}{\pi^2}$
+
+        \pause
+        But how to extract $r$ from $\ket{\tilde \phi_k}$?
+
+\end{frame}
+
+\begin{frame}{Extracting the Period}
+        Let $\varphi$ be the best $n$-bit approximation of
+        some $\frac{k}{r}$
+
+        \begin{theorem}
+                If $\left | \frac{k}{r} - \varphi \right | \leq \frac{1}{2r^2}$
+                then we can extract $\frac{k}{r}$ in \underline{reduced form},
+                and with complexity $O(m^3)$
+        \end{theorem}
+
+        \begin{proof}
+
+                Uses the continued fractions alg. (see Appendix 4, Nielsen
+                and Chuang, \emph{Quantum Computation and Quantum Information})
+        \end{proof}
+        Previous theorem tells we need to use a \alert{\underline{minimum
+        number}} $n$ of qubits to represent $\varphi$. Particularly,
+\end{frame}
+
+\begin{frame}{Extracting the Period}
+        recall: $m = \lceil log_2 N \rceil$
+        \begin{flalign*}
+                & \, 2^{n+1} \geq 2 r^2 & \\
+                & \Leftarrow 2^{n+1} \geq 2(2^m)^2  & \left \{ r \leq N \leq 2^m \right \} \\
+                & \Leftarrow 2 2^n \geq 2(2^m)^2  &  \\
+                & \Leftarrow 2^n \geq 2^{2m} & \\
+                & \Leftarrow n \geq 2m
+        \end{flalign*}
+
+        Thus the number of qubits to use in the approximation $\varphi$ should
+        be at least $2m$
+\end{frame}
+
+\begin{frame}{Finally\dots}
+
+        In order to obtain the order $r$, proceed with the following steps
+        \begin{enumerate}
+                \item run QPE + continued fractions alg. twice to obtain two
+                        reduced fractions $\frac{k_1}{r_1}$ and
+                        $\frac{k_2}{r_2}$
+                \item if $gcd(k_1,k_2) = 1$ repeat previous step else set
+                $r:=$ least common multiple of $r_1$ and $r_2$
+                \item if $a^r \, (\mathrm{mod} \, N) \equiv 1$ 
+                         output $r$ else go back to step $1$
+        \end{enumerate}
+       
+        \pause
+        In step 2, probability of $gcd(k_1,k_2) = 1$ is $\geq \frac{1}{4}$.
+        Hence whole algorithm has \alert{\underline{constant probability}} of
+        success
+        
+        In step 2, computation of $gcd$ and least common multiple has
+        complexity $O(m^2)$. Hence the whole algorithm must be efficient
+\end{frame}
 \end{document}
